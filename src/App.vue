@@ -1,30 +1,44 @@
-<script lang="ts">
-import { inject, provide, reactive, type InjectionKey } from 'vue';
-import HelloWorld from './components/HelloWorld.vue'
-import type { Profile } from './types/type';
-import ExperienceCard from './components/ExperienceCard.vue';
+<script setup lang="ts">
+import { provide, reactive, ref, useTemplateRef } from 'vue';
+import type { EducationData, JobData, Profile, ProjectData } from './types/type';
+import Modal from './components/Modal.vue';
+import ResumePanel from './components/ResumePanel.vue';
+import ExperienceDialog from './components/dialogue/ExperienceDialog.vue';
+import EducationDialog from './components/dialogue/EducationDialog.vue';
+import ProjectDialog from './components/dialogue/ProjectDialog.vue';
 
-export default {
-  setup() {
-    const name: Profile = reactive({name: "Andrei"})
+const name: Profile = reactive({ name: "Andrei" })
+const modalMode = ref<'experience' | 'education' | 'project'>('experience')
+provide("name", name)
 
-    provide("name", name)
-    return {name}
-  },
-  components: {
-    ExperienceCard
-  }
+const education: EducationData[] = reactive([])
+const experience: JobData[] = reactive([])
+const projects: ProjectData[] = reactive([])
+
+provide('education', education)
+provide('experience', experience)
+provide('projects', projects)
+
+const modal = useTemplateRef('modal')
+
+function openModal(category: 'education' | 'experience' | 'project') {
+  modalMode.value = category
+  modal.value?.openModal()
 }
 
 </script>
 
-
 <template>
-  <div className="flex flex-row">
-    <div className="w-100 h-20 bg-slate-800">
+  <Modal ref="modal">
+    <ExperienceDialog @completeSelection="modal?.closeModal" v-if="modalMode == 'experience'" />
+    <EducationDialog @completeSelection="modal?.closeModal" v-else-if="modalMode == 'education'" />
+    <ProjectDialog @completeSelection="modal?.closeModal" v-else-if="modalMode == 'project'" />
+  </Modal>
+  <div className="flex flex-row gap-10 h-full">
+    <div className="w-[595px] h-[842px] p-4 bg-neutral-100 text-stone-900">
       {{ name.name }}
     </div>
-    <ExperienceCard />
+    <ResumePanel @addEntry="(e) => openModal(e)" />
   </div>
 
 </template>

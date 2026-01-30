@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+@layer base {
+  input {
+    @apply border border-stone-200 p-1
+  }
+
+  h2 {
+    @apply text-xl mb-4
+  }
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -8,6 +18,8 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
+
+ 
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -25,9 +37,11 @@ a:hover {
 }
 
 body {
-  margin: 0;
   min-width: 320px;
   min-height: 100vh;
+
+  margin: 0 auto;
+  padding: 2rem;
 }
 
 h1 {
@@ -59,9 +73,7 @@ button:focus-visible {
 }
 
 #app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  
 }
 
 @media (prefers-color-scheme: light) {
