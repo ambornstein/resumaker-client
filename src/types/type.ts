@@ -1,5 +1,6 @@
 export type Profile = {
-  name: string
+  firstName: string,
+  lastName: string
 }
 
 export type JobData = {

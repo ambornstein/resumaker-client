@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import type { EducationData} from '../../types/type';
+import type { EducationData } from '../../types/type';
 
 defineProps<{ data: EducationData }>()
 </script>
 <template>
-    <p>{{ data.degree }}</p>
-    <p>{{ data.school }}</p>
+    <div className="entry-panel">
+        <p>{{ data.degree }}</p>
+        <p>{{ data.school }}</p>
+    </div>
 </template>

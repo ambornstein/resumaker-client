@@ -1,27 +1,26 @@
-<script lang="ts">
-export default {
-    data() {
-        return {
-            showModal: true
-        }
-    },
-    methods: {
-        openModal() {
-            this.showModal = true;
-        },
-        closeModal() {
-            this.showModal = false;
-        }
-    },
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const showModal = ref(true)
+
+function openModal() {
+    showModal.value = true;
 }
+
+function closeModal() {
+    showModal.value = false;
+}
+
+defineExpose({openModal, closeModal})
 </script>
 
 <template>
-    <div v-show="showModal" className="fixed w-full h-full flex items-center justify-center bg-stone-800/40">
-        <div className="w-100 h-100 bg-stone-700">
+    <div v-show="showModal" @click.self="closeModal"
+        className="fixed w-full h-full flex items-center justify-center bg-zinc-800/80">
+        <div className="min-w-100 min-h-100 bg-neutral-800 rounded-md border-2 border-zinc-400">
+            <button className="float-right m-4" @click="closeModal">X</button>
             <slot>
             </slot>
-            <button className="fixed top-4 right-4" @click="closeModal">X</button>
         </div>
     </div>
 </template>

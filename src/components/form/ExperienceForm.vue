@@ -9,7 +9,7 @@ defineEmits<{createExperience: [job: JobData]}>()
 </script>
 
 <template>
-    <form @submit.prevent="$emit('createExperience', job)" className="rounded-lg p-4 bg bg-stone-900">
+    <form @submit.prevent="$emit('createExperience', job)" className="rounded-lg p-4">
         <div className="grid grid-cols-2 gap-2">
             <label for="position">Position</label>
             <input id="position" type='text' v-model="job.title">
@@ -22,7 +22,7 @@ defineEmits<{createExperience: [job: JobData]}>()
             <label v-if="!current">End Date</label>
             <input v-if="!current" id="start" type='month' v-model="job.endDate" />
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="bullet-container">
             <p>Bullet Points</p>
             <input v-for="(value, index) in job.bulletPoints" v-model="job.bulletPoints[index]" type="text" />
             <button @click.prevent="job.bulletPoints.push('Used x to accomplish y by doing z')">Add Bullet</button>

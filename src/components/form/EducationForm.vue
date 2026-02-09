@@ -9,7 +9,7 @@ defineEmits<{createEducation: [ed: EducationData]}>()
 </script>
 
 <template>
-    <form @submit.prevent="$emit('createEducation', education)" className="rounded-lg p-4 bg bg-stone-900">
+    <form @submit.prevent="$emit('createEducation', education)" className="rounded-lg p-4">
         <div className="grid grid-cols-2 gap-2">
             <label for="degree">Degree</label>
             <input id="degree" type='text' v-model="education.degree">
