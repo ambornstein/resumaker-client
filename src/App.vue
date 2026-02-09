@@ -3,7 +3,7 @@ import Modal from './components/Modal.vue';
 import ExperienceDialog from './components/dialogue/ExperienceDialog.vue';
 import EducationDialog from './components/dialogue/EducationDialog.vue';
 import ProjectDialog from './components/dialogue/ProjectDialog.vue';
-import { provide, ref, useTemplateRef, watch } from 'vue';
+import { provide, ref, useTemplateRef } from 'vue';
 
 const modalMode = ref<'experience' | 'education' | 'project'>('experience')
 const modal = useTemplateRef('modal')
