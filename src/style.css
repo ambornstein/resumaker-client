@@ -24,6 +24,10 @@
   .bullet-container {
     @apply flex flex-col gap-4 pb-4
   }
+
+  .entry-option {
+    @apply flex flex-row gap-4 justify-between p-2 bg-stone-800 border border-stone-900;
+  }
 }
 
 :root {

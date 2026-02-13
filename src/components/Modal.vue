@@ -12,6 +12,8 @@ function closeModal() {
 }
 
 defineExpose({openModal, closeModal})
+
+defineEmits(['open', 'close'])
 </script>
 
 <template>

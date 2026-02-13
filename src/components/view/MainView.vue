@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import Modal from '../Modal.vue';
-import ExperienceDialog from '../dialogue/ExperienceDialog.vue';
-import EducationDialog from '../dialogue/EducationDialog.vue';
-import ProjectDialog from '../dialogue/ProjectDialog.vue';
 import { provide, ref, useTemplateRef } from 'vue';
 import { useUser } from '../../composable/useUser';
+import EntryView from './EntryView.vue';
 
-const { user, fetchUserData } = useUser();
+const { fetchUserData } = useUser();
 
 const modalMode = ref<'experience' | 'education' | 'project'>('experience')
 const modal = useTemplateRef('modal')
+const entryView = useTemplateRef('entryView')
 
 const openModal = (mode: 'experience' | 'education' | 'project') => {
   modalMode.value = mode
@@ -23,21 +22,16 @@ function confirmUpdate() {
   fetchUserData()
 }
 
+function resetEntryView() {
+  entryView.value?.resetActionMode()
+}
+
 fetchUserData()
 </script>
 
 <template>
-  <Modal ref="modal">
-    <Suspense>
-      <ExperienceDialog :workExperience="user?.workExperiences" @completeSelection="confirmUpdate" v-if="modalMode == 'experience'" />
-    </Suspense>
-    <Suspense>
-      <EducationDialog :education="user?.educationEntries" @completeSelection="confirmUpdate"
-        v-if="modalMode == 'education'" />
-    </Suspense>
-    <Suspense>
-      <ProjectDialog :projects="user?.projects" @completeSelection="confirmUpdate" v-if="modalMode == 'project'"/>
-    </Suspense>
+  <Modal ref="modal" @close="resetEntryView">
+    <EntryView ref="entryView" :modalMode @complete="confirmUpdate"/>
   </Modal>
   <div className="container m-auto pt-[2em]">
     <RouterView />
