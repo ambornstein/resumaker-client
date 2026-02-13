@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-const showModal = ref(true)
+const showModal = ref(false)
 
 function openModal() {
     showModal.value = true;

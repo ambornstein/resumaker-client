@@ -2,9 +2,9 @@
 import { ref } from 'vue';
 import type { ProjectData } from '../../types/type';
 
-const project = ref<ProjectData>({title: "Bean Sorter", description:"", bulletPoints:[]})
+const project = ref<ProjectData>({title: "Bean Sorter", description:"", bulletPoints: []})
 
-defineEmits<{createProject: [ed: ProjectData]}>()
+const emit = defineEmits<{createProject: [ed: ProjectData]}>()
 </script>
 
 <template>

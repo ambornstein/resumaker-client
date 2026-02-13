@@ -1,39 +1,52 @@
 <script setup lang="ts">
-import { inject, ref } from 'vue';
+import { ref, watch } from 'vue';
 import type { JobData } from '../../types/type';
 import ExperienceForm from '../form/ExperienceForm.vue';
+import { useUser } from '../../composable/useUser';
 
-const experience = inject<JobData[]>('experience')
-const experienceCatalog = ref<JobData[]>([])
-experienceCatalog.value.push({ title: "Intern", company: "Meta", startDate: "2025-09", bulletPoints: ["Fixed some bugs"] })
+const props = defineProps<{ workExperience: JobData[] }>()
+const emit = defineEmits(['completeSelection'])
+
+const {createExperience, selectExperience, resume} = useUser();
 
 const mode = ref<"pick" | "create">('pick')
 
-const emit = defineEmits(['completeSelection'])
+const selectedIds = ref<number[]>([])
 
-function recieveData(jobData: JobData) {
+async function select() {
+    selectExperience(selectedIds.value)
+    emit("completeSelection")
+}
+
+async function create(jobData: JobData) {
+    await createExperience(jobData)
+    emit("completeSelection")
     mode.value = "pick"
-    experienceCatalog.value.push(jobData);
-    select(jobData);
 }
 
-function select(jobData: JobData) {
-    experience!.push(jobData);
-    emit('completeSelection')
-}
+watch (resume, (newVal) => {
+    if (newVal) selectedIds.value = newVal.workHistory.map(e => e.id!)
+})
 
 </script>
 
 <template>
-    <div v-if="mode == 'pick'" className="grid grid-cols-3 gap-4 p-4">
-        <div @click="select(job)" className="flex flex-col bg-stone-800 p-1 border border-stone-900"
-            v-for="job in experienceCatalog">
-            <p>{{ job.title }}</p>
-            <p>{{ job.company }}</p>
+    <div v-if="mode == 'pick'" className="inline-block space-y-2 p-4 h-full">
+        <div className="grid grid-cols-3 gap-4 h-full">
+            <div className="flex flex-row gap-4 justify-between p-2 w-full bg-stone-800 border border-stone-900" v-for="job in workExperience">
+                <div>
+                    <p>{{ job.title }}</p>
+                    <p>{{ job.company }}</p>
+                </div>
+                <input type="checkbox" :value="job.id" v-model="selectedIds" />
+            </div>
         </div>
-        <button @click="mode = 'create'">Create New</button>
+        <div className="flex flex-auto gap-4 ">
+            <button @click="mode = 'create'">Create New</button>
+            <button @click="select">Submit</button>
+        </div>
     </div>
     <div v-else-if="mode == 'create'">
-        <ExperienceForm @create-experience="recieveData" />
+        <ExperienceForm @create-experience="create" />
     </div>
 </template>

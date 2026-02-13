@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { inject, ref } from 'vue';
-import type { JobData, Profile } from '../../types/type';
+import { ref } from 'vue';
+import type { JobData } from '../../types/type';
 
-const job = ref<JobData>({ title: "Analyst", company: "RTX", startDate: "2020-09", bulletPoints: [] })
+const job = ref<JobData>({title: "Analyst", company: "RTX", current: true, startDate: "2020-09", bulletPoints: [] })
 const current = ref(false)
 
-defineEmits<{createExperience: [job: JobData]}>()
+const emit = defineEmits<{createExperience: [job: JobData]}>()
+
 </script>
 
 <template>

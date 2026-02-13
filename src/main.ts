@@ -7,6 +7,7 @@ import ProfilePage from './components/pages/ProfilePage.vue'
 
 const routes = [
     {path: '/', component: ResumeView},
+    {path: '/:id', component: ResumeView},
     {path: '/profile', component: ProfilePage}
 ]
 
