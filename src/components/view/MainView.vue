@@ -3,14 +3,15 @@ import Modal from '../Modal.vue';
 import { provide, ref, useTemplateRef } from 'vue';
 import { useUser } from '../../composable/useUser';
 import EntryView from './EntryView.vue';
+import type { EntryCategory } from '../../types/type';
 
 const { fetchUserData } = useUser();
 
-const modalMode = ref<'experience' | 'education' | 'project'>('experience')
+const modalMode = ref<EntryCategory>('experience')
 const modal = useTemplateRef('modal')
 const entryView = useTemplateRef('entryView')
 
-const openModal = (mode: 'experience' | 'education' | 'project') => {
+const openModal = (mode: EntryCategory) => {
   modalMode.value = mode
   modal.value?.openModal()
 }
@@ -20,6 +21,7 @@ provide('openModal', openModal)
 function confirmUpdate() {
   modal.value?.closeModal()
   fetchUserData()
+  resetEntryView()
 }
 
 function resetEntryView() {

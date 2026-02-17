@@ -1,89 +1,84 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useUser } from '../../composable/useUser';
-import type { EducationData, Entity, JobData, ProjectData } from '../../types/type';
+import type { Entity, EntryAction, EntryCategory } from '../../types/type';
 import EntryDialog from '../dialogue/EntryDialog.vue';
 import ProjectForm from '../form/ProjectForm.vue';
 import EducationForm from '../form/EducationForm.vue';
 import ExperienceForm from '../form/ExperienceForm.vue';
+import { useResumeBuilder } from '../../composable/useResumeBuilder';
 
 const emit = defineEmits(['complete'])
-defineExpose({resetActionMode})
-const { resume, selectEducation, selectExperience, selectProjects, createEducation, createExperience, createProject } = useUser();
-const props = defineProps<{ modalMode: 'experience' | 'education' | 'project' }>()
-const action = ref<'select' | 'create'>('select')
+defineExpose({ resetActionMode })
+const { resume, createEntry, selectEntries } = useResumeBuilder();
+const { user } = useUser();
+const props = defineProps<{ modalMode: EntryCategory }>()
+const action = ref<EntryAction>('select')
 
 const selectedIds = ref<number[]>([])
-const entryArray = ref<Entity[]>()
+const entryArray = ref<Entity[]>([])
+const originalIds = ref<number[]>([])
 
 function resetActionMode() {
-    action.value = "create"
+    action.value = "select"
 }
 
 async function handleCreateEntry(entry: Entity) {
-    switch (props.modalMode) {
-        case 'experience':
-            await createExperience(entry as JobData);
-            break;
-        case 'education':
-            await createEducation(entry as EducationData);
-            break;
-        case 'project':
-            await createProject(entry as ProjectData);
-            break;
-    }
-
+    await createEntry(props.modalMode, entry)
     emit('complete')
+    updateEntries(props.modalMode)
 }
 
 async function handleSelect() {
-    switch (props.modalMode) {
-        case 'experience':
-            await selectExperience(selectedIds.value);
-            break;
-        case 'education':
-            await selectEducation(selectedIds.value);
-            break;
-        case 'project':
-            await selectProjects(selectedIds.value);
-            break;
-    }
-
+    await selectEntries(props.modalMode, selectedIds.value, originalIds.value)
     emit('complete')
+    updateEntries(props.modalMode)
 }
 
-watch(() => props.modalMode, (newVal) => {
-    switch (newVal) {
+function updateEntries(modalValue: EntryCategory) {
+    switch (modalValue) {
         case 'experience':
             entryArray.value = resume.value!.workHistory;
             break;
         case 'education':
             entryArray.value = resume.value!.educationHistory;
             break;
-        case 'project':
+        case 'projects':
             entryArray.value = resume.value!.projects;
             break;
     }
-
     selectedIds.value = entryArray.value.map(w => w.id!);
-})
+    originalIds.value = entryArray.value.map(w => w.id!);
+}
+
+watch(() => props.modalMode, updateEntries)
+
+updateEntries(props.m)
 
 </script>
 
 <template>
     <Suspense>
-        <EntryDialog :action :entryType=modalMode :entries="entryArray!" @confirmSelection="handleSelect"
+        <EntryDialog :action :entryType=modalMode :account="user!" @confirmSelection="handleSelect"
             @confirmCreation="handleCreateEntry" @switchToCreate="action = 'create'">
-            <template className="entry-option" #option="data">
-                <div v-if="modalMode == 'project'">
+            <template #option="data" v-if="modalMode == 'projects'">
+                <div className="entry-option">
                     <p>{{ data.title }}</p>
                     <p>{{ data.description }}</p>
                 </div>
-                <div className="entry-option" v-if="modalMode == 'education'">
+                <input type="checkbox" :value="data.id" v-model="selectedIds" />
+            </template>
+
+            <template #option="data" v-else-if="modalMode == 'education'">
+                <div className="entry-option">
                     <p>{{ data.degree }}</p>
                     <p>{{ data.school }}</p>
                 </div>
-                <div className="entry-option" v-if="modalMode == 'experience'">
+                <input type="checkbox" :value="data.id" v-model="selectedIds" />
+            </template>
+
+            <template #option="data" v-else-if="modalMode == 'experience'">
+                <div className="entry-option">
                     <p>{{ data.title }}</p>
                     <p>{{ data.company }}</p>
                 </div>
@@ -91,9 +86,11 @@ watch(() => props.modalMode, (newVal) => {
             </template>
 
             <template #form>
-                <ProjectForm @createProject="handleCreateEntry" v-if="modalMode == 'project'"></ProjectForm>
-                <EducationForm @createEducation="handleCreateEntry" v-else-if="modalMode == 'education'"></EducationForm>
-                <ExperienceForm @createExperience="handleCreateEntry" v-else-if="modalMode == 'experience'"></ExperienceForm>
+                <ProjectForm @createProject="handleCreateEntry" v-if="modalMode == 'projects'"></ProjectForm>
+                <EducationForm @createEducation="handleCreateEntry" v-else-if="modalMode == 'education'">
+                </EducationForm>
+                <ExperienceForm @createExperience="handleCreateEntry" v-else-if="modalMode == 'experience'">
+                </ExperienceForm>
             </template>
         </EntryDialog>
     </Suspense>

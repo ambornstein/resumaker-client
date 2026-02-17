@@ -4,15 +4,16 @@ import ExperienceEntry from './entry/ExperienceEntry.vue';
 import EducationEntry from './entry/EducationEntry.vue';
 import ProjectEntry from './entry/ProjectEntry.vue';
 import { useRoute } from 'vue-router';
-import { useUser } from '../composable/useUser';
+import { useResumeBuilder } from '../composable/useResumeBuilder';
+import type { EntryCategory } from '../types/type';
 
-const openModal = inject<(val: 'experience' | 'education' | 'project') => void>('openModal')
+const openModal = inject<(val: EntryCategory) => void>('openModal')
 
 const route = useRoute();
 
-const { resume, fetchResume } = useUser();
+const { resume, fetchResume } = useResumeBuilder();
 
-fetchResume(route.params.id as string ?? "1")
+fetchResume(route.params.id ?? 1)
 
 </script>
 
@@ -40,7 +41,7 @@ fetchResume(route.params.id as string ?? "1")
         <h2>Projects</h2>
         <div className="vert-list">
             <ProjectEntry v-for="value in resume?.projects" :data="value" />
-            <button @click="openModal!('project')">Add</button>
+            <button @click="openModal!('projects')">Add</button>
         </div>
     </div>
 </template>

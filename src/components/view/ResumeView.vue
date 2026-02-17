@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ResumePage from './ResumePage.vue';
+import ResumePage from '../pages/ResumePage.vue';
 import ResumePanel from '../ResumePanel.vue';
 
 </script>

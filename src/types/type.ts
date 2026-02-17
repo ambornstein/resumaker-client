@@ -7,7 +7,10 @@ export type Account = PersistedEntity & {
   projects: ProjectData[]
 }
 
-export type Resume = PersistedEntity &{
+export type EntryCategory = 'experience' | 'education' | 'projects';
+export type EntryAction = 'select' | 'create';
+
+export type Resume = PersistedEntity & {
   label: string,
   workHistory: JobData[],
   educationHistory: EducationData[],

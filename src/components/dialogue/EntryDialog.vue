@@ -1,8 +1,8 @@
 <script setup lang="ts">
 
-import type { Entity } from '../../types/type'
+import type { Account, Entity, EntryAction, EntryCategory } from '../../types/type'
 
-const props = defineProps<{ entryType: string, entries: Entity[], action: "create" | "select"} >()
+const props = defineProps<{ entryType: EntryCategory, account: Account, action: EntryAction} >()
 const emit = defineEmits<{
     confirmSelection: [],
     switchToCreate: [],
@@ -14,12 +14,14 @@ const emit = defineEmits<{
 <template>
     <div v-if="action == 'select'" className="inline-block space-y-2 p-4 h-full">
         <div className="grid grid-cols-3 gap-4 h-full" >
-            <slot v-for="entry in entries" v-bind="entry" name="option"></slot>
+            <slot v-if="entryType == 'education'" v-for="entry in account?.educationEntries" v-bind="entry" name="option"></slot>
+            <slot v-else-if="entryType == 'experience'" v-for="entry in account?.workExperiences" v-bind="entry" name="option"></slot>
+            <slot v-else-if="entryType == 'projects'" v-for="entry in account?.projects" v-bind="entry" name="option"></slot>
         </div>
         <div className="flex flex-auto gap-4 ">
             <button @click="emit('switchToCreate')">Create New</button>
             <button @click="emit('confirmSelection')">Submit</button>
         </div>
     </div>
-    <slot v-else-if="action == 'create'" name="form" @create-entry="(data: Entity) => emit('confirmCreation', data)" ></slot>
+    <slot v-else-if="action == 'create'" name="form"></slot>
 </template>

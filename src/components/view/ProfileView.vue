@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { inject, ref } from 'vue';
+import { ref } from 'vue';
 import api from '../../services/api';
-import type { Account, Resume } from '../../types/type';
+import type { Resume } from '../../types/type';
+import { useUser } from '../../composable/useUser';
 
 //TODO: Create login/create account page
-//const res = await api.post("/api/accounts", {"firstName": "Andrei", "lastName": "Bornstein"})
 
-const account: Account | undefined = inject("account")
+const { user } = useUser();
 
 const allResumes = ref<Resume[]>([])
 
@@ -30,7 +30,7 @@ fetchResumes();
 
 <template>
     <div className="vert-list">
-        <h2>Welcome, {{ account?.firstName }} {{ account?.lastName }}</h2>
+        <h2>Welcome, {{ user?.firstName }} {{ user?.lastName }}</h2>
         <div className="w-full flex justify-between">
             <button @click="createResume">Create New Resume</button>
             <button>Profile</button>
