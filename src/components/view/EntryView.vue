@@ -16,7 +16,6 @@ const props = defineProps<{ modalMode: EntryCategory }>()
 const action = ref<EntryAction>('select')
 
 const selectedIds = ref<number[]>([])
-const entryArray = ref<Entity[]>([])
 const originalIds = ref<number[]>([])
 
 function resetActionMode() {
@@ -36,24 +35,25 @@ async function handleSelect() {
 }
 
 function updateEntries(modalValue: EntryCategory) {
+    let entryArray: Entity[]
+
     switch (modalValue) {
         case 'experience':
-            entryArray.value = resume.value!.workHistory;
+            entryArray = resume.value!.workHistory;
             break;
         case 'education':
-            entryArray.value = resume.value!.educationHistory;
+            entryArray = resume.value!.educationHistory;
             break;
         case 'projects':
-            entryArray.value = resume.value!.projects;
+            entryArray = resume.value!.projects;
             break;
     }
-    selectedIds.value = entryArray.value.map(w => w.id!);
-    originalIds.value = entryArray.value.map(w => w.id!);
+    selectedIds.value = entryArray.map(w => w.id!);
+    originalIds.value = entryArray.map(w => w.id!);
 }
 
 watch(() => props.modalMode, updateEntries)
 
-updateEntries(props.m)
 
 </script>
 
@@ -62,27 +62,32 @@ updateEntries(props.m)
         <EntryDialog :action :entryType=modalMode :account="user!" @confirmSelection="handleSelect"
             @confirmCreation="handleCreateEntry" @switchToCreate="action = 'create'">
             <template #option="data" v-if="modalMode == 'projects'">
-                <div className="entry-option">
-                    <p>{{ data.title }}</p>
-                    <p>{{ data.description }}</p>
-                </div>
-                <input type="checkbox" :value="data.id" v-model="selectedIds" />
+                <label :for="data.title" className="entry-option">
+                    <div className="inline-block">
+                        <p>{{ data.title }}</p>
+                    </div>
+                    <input :id="data.title" type="checkbox" :value="data.id" v-model="selectedIds" />
+                </label>
             </template>
 
             <template #option="data" v-else-if="modalMode == 'education'">
-                <div className="entry-option">
-                    <p>{{ data.degree }}</p>
-                    <p>{{ data.school }}</p>
-                </div>
-                <input type="checkbox" :value="data.id" v-model="selectedIds" />
+                <label :for="data.degree" className="entry-option">
+                    <div className="inline-block">
+                        <p>{{ data.degree }}</p>
+                        <p>{{ data.school }}</p>
+                    </div>
+                    <input :id="data.degree" type="checkbox" :value="data.id" v-model="selectedIds" />
+                </label>
             </template>
 
             <template #option="data" v-else-if="modalMode == 'experience'">
-                <div className="entry-option">
-                    <p>{{ data.title }}</p>
-                    <p>{{ data.company }}</p>
-                </div>
-                <input type="checkbox" :value="data.id" v-model="selectedIds" />
+                <label :for="data.title + data.id" className="entry-option">
+                    <div className="inline-block">
+                        <p>{{ data.title }}</p>
+                        <p>{{ data.company }}</p>
+                    </div>
+                    <input :id="data.title + data.id" type="checkbox" :value="data.id" v-model="selectedIds" />
+                </label>
             </template>
 
             <template #form>

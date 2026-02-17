@@ -12,13 +12,13 @@ const emit = defineEmits<{
 </script>
 
 <template>
-    <div v-if="action == 'select'" className="inline-block space-y-2 p-4 h-full">
-        <div className="grid grid-cols-3 gap-4 h-full" >
+    <div v-if="action == 'select'" className="flex flex-col justify-between h-fit w-fit gap-8 p-4">
+        <div className="grid grid-cols-3 gap-4 w-125" >
             <slot v-if="entryType == 'education'" v-for="entry in account?.educationEntries" v-bind="entry" name="option"></slot>
             <slot v-else-if="entryType == 'experience'" v-for="entry in account?.workExperiences" v-bind="entry" name="option"></slot>
             <slot v-else-if="entryType == 'projects'" v-for="entry in account?.projects" v-bind="entry" name="option"></slot>
         </div>
-        <div className="flex flex-auto gap-4 ">
+        <div className="flex flex-row gap-4 float-right ">
             <button @click="emit('switchToCreate')">Create New</button>
             <button @click="emit('confirmSelection')">Submit</button>
         </div>

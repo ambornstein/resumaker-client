@@ -33,17 +33,17 @@ fetchResumes();
         <h2>Welcome, {{ user?.firstName }} {{ user?.lastName }}</h2>
         <div className="w-full flex justify-between">
             <button @click="createResume">Create New Resume</button>
-            <button>Profile</button>
+            <RouterLink to="/account">
+                <button>Profile</button>
+            </RouterLink>
         </div>
-        <div className="grid grid-cols-3">
-            <div className="h-50 w-full">
-                <RouterLink :to="{ path: `/${resume.id}`}" v-for="(resume, index) in allResumes">
-                    <div className="bg-zinc-900/80 p-4 rounded-md h-24">
-                        <p>{{ resume.label ?? `Resume ${index}` }}</p>
-                        <button @click="deleteResume(resume.id)">Delete</button>
-                    </div>
-                </RouterLink>
-            </div>
+        <div className="w-full grid grid-cols-6 gap-4">
+            <RouterLink :to="{ path: `/${resume.id}` }" v-for="(resume, index) in allResumes">
+                <div className="bg-zinc-900/80 p-4 rounded-md h-24">
+                    <p>{{ resume.label ?? `Resume ${index}` }}</p>
+                    <button @click.self="deleteResume(resume.id)">Delete</button>
+                </div>
+            </RouterLink>
         </div>
     </div>
 </template>

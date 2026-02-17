@@ -11,6 +11,7 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
     "axios": "^1.13.5",
+    "jspdf-html2canvas-pro": "^1.5.221",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.18",
     "vue": "^3.5.24",
