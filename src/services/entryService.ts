@@ -8,16 +8,8 @@ export class EntryService {
         return api.post(`/api/accounts/${accountId}/${this.entryCategory}`, entry)
     }
 
-    async updateLinkedEntries(resumeId: number, ids: number[], existingIds: number[]) {
-        const toAdd = ids.filter(i => !existingIds.includes(i))
-        const toRemove = existingIds.filter(i => !ids.includes(i))
-
-        let allPromises = [
-            toAdd.map(id => api.post(`/api/resumes/${resumeId}/${this.entryCategory}/${id}`)),
-            toRemove.map(id => api.delete(`/api/resumes/${resumeId}/${this.entryCategory}/${id}`))
-        ]
-
-        return Promise.allSettled(allPromises.flat());
+    async updateLinkedEntries(resumeId: number, ids: number[]) {
+        await api.post(`/api/resumes/${resumeId}/${this.entryCategory}`, null, { params: { ids: ids.join(",") } })
     }
 
     constructor(entryType: string) {
