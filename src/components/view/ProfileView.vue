@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import api from '../../services/api';
-import type { Resume } from '../../types/type';
+import type { Resume } from '../../types/types';
 import { useUser } from '../../composable/useUser';
 
 //TODO: Create login/create account page
@@ -38,12 +38,11 @@ fetchResumes();
             </RouterLink>
         </div>
         <div className="w-full grid grid-cols-6 gap-4">
-            <RouterLink :to="{ path: `/${resume.id}` }" v-for="(resume, index) in allResumes">
-                <div className="bg-zinc-900/80 p-4 rounded-md h-24">
-                    <p>{{ resume.label ?? `Resume ${index}` }}</p>
-                    <button @click.self="deleteResume(resume.id)">Delete</button>
-                </div>
-            </RouterLink>
+            <div @click="$router.push(`/${resume.id}`)" v-for="(resume, index) in allResumes"
+                className="bg-zinc-900/80 p-4 rounded-md h-24 cursor-pointer hover:border hover:border-emerald-600 transition-colors duration-300">
+                <p>{{ resume.label ?? `Resume ${index}` }}</p>
+                <button @click.stop="deleteResume(resume.id)">Delete</button>
+            </div>
         </div>
     </div>
 </template>

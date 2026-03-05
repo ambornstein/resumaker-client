@@ -7,7 +7,7 @@ import ProfilePage from './components/pages/ProfilePage.vue'
 import AccountPage from './components/pages/AccountPage.vue'
 
 const routes = [
-    {path: '/', component: ResumeView},
+    {path: '/', component: ProfilePage},
     {path: '/:id', component: ResumeView},
     {path: '/profile', component: ProfilePage},
     {path: '/account', component: AccountPage}

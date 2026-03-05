@@ -1,39 +1,19 @@
 <script setup lang="ts">
 import Modal from '../Modal.vue';
-import { provide, ref, useTemplateRef } from 'vue';
 import { useUser } from '../../composable/useUser';
 import EntryView from './EntryView.vue';
-import type { EntryCategory } from '../../types/type';
+import { useEntryModal } from '../../composable/useEntryModal';
 
 const { fetchUserData } = useUser();
 
-const modalMode = ref<EntryCategory>('experience')
-const modal = useTemplateRef('modal')
-const entryView = useTemplateRef('entryView')
-
-const openModal = (mode: EntryCategory) => {
-  modalMode.value = mode
-  modal.value?.openModal()
-}
-
-provide('openModal', openModal)
-
-function confirmUpdate() {
-  modal.value?.closeModal()
-  fetchUserData()
-  resetEntryView()
-}
-
-function resetEntryView() {
-  entryView.value?.resetActionMode()
-}
+const { showModal, closeModal } = useEntryModal()
 
 fetchUserData()
 </script>
 
 <template>
-  <Modal ref="modal" @close="resetEntryView">
-    <EntryView ref="entryView" :modalMode @complete="confirmUpdate"/>
+  <Modal v-show="showModal" @close="closeModal">
+    <EntryView/>
   </Modal>
   <div className="container m-auto pt-[2em]">
     <RouterView />

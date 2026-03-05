@@ -40,7 +40,7 @@ export type JobData = Entity & {
 
 export type EducationData = Entity & {
   degree: string,
-  school: string,
+  schoolName: string,
   location: string,
   startDate: string,
   current: boolean,

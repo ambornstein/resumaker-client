@@ -1,27 +1,27 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import type { EducationData } from '../../types/type';
+import { useEntryModal } from '../../composable/useEntryModal';
+import type { EducationData } from '../../types/types';
 
-const education = ref<EducationData>({degree: "B.A.", school:"WPI", startDate:"2020-09", location: "Worcester, MA", current: false})
-
+const { editingEducation } = useEntryModal()
 defineEmits<{createEducation: [ed: EducationData]}>()
+
 </script>
 
 <template>
-    <form @submit.prevent="$emit('createEducation', education)" className="rounded-lg p-4">
+    <form @submit.prevent="$emit('createEducation', editingEducation)" className="rounded-lg p-4">
         <div className="grid grid-cols-2 gap-2">
             <label for="degree">Degree</label>
-            <input id="degree" type='text' v-model="education.degree">
+            <input id="degree" type='text' v-model="editingEducation.degree">
             <label for="school">School</label>
-            <input id="school" type='text' v-model="education.school">
+            <input id="school" type='text' v-model="editingEducation.schoolName">
             <label for="location">Location</label>
-            <input id="location" type='text' v-model="education.location">
+            <input id="location" type='text' v-model="editingEducation.location">
             <label>Is Current</label>
-            <input type="checkbox" v-model="education.current">
+            <input type="checkbox" v-model="editingEducation.current">
             <label>Start Date</label>
-            <input id="start" type='month' v-model="education.startDate">
-            <label v-if="!education.current">End Date</label>
-            <input v-if="!education.current" id="start" type='month' v-model="education.endDate"/>
+            <input id="start" type='month' v-model="editingEducation.startDate">
+            <label v-if="!editingEducation.current">End Date</label>
+            <input v-if="!editingEducation.current" id="start" type='month' v-model="editingEducation.endDate"/>
         </div>
         <input type="submit"/>
     </form>

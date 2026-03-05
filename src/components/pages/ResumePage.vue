@@ -20,8 +20,8 @@ function convertDate(stringValue: string) {
       <h3 className="w-full border-b border-neutral-950">Education</h3>
       <div v-for="ed in resume?.educationHistory">
         <div className="w-full flex flex-row justify-between">
-          <h4>{{ ed.school }} — {{ ed.degree }}</h4>
-          <h4>{{ convertDate(ed.startDate) }} — {{ ed.current ? convertDate(ed.startDate) : "Present" }}</h4>
+          <h4>{{ ed.schoolName }} — {{ ed.degree }}</h4>
+          <h4>{{ convertDate(ed.startDate) }} — {{ ed.current ? convertDate(ed.endDate!) : "Present" }}</h4>
         </div>
         <p>Relevant Coursework:</p>
       </div>
@@ -32,7 +32,7 @@ function convertDate(stringValue: string) {
       <div v-for="work in resume?.workHistory">
         <div className="w-full flex flex-row justify-between">
           <h4>{{ work.title }} — {{ work.company }}</h4>
-          <h4>{{ convertDate(work.startDate) }} — {{ work.current ? convertDate(work.startDate) : "Present" }}</h4>
+          <h4>{{ convertDate(work.startDate) }} — {{ work.current ? convertDate(work.endDate!) : "Present" }}</h4>
         </div>
         <ul className="list-disc list-inside ml-2">
           <li v-for="bp in work.bulletPoints">{{ bp }}</li>

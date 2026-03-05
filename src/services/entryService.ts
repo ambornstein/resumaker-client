@@ -1,16 +1,14 @@
-import type { Entity } from "../types/type"
+import type { Entity } from "../types/types"
 import api from "./api";
 
 export class EntryService {
     entryCategory: string;
 
-    async createEntry(resumeId: number, entry: Entity) {
-        return api.post(`/api/resumes/${resumeId}/${this.entryCategory}`, entry)
+    async createEntry(accountId: number, entry: Entity) {
+        return api.post(`/api/accounts/${accountId}/${this.entryCategory}`, entry)
     }
 
     async updateLinkedEntries(resumeId: number, ids: number[], existingIds: number[]) {
-        console.log(ids);
-        console.log(existingIds);
         const toAdd = ids.filter(i => !existingIds.includes(i))
         const toRemove = existingIds.filter(i => !ids.includes(i))
 

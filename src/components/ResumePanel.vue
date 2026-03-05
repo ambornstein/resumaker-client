@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import { inject } from 'vue';
 import ExperienceEntry from './entry/ExperienceEntry.vue';
 import EducationEntry from './entry/EducationEntry.vue';
 import ProjectEntry from './entry/ProjectEntry.vue';
 import { useRoute } from 'vue-router';
 import { useResumeBuilder } from '../composable/useResumeBuilder';
-import type { EntryCategory } from '../types/type';
 import html2PDF from 'jspdf-html2canvas-pro';
+import { useEntryModal } from '../composable/useEntryModal';
 
-const openModal = inject<(val: EntryCategory) => void>('openModal')
 
 const route = useRoute();
+const { openCategory } = useEntryModal();
 
 const { resume, fetchResume } = useResumeBuilder();
 
@@ -49,7 +48,7 @@ function exportToPDf() {
         <h2>Education</h2>
         <div className="vert-list">
             <EducationEntry v-for="value in resume?.educationHistory" :data="value" />
-            <button @click="openModal!('education')">Add</button>
+            <button @click="openCategory('education')">Add</button>
         </div>
 
         <h2>Skills</h2>
@@ -57,13 +56,13 @@ function exportToPDf() {
         <h2>Experience</h2>
         <div className="vert-list">
             <ExperienceEntry v-for="value in resume?.workHistory" :data="value" />
-            <button @click="openModal!('experience')">Add</button>
+            <button @click="openCategory('experience')">Add</button>
         </div>
 
         <h2>Projects</h2>
         <div className="vert-list">
             <ProjectEntry v-for="value in resume?.projects" :data="value" />
-            <button @click="openModal!('projects')">Add</button>
+            <button @click="openCategory('projects')">Add</button>
         </div>
 
         <button className="text-lg text-emerald-500 mt-4" @click="exportToPDf">Save As PDF</button>
