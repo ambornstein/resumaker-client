@@ -13,6 +13,10 @@ export function useUser() {
         user.value = result.data
     }
 
+    async function updateAccount(account: Account) {
+        await api.put("/api/accounts/1", account)
+    }
+
     async function updateEntry(entryCategory: EntryCategory, entry: PersistedEntity) {
         const updatedEntry = await api.put(`/api/${entryCategory}/${entry.id}`, entry)
 
@@ -67,5 +71,5 @@ export function useUser() {
         }
     }
 
-    return { user, fetchUserData, addEntry, updateEntry, deleteEntry }
+    return { user, fetchUserData, addEntry, updateEntry, deleteEntry, updateAccount}
 }

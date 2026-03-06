@@ -5,6 +5,13 @@ export type Account = PersistedEntity & {
   workExperiences: JobData[],
   educationEntries: EducationData[],
   projects: ProjectData[]
+  location?: string,
+  phoneNumber?: string,
+  website?: string,
+  email?: string,
+  USCitizen: boolean,
+  linkedInLink?: string,
+  githubLink?: string
 }
 
 export type EntryCategory = 'experience' | 'education' | 'projects';
