@@ -46,6 +46,10 @@
   .entry-label {
     @apply flex flex-row gap-4
   }
+
+  .split-column {
+    @apply grid grid-cols-[max-content_auto] gap-y-2 gap-x-4 max-w-md items-center mb-8
+  }
 }
 
 :root {
