@@ -69,3 +69,34 @@ export type SkillCategory = {
   categoryName?: string,
   skills: string[]
 }
+
+export type ResumeStyleTemplate = {
+  margin: {
+    top: number,
+    bottom: number,
+    left: number,
+    right: number
+  },
+  titleStyle: FontOptions
+  headerStyle: FontOptions & {
+    horizontalRule: {
+      width: number //Not Yet Implemented
+      style?: string //
+    },
+    indentAmount?: number
+  }
+  textStyle: FontOptions & {
+    indentAmount?: number
+  }
+  lineSpacing: number,
+  bulletSymbol: string,
+  bulletIndent?: number,
+  dividerSymbol: string
+}
+
+export type FontOptions = {
+  fontSize: number,
+  font: string,
+  fontStyle: string,
+  fontWeight?: string | number
+}
