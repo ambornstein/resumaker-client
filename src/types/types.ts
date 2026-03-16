@@ -2,9 +2,9 @@ export type Account = PersistedEntity & {
   firstName: string,
   lastName: string,
   resumes: Resume[],
-  workExperiences: JobData[],
-  educationEntries: EducationData[],
-  projects: ProjectData[]
+  workExperiences: WorkExperienceEntry[],
+  educationEntries: EducationEntry[],
+  projects: ProjectEntry[]
   location?: string,
   phoneNumber?: string,
   website?: string,
@@ -19,9 +19,10 @@ export type EntryAction = 'select' | 'create';
 
 export type Resume = PersistedEntity & {
   label: string,
-  workHistory: JobData[],
-  educationHistory: EducationData[],
-  projects: ProjectData[]
+  workHistory: WorkExperienceEntry[],
+  educationHistory: EducationEntry[],
+  projects: ProjectEntry[],
+  skills: Skills
 }
 
 /** Entity that definitively exists in the persistent database */
@@ -36,7 +37,7 @@ export type Entity = {
   id?: number
 }
 
-export type JobData = Entity & {
+export type WorkExperienceEntry = Entity & {
   title: string,
   company: string,
   startDate: string,
@@ -45,7 +46,7 @@ export type JobData = Entity & {
   bulletPoints: string[]
 }
 
-export type EducationData = Entity & {
+export type EducationEntry = Entity & {
   degree: string,
   schoolName: string,
   location: string,
@@ -54,8 +55,17 @@ export type EducationData = Entity & {
   endDate?: string,
 }
 
-export type ProjectData = Entity & {
+export type ProjectEntry = Entity & {
   title: string,
   description: string,
   bulletPoints: string[]
+}
+
+export type Skills = {
+  skillCategories: SkillCategory[]
+}
+
+export type SkillCategory = {
+  categoryName?: string,
+  skills: string[]
 }

@@ -6,8 +6,8 @@ import ResumePanel from '../ResumePanel.vue';
 <template>
   <RouterLink to="/profile">To Profile</RouterLink>
 
-  <div className="flex flex-row gap-10 w-fit m-auto p-[2em]">
-    <iframe id="resume-page" frameborder="0" className="w-[595px] h-[876px]">
+  <div className="flex flex-row gap-10 w-full m-auto p-[2em]">
+    <iframe id="resume-page" frameborder="0" className="w-[60%] h-[876px]">
     </iframe>
     <ResumePanel />
   </div>

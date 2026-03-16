@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useEntryModal } from '../../composable/useEntryModal';
-import type { EducationData } from '../../types/types';
+import type { EducationEntry } from '../../types/types';
 
 const { editingEducation } = useEntryModal()
-defineEmits<{createEducation: [ed: EducationData]}>()
+defineEmits<{createEducation: [ed: EducationEntry]}>()
 
 </script>
 

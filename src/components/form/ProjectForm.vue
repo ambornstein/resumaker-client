@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useEntryModal } from '../../composable/useEntryModal';
-import type { ProjectData } from '../../types/types';
+import type { ProjectEntry } from '../../types/types';
 
 const  { editingProject } = useEntryModal();
-defineEmits<{createProject: [ed: ProjectData]}>()
+defineEmits<{createProject: [ed: ProjectEntry]}>()
 
 </script>
 

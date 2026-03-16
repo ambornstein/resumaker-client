@@ -1,5 +1,5 @@
 import jsPDF, { type TextOptionsLight } from "jspdf";
-import type { Account, EducationData, JobData, ProjectData, Resume } from "../types/types";
+import type { Account, EducationEntry, WorkExperienceEntry, ProjectEntry, Resume, Skills } from "../types/types";
 
 const leftMargin = 10
 const rightMargin = 10
@@ -14,7 +14,9 @@ export function usePDFBuilder() {
     const pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
     const pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
 
-    let index = 10;
+    const maxTextWidth = pageWidth - leftMargin - rightMargin
+
+    let cursor = { x: leftMargin, y: 10 };
     let lineSpacing = 0.5;
 
     function convertDate(stringValue: string) {
@@ -22,14 +24,14 @@ export function usePDFBuilder() {
     }
 
     function createPDF(resume: Resume, account: Account) {
+
         const frame = document.getElementById("resume-page") as HTMLIFrameElement
         doc.setFont("Times New Roman")
         doc.setFontSize(12)
 
-        createText(account.firstName + " " + account.lastName, true, 'center');
-        createText(`${account.USCitizen ? "US Citizen" : ""} \u2022 ${account.phoneNumber} \u2022 ${account.email}`, true, 'center');
-
+        createHeader(account)
         createEducationSection(resume.educationHistory)
+        createSkillsSection(resume.skills)
         createExperienceSection(resume.workHistory)
         createProjectSection(resume.projects)
 
@@ -37,8 +39,28 @@ export function usePDFBuilder() {
         frame.src = string
     }
 
+    function createHeader(account: Account) {
+        doc.setFontSize(24)
 
-    function createEducationSection(education: EducationData[]) {
+        createText(account.firstName + " " + account.lastName, true, 'center');
+        doc.setFontSize(12)
+
+        let contacts = []
+
+        contacts.push(account.USCitizen ? "US Citizen" : null)
+        contacts.push(account.location)
+        contacts.push(account.email)
+        contacts.push(account.phoneNumber)
+        contacts.push(account.linkedInLink?.replace("https://", ""))
+        contacts.push(account.githubLink?.replace("https://", ""))
+        contacts = contacts.filter(i => i)
+
+        createText(contacts.join(' \u2022 '), true, 'center');
+        doc.textWithLink
+        incrementLine()
+    }
+
+    function createEducationSection(education: EducationEntry[]) {
         createText("Education", false)
         drawHorizontalLine()
 
@@ -50,7 +72,21 @@ export function usePDFBuilder() {
         })
     }
 
-    function createExperienceSection(experience: JobData[]) {
+    function createSkillsSection(skills: Skills) {
+        createText("Skills", false)
+        drawHorizontalLine()
+
+        skills.skillCategories.forEach((value) => {
+            doc.setFont("Times New Roman", "bold")
+            if (value.categoryName) createText(value.categoryName + ": ", false)
+            doc.setFont("Times New Roman", "normal")
+
+            createText(value.skills.join(","))
+        })
+        cursor.y += 2
+    }
+
+    function createExperienceSection(experience: WorkExperienceEntry[]) {
         createText("Work Experience", false)
         drawHorizontalLine()
 
@@ -65,7 +101,7 @@ export function usePDFBuilder() {
         })
     }
 
-    function createProjectSection(projects: ProjectData[]) {
+    function createProjectSection(projects: ProjectEntry[]) {
         createText("Projects", false)
         drawHorizontalLine()
 
@@ -80,7 +116,7 @@ export function usePDFBuilder() {
         })
     }
 
-    function createText(text: string, increment = true, align: TextOptionsLight["align"] = "left") {
+    function createText(text: string | string[], newLine = true, align?: TextOptionsLight["align"]) {
         let xPos;
 
         switch (align) {
@@ -90,22 +126,41 @@ export function usePDFBuilder() {
             case "center":
                 xPos = pageWidth / 2
                 break
-            default:
+            case "left":
                 xPos = leftMargin
+                break
+            default:
+                xPos = cursor.x
         }
 
-        doc.text(text, xPos, index, { maxWidth: pageWidth - leftMargin - rightMargin, align: align })
-        if (increment) incrementLine()
+        doc.text(text, xPos, cursor.y, { maxWidth: maxTextWidth, align: align })
+
+        const textBlock = Array.isArray(text) ? text.join() : text;
+        const strings = doc.splitTextToSize(textBlock, maxTextWidth)
+        for (let t of strings) {
+            const size = doc.getTextDimensions(t)
+            console.log(t)
+            cursor.x += size.w
+            if (cursor.x - leftMargin > maxTextWidth) {
+                cursor.y += size.h + lineSpacing
+                cursor.x = leftMargin
+            }
+        }
+
+        if (newLine) {
+            incrementLine()
+        }
     }
 
     function drawHorizontalLine() {
-        index += 2
-        doc.line(leftMargin, index, pageWidth - rightMargin, index)
+        cursor.y += 2
+        doc.line(leftMargin, cursor.y, pageWidth - rightMargin, cursor.y)
         incrementLine()
     }
 
     function incrementLine() {
-        index += doc.getTextDimensions("T").h + lineSpacing
+        cursor.y += doc.getTextDimensions("T").h + lineSpacing
+        cursor.x = leftMargin
     }
 
     return { createPDF }

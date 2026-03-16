@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { ProjectData } from '../../types/types';
+import type { ProjectEntry } from '../../types/types';
 
-defineProps<{ data: ProjectData }>()
+defineProps<{ data: ProjectEntry }>()
 </script>
 <template>
     <div className="entry-panel">

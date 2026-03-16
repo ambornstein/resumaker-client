@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { JobData } from '../../types/types';
+import type { WorkExperienceEntry } from '../../types/types';
 import { useEntryModal } from '../../composable/useEntryModal';
 
 const { editingExperience } = useEntryModal()
-defineEmits<{createExperience: [job: JobData]}>()
+defineEmits<{createExperience: [job: WorkExperienceEntry]}>()
 
 </script>
 

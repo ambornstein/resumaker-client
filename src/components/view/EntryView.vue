@@ -67,8 +67,8 @@ watch(() => modalMode.value, updateEntries)
 
 <template>
     <Suspense>
-        <EntryDialog @confirmSelection="handleSelect"
-            @confirmCreation="handleUpdateEntry" @switchToCreate="action = 'create'">
+        <EntryDialog @confirmSelection="handleSelect" @confirmCreation="handleUpdateEntry"
+            @switchToCreate="action = 'create'">
             <template #option="data" v-if="modalMode == 'projects'">
                 <div className="entry-chip">
                     <label :for="data.title" className="entry-label">
@@ -77,9 +77,11 @@ watch(() => modalMode.value, updateEntries)
                             <p>{{ data.title }}</p>
                         </div>
                     </label>
-                    <input type="image" className="w-6 h-6" src="/src/assets/close.png"
-                        @click="handleDeleteEntry(data.id!)" />
-                    <input type="image" className="w-6 h-6" src="/src/assets/edit.png" @click="editProject(data)" />
+                    <div className="flex flex-col gap-2">
+                        <input type="image" className="w-8 h-8 p-1" src="/src/assets/close.png"
+                            @click="handleDeleteEntry(data.id!)" />
+                        <input type="image" className="w-8 h-8 p-1" src="/src/assets/edit.png" @click="editProject(data)" />
+                    </div>
                 </div>
             </template>
 
@@ -92,9 +94,12 @@ watch(() => modalMode.value, updateEntries)
                             <p>{{ data.school }}</p>
                         </div>
                     </label>
-                    <input type="image" className="w-4 h-4" src="/src/assets/close.png"
-                        @click="handleDeleteEntry(data.id!)" />
-                    <input type="image" className="w-6 h-6" src="/src/assets/edit.png" @click="editEducation(data)" />
+                    <div className="flex flex-col gap-2">
+                        <input type="image" className="w-8 h-8 p-1" src="/src/assets/close.png"
+                            @click="handleDeleteEntry(data.id!)" />
+                        <input type="image" className="w-8 h-8 p-1" src="/src/assets/edit.png"
+                            @click="editEducation(data)" />
+                    </div>
                 </div>
             </template>
 
@@ -107,9 +112,12 @@ watch(() => modalMode.value, updateEntries)
                             <p>{{ data.company }}</p>
                         </div>
                     </label>
-                    <input type="image" className="w-4 h-4" src="/src/assets/close.png"
-                        @click="handleDeleteEntry(data.id!)" />
-                    <input type="image" className="w-6 h-6" src="/src/assets/edit.png" @click="editExperience(data)" />
+                    <div className="flex flex-col gap-2">
+                        <input type="image" className="w-8 h-8 p-1" src="/src/assets/close.png"
+                            @click="handleDeleteEntry(data.id!)" />
+                        <input type="image" className="w-8 h-8 p-1" src="/src/assets/edit.png"
+                            @click="editExperience(data)" />
+                    </div>
                 </div>
             </template>
 

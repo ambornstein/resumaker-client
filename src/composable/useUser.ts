@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import type { Account, EducationData, Entity, EntryCategory, JobData, PersistedEntity, ProjectData } from "../types/types";
+import type { Account, EducationEntry, Entity, EntryCategory, WorkExperienceEntry, PersistedEntity, ProjectEntry } from "../types/types";
 import api from "../services/api";
 
 const user = ref<Account>();
@@ -23,8 +23,8 @@ export function useUser() {
         let index;
         switch (entryCategory) {
             case 'experience':
-                index = user.value!.workExperiences.findIndex((data) => updatedEntry.data.id == data.id)
-                user.value!.workExperiences[index] = updatedEntry.data 
+                index = user.value!.workExperiences.findIndex((data) => entry.id == data.id)
+                user.value!.workExperiences[index] = entry as WorkExperienceEntry
                 break;
             case 'education':
                 index = user.value!.educationEntries.findIndex((data) => updatedEntry.data.id == data.id)
@@ -44,13 +44,13 @@ export function useUser() {
 
         switch (entryCategory) {
             case 'experience':
-                user.value!.workExperiences.push(createdEntry.data as JobData);
+                user.value!.workExperiences.push(createdEntry.data as WorkExperienceEntry);
                 break;
             case 'education':
-                user.value!.educationEntries.push(createdEntry.data as EducationData);
+                user.value!.educationEntries.push(createdEntry.data as EducationEntry);
                 break;
             case 'projects':
-                user.value!.projects.push(createdEntry.data as ProjectData);
+                user.value!.projects.push(createdEntry.data as ProjectEntry);
                 break;
         }
     }

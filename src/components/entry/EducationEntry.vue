@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { EducationData } from '../../types/types';
+import type { EducationEntry } from '../../types/types';
 
-defineProps<{ data: EducationData }>()
+defineProps<{ data: EducationEntry }>()
 </script>
 <template>
     <div className="entry-panel">

@@ -11,7 +11,7 @@ const { user } = useUser();
 const allResumes = ref<Resume[]>([])
 
 const createResume = async () => {
-    const payload = await api.post("/api/accounts/1/resumes", { "label": "Software Engineer Intern" })
+    const payload = await api.post("/api/accounts/1/resumes", { label: "Software Engineer Intern", skills: { skillCategories: [] } })
     await fetchResumes();
 }
 

@@ -1,17 +1,17 @@
 import { ref } from "vue";
-import { type EducationData, type EntryAction, type EntryCategory, type JobData, type ProjectData } from "../types/types";
+import { type EducationEntry, type EntryAction, type EntryCategory, type WorkExperienceEntry, type ProjectEntry } from "../types/types";
 
 const showModal = ref<boolean>(false);
 const modalMode = ref<EntryCategory>('experience')
 const action = ref<EntryAction>('select')
 
-const defaultProject: ProjectData = {title: "", description:"", bulletPoints: []}
-const defaultExperience: JobData = {title: "Analyst", company: "RTX", current: true, startDate: "2020-09", bulletPoints: [] }
-const defaultEducation: EducationData = {degree: "B.A.", schoolName: "WPI", startDate:"2020-09", location: "Worcester, MA", current: false}
+const defaultProject: ProjectEntry = {title: "", description:"", bulletPoints: []}
+const defaultExperience: WorkExperienceEntry = {title: "Analyst", company: "RTX", current: true, startDate: "2020-09", bulletPoints: [] }
+const defaultEducation: EducationEntry = {degree: "B.A.", schoolName: "WPI", startDate:"2020-09", location: "Worcester, MA", current: false}
 
-const editingProject = ref<ProjectData>(defaultProject)
-const editingExperience = ref<JobData>(defaultExperience)
-const editingEducation = ref<EducationData>(defaultEducation)
+const editingProject = ref<ProjectEntry>(defaultProject)
+const editingExperience = ref<WorkExperienceEntry>(defaultExperience)
+const editingEducation = ref<EducationEntry>(defaultEducation)
 
 export function useEntryModal() {
 
@@ -39,19 +39,19 @@ export function useEntryModal() {
         editingExperience.value = defaultExperience;
     }
 
-    function editExperience(exp: JobData) {
+    function editExperience(exp: WorkExperienceEntry) {
         editingExperience.value = exp
         useAction('create')
         openModal()
     }
 
-    function editEducation(education: EducationData) {
+    function editEducation(education: EducationEntry) {
         editingEducation.value = education
         useAction('create')
         openModal()
     }
 
-    function editProject(project: ProjectData) {
+    function editProject(project: ProjectEntry) {
         editingProject.value = project
         useAction('create')
         openModal()
