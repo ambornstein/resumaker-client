@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import api from '../../services/api';
-import type { Resume } from '../../types/types';
-import { useUser } from '../../composable/useUser';
+import api from '../lib/services/api';
+import type { Resume } from '../lib/types/types';
+import { useUser } from '../composables/useUser';
 
 //TODO: Create login/create account page
 
@@ -33,13 +33,10 @@ fetchResumes();
         <h2>Welcome, {{ user?.firstName }} {{ user?.lastName }}</h2>
         <div className="w-full flex justify-between">
             <button @click="createResume">Create New Resume</button>
-            <RouterLink to="/account">
-                <button>Profile</button>
-            </RouterLink>
         </div>
         <div className="w-full grid grid-cols-6 gap-4">
             <div @click="$router.push(`/${resume.id}`)" v-for="(resume, index) in allResumes"
-                className="bg-zinc-900/80 p-4 rounded-md h-24 cursor-pointer hover:border hover:border-emerald-600 transition-colors duration-300">
+                className="bg-zinc-900/80 p-4 rounded-md h-24 cursor-pointer hover-highlight">
                 <p>{{ resume.label ?? `Resume ${index}` }}</p>
                 <button @click.stop="deleteResume(resume.id)">Delete</button>
             </div>

@@ -1,7 +1,7 @@
 import { ref } from "vue";
-import type { EntryCategory, Resume } from "../types/types";
-import { EntryService } from "../services/entryService";
-import api from "../services/api";
+import type { EntryCategory, Resume } from "../lib/types/types";
+import { EntryService } from "../lib/services/entryService";
+import api from "../lib/services/api";
 
 const resume = ref<Resume>();
 

@@ -3,11 +3,11 @@ import ExperienceEntry from './entry/ExperienceEntry.vue';
 import EducationEntry from './entry/EducationEntry.vue';
 import ProjectEntry from './entry/ProjectEntry.vue';
 import { useRoute } from 'vue-router';
-import { useResumeBuilder } from '../composable/useResumeBuilder';
-import { useEntryModal } from '../composable/useEntryModal';
-import { useUser } from '../composable/useUser';
-import { usePDFBuilder } from '../composable/usePDFBuilder';
-import api from '../services/api';
+import { useResumeBuilder } from '../composables/useResumeBuilder';
+import { useEntryModal } from '../composables/useEntryModal';
+import { useUser } from '../composables/useUser';
+import { usePDFBuilder } from '../composables/usePDFBuilder';
+import api from '../lib/services/api';
 import SkillBox from './SkillBox.vue';
 
 const route = useRoute();

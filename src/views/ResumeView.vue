@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ResumePanel from '../ResumePanel.vue';
+import ResumePanel from '../components/ResumePanel.vue';
 
 </script>
 

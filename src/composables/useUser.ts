@@ -1,6 +1,6 @@
 import { ref } from "vue";
-import type { Account, EducationEntry, Entity, EntryCategory, WorkExperienceEntry, PersistedEntity, ProjectEntry } from "../types/types";
-import api from "../services/api";
+import type { Account, EducationEntry, Entity, EntryCategory, WorkExperienceEntry, PersistedEntity, ProjectEntry } from "../lib/types/types";
+import api from "../lib/services/api";
 
 const user = ref<Account>();
 

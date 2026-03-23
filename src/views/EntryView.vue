@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { useUser } from '../../composable/useUser';
-import type { Entity, EntryCategory, PersistedEntity } from '../../types/types';
-import EntryDialog from '../dialogue/EntryDialog.vue';
-import ProjectForm from '../form/ProjectForm.vue';
-import EducationForm from '../form/EducationForm.vue';
-import ExperienceForm from '../form/ExperienceForm.vue';
-import { useResumeBuilder } from '../../composable/useResumeBuilder';
-import { useEntryModal } from '../../composable/useEntryModal';
+import { useUser } from '../composables/useUser';
+import type { Entity, EntryCategory, PersistedEntity } from '../lib/types/types';
+import EntryDialog from '../components/dialogue/EntryDialog.vue';
+import ProjectForm from '../components/form/ProjectForm.vue';
+import EducationForm from '../components/form/EducationForm.vue';
+import ExperienceForm from '../components/form/ExperienceForm.vue';
+import { useResumeBuilder } from '../composables/useResumeBuilder';
+import { useEntryModal } from '../composables/useEntryModal';
 
 const emit = defineEmits(['complete'])
 const { resume, selectEntries } = useResumeBuilder();
@@ -15,7 +15,6 @@ const { addEntry, updateEntry, deleteEntry } = useUser();
 const { modalMode, action, useAction, resetEditingEntries, editProject, editEducation, editExperience } = useEntryModal();
 
 const selectedIds = ref<number[]>([])
-const originalIds = ref<number[]>([])
 
 async function handleUpdateEntry(entry: Entity) {
     if (entry.id) {
@@ -37,7 +36,7 @@ async function handleDeleteEntry(id: number) {
 }
 
 async function handleSelect() {
-    await selectEntries(modalMode.value, selectedIds.value, originalIds.value)
+    await selectEntries(modalMode.value, selectedIds.value)
     emit('complete')
     updateEntries(modalMode.value)
 }
@@ -57,7 +56,6 @@ function updateEntries(modalValue: EntryCategory) {
             break;
     }
     selectedIds.value = entryArray.map(w => w.id!);
-    originalIds.value = entryArray.map(w => w.id!);
 }
 
 watch(() => modalMode.value, updateEntries)

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 
-import { useEntryModal } from '../../composable/useEntryModal';
-import { useUser } from '../../composable/useUser';
-import type { Entity } from '../../types/types'
+import { useEntryModal } from '../../composables/useEntryModal';
+import { useUser } from '../../composables/useUser';
+import type { Entity } from '../../lib/types/types'
 
 const { user } = useUser();
 const emit = defineEmits<{

@@ -1,8 +1,16 @@
 @import "tailwindcss";
 
+@theme {
+  --color-link: #646cff;
+  --color-link-hover: #535bf2;
+
+  --color-highlight: var(--color-emerald-700);
+  --color-highlight-hover: var(--color-emerald-400);
+}
+
 @layer base {
   input {
-    @apply border border-zinc-400 bg-zinc-800 p-2 rounded-md;
+    @apply border border-zinc-500 bg-zinc-800 p-2 rounded-md;
   }
 
   title {
@@ -10,35 +18,45 @@
   }
 
   h1 {
-    @apply text-[2em] mb-2;
+    @apply text-3xl;
   }
 
   h2 {
-    @apply text-[1.5em] mb-2;
+    @apply text-2xl;
   }
 
   h3 {
-    @apply text-[1.2em];
-  }
-}
-
-@layer utilities {
-  .vert-list {
-    @apply flex flex-col gap-2
+    @apply text-lg;
   }
 }
 
 @layer components {
+  .card {
+    @apply p-[2em];
+  }
+
+  .vert-list {
+    @apply flex flex-col gap-2;
+  }
+
+  .border-light {
+    @apply border border-zinc-500 rounded-lg p-2;
+  }
+
+  .highlight {
+    @apply hover:border hover:border-highlight transition-colors duration-300;
+  }
+
   .entry-panel {
-    @apply flex flex-col gap-1 border-2 rounded-lg border-slate-700 p-2 bg-neutral-900
+    @apply flex flex-col gap-1 p-2 bg-neutral-900;
   }
 
   .bullet-container {
-    @apply flex flex-col gap-4 pb-4
+    @apply flex flex-col gap-4 pb-4;
   }
 
   .entry-chip {
-    @apply flex flex-row gap-4 w-full justify-between rounded-md py-5 px-4 bg-neutral-800 border border-zinc-700 has-checked:border-emerald-600;
+    @apply flex flex-row gap-4 w-full justify-between py-5 px-4 bg-neutral-800 has-checked:border-highlight;
   }
 
   .entry-label {
@@ -46,7 +64,7 @@
   }
 
   .split-column {
-    @apply grid grid-cols-[max-content_auto] gap-y-2 gap-x-4 max-w-md items-center mb-8
+    @apply grid grid-cols-[max-content_auto] gap-y-2 gap-x-4 max-w-md items-center
   }
 }
 
@@ -66,25 +84,18 @@
 }
 
 a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+  color: var(--color-link)
 }
 
 a:hover {
-  color: #535bf2;
+  color: var(--color-link-hover);
 }
 
 body {
   min-width: 320px;
   min-height: 100vh;
-  
-  margin: 0 auto;
-}
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  margin: 0 auto;
 }
 
 button,
@@ -102,7 +113,7 @@ input[type=submit] {
 
 button:hover,
 input[type=submit]:hover {
-  border-color: #646cff;
+  border-color: var(--link-color);
 }
 
 button:focus,
@@ -112,18 +123,14 @@ input[type=submit]:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-.card {
-  padding: 2em;
-}
+
 
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
-  }
 
-  a:hover {
-    color: #747bff;
+    --link-color: #1f2599;
   }
 
   button {

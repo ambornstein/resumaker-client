@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ProfileView from '../view/ProfileView.vue';
+import ProfileView from '../views/ProfileView.vue';
 
 </script>
 

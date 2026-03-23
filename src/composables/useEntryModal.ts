@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import { type EducationEntry, type EntryAction, type EntryCategory, type WorkExperienceEntry, type ProjectEntry } from "../types/types";
+import { type EducationEntry, type EntryAction, type EntryCategory, type WorkExperienceEntry, type ProjectEntry } from "../lib/types/types";
 
 const showModal = ref<boolean>(false);
 const modalMode = ref<EntryCategory>('experience')

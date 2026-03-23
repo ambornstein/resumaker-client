@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SkillCategory } from '../types/types';
+import type { SkillCategory } from '../lib/types/types';
 
 defineProps<{ skillCategory: SkillCategory }>()
 

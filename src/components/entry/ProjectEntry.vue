@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ProjectEntry } from '../../types/types';
+import type { ProjectEntry } from '../../lib/types/types';
 
 defineProps<{ data: ProjectEntry }>()
 </script>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { WorkExperienceEntry } from '../../types/types';
-import { useEntryModal } from '../../composable/useEntryModal';
+import type { WorkExperienceEntry } from '../../lib/types/types';
+import { useEntryModal } from '../../composables/useEntryModal';
 
 const { editingExperience } = useEntryModal()
 defineEmits<{createExperience: [job: WorkExperienceEntry]}>()

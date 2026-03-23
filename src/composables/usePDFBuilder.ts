@@ -1,5 +1,5 @@
 import jsPDF, { type TextOptionsLight } from "jspdf";
-import type { Account, EducationEntry, WorkExperienceEntry, ProjectEntry, Resume, Skills, ResumeStyleTemplate, FontOptions } from "../types/types";
+import type { Account, EducationEntry, WorkExperienceEntry, ProjectEntry, Resume, Skills, ResumeStyleTemplate, FontOptions } from "../lib/types/types";
 
 const leftMargin = 10
 const rightMargin = 10
