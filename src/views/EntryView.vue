@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { useUser } from '../composables/useUser';
+import { useAccount } from '../composables/useAccount';
 import type { Entity, EntryCategory, PersistedEntity } from '../lib/types/types';
 import EntryDialog from '../components/dialogue/EntryDialog.vue';
 import ProjectForm from '../components/form/ProjectForm.vue';
@@ -11,7 +11,7 @@ import { useEntryModal } from '../composables/useEntryModal';
 
 const emit = defineEmits(['complete'])
 const { resume, selectEntries } = useResumeBuilder();
-const { addEntry, updateEntry, deleteEntry } = useUser();
+const { addEntry, updateEntry, deleteEntry } = useAccount();
 const { modalMode, action, useAction, resetEditingEntries, editProject, editEducation, editExperience } = useEntryModal();
 
 const selectedIds = ref<number[]>([])

@@ -1,4 +1,4 @@
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import api from "../lib/services/api";
 import type { User } from "../lib/types/types";
 

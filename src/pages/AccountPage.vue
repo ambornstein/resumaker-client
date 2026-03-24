@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import { useUser } from '../composables/useUser';
+import { useRouter } from 'vue-router';
+import { useAccount } from '../composables/useAccount';
 
-const { user, updateAccount } = useUser();
+const { account, updateAccount } = useAccount();
+
+const router = useRouter();
+
+if (!!account.value) router.back()
 </script>
 
 <template>
@@ -10,19 +15,19 @@ const { user, updateAccount } = useUser();
         <h2>Your Profile</h2>
         <h3>Information</h3>
         <div className="split-column">
-            <label>First Name</label><input type="text" v-model="user.firstName" />
-            <label>Last Name</label><input type="text" v-model="user.lastName" />
-            <label>Location</label><input type="text" v-model="user.location"/>
-            <label>US Citizen</label><input type="checkbox" v-model="user.USCitizen"/>
+            <label>First Name</label><input type="text" v-model="account!.firstName" />
+            <label>Last Name</label><input type="text" v-model="account!.lastName" />
+            <label>Location</label><input type="text" v-model="account!.location"/>
+            <label>US Citizen</label><input type="checkbox" v-model="account!.USCitizen"/>
         </div>
         <h3>Contact Information</h3>
         <div className="split-column">
-            <label>Email</label><input id="email" type="email" v-model="user.email" />
-            <label>Website</label><input id="websiteLink" type="url" v-model="user.website"/>
-            <label>LinkedIn</label><input id="linkedInLink" type="url" v-model="user.linkedInLink" />
-            <label>GitHub</label><input id="githubLink" type="url" v-model="user.githubLink" />
-            <label>Phone Number</label><input id="phoneNumber" type="tel" v-model="user.phoneNumber"/>
+            <label>Email</label><input id="email" type="email" v-model="account!.email" />
+            <label>Website</label><input id="websiteLink" type="url" v-model="account!.website"/>
+            <label>LinkedIn</label><input id="linkedInLink" type="url" v-model="account!.linkedInLink" />
+            <label>GitHub</label><input id="githubLink" type="url" v-model="account!.githubLink" />
+            <label>Phone Number</label><input id="phoneNumber" type="tel" v-model="account!.phoneNumber"/>
         </div>
-        <button className="w-md" @click="updateAccount(user!)">Save</button>
+        <button className="w-md" @click="updateAccount(account!)">Save</button>
     </div>
 </template>

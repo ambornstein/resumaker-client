@@ -22,7 +22,6 @@ const credentials = {
 const registration = {
     firstName: '',
     lastName: '',
-    username: '',
     email: '',
     password: '',
     roles: ['user']
@@ -37,7 +36,6 @@ async function handleLogin(event: SubmitEvent) {
 }
 
 async function handleSignup(event: SubmitEvent) {
-    registration.username = `${registration.firstName.toLowerCase()}_${registration.lastName.toLowerCase()}`
     register(registration).then(result => {
         if (result.status == 200) {
             router.push('/')

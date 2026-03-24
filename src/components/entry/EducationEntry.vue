@@ -6,6 +6,6 @@ defineProps<{ data: EducationEntry }>()
 <template>
     <div className="entry-panel">
         <p>{{ data.degree }}</p>
-        <p>{{ data.school }}</p>
+        <p>{{ data.schoolName }}</p>
     </div>
 </template>

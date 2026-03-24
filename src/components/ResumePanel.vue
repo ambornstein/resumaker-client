@@ -5,7 +5,7 @@ import ProjectEntry from './entry/ProjectEntry.vue';
 import { useRoute } from 'vue-router';
 import { useResumeBuilder } from '../composables/useResumeBuilder';
 import { useEntryModal } from '../composables/useEntryModal';
-import { useUser } from '../composables/useUser';
+import { useAccount } from '../composables/useAccount';
 import { usePDFBuilder } from '../composables/usePDFBuilder';
 import api from '../lib/services/api';
 import SkillBox from './SkillBox.vue';
@@ -14,7 +14,7 @@ const route = useRoute();
 const { openCategory } = useEntryModal();
 
 const { resume, fetchResume } = useResumeBuilder();
-const { user } = useUser();
+const { account } = useAccount();
 const { createPDF } = usePDFBuilder();
 
 fetchResume(route.params.id ?? 1)
@@ -27,18 +27,15 @@ async function saveResume() {
 
 <template>
     <div className="flex flex-col gap-2 min-w-75 w-[40%]">
-        <h2>Layout and Style</h2>
-
-
         <h2>Profile Info</h2>
 
         <div className="split-column">
-            <input type="checkbox" id="email" v-show="user?.email"><label for="email">Include Email</label>
-            <input type="checkbox" id="site" v-show="user?.website"><label for="site">Include Website</label>
-            <input type="checkbox" id="phone" v-show="user?.phoneNumber"><label for="phone">Include Phone Number</label>
-            <input type="checkbox" id="linkedIn" v-show="user?.linkedInLink"><label for="linkedIn">Include
+            <input type="checkbox" id="email"><label for="email">Include Email</label>
+            <input type="checkbox" id="site"><label for="site">Include Website</label>
+            <input type="checkbox" id="phone"><label for="phone">Include Phone Number</label>
+            <input type="checkbox" id="linkedIn"><label for="linkedIn">Include
                 LinkedIn</label>
-            <input type="checkbox" id="github" v-show="user?.githubLink"><label for="github">Include GitHub</label>
+            <input type="checkbox" id="github"><label for="github">Include GitHub</label>
         </div>
 
         <h2>Contents</h2>
@@ -69,7 +66,7 @@ async function saveResume() {
             <ProjectEntry v-for="value in resume?.projects" :data="value" />
             <button @click="openCategory('projects')">Add</button>
         </div>
-        <button className="text-lg text-emerald-500 mt-4" @click="createPDF(resume!, user!)">Save As PDF</button>
+        <button className="text-lg text-emerald-500 mt-4" @click="createPDF(resume!, account!)">Save As PDF</button>
         <button className="text-lg text-emerald-500 mt-4" @click="saveResume">Save Resume</button>
     </div>
 </template>

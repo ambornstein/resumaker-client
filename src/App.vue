@@ -1,16 +1,10 @@
 <script setup lang="ts">
 import Modal from './components/Modal.vue';
-import { useUser } from './composables/useUser';
 import EntryView from './views/EntryView.vue';
 import { useEntryModal } from './composables/useEntryModal';
 import AuthControls from './components/AuthControls.vue';
 
-const { fetchUserData } = useUser();
-
 const { showModal, closeModal } = useEntryModal()
-
-fetchUserData()
-
 </script>
 
 <template>

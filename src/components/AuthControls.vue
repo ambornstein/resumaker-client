@@ -7,7 +7,7 @@ const { isLoggedIn, user, logout } = useAuth();
 
 <template>
     <div v-if="isLoggedIn" className="flex gap-2 items-center">
-        <p>{{ user!.username }}</p>
+        <RouterLink to="/profile">{{ user!.username }}</RouterLink>
         <button @click="logout">Log Out</button>
     </div>
     <div v-else className="flex gap-2">

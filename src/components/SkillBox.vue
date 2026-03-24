@@ -22,7 +22,7 @@ defineEmits(['deleteSelf'])
             </div>
 
             <input className="border-0 bg-transparent" type="text" placeholder="Skill"
-                @keydown.enter="e => skillCategory.skills.push(e.target.value)" />
+                @keydown.enter="e => skillCategory.skills.push(e.target!.value)" />
         </div>
     </div>
 </template>
