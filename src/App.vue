@@ -3,6 +3,7 @@ import Modal from './components/Modal.vue';
 import { useUser } from './composables/useUser';
 import EntryView from './views/EntryView.vue';
 import { useEntryModal } from './composables/useEntryModal';
+import AuthControls from './components/AuthControls.vue';
 
 const { fetchUserData } = useUser();
 
@@ -17,17 +18,10 @@ fetchUserData()
     <EntryView />
   </Modal>
   <div className="w-full">
-    <nav className="bg-neutral-900 h-16">
-      <div className="container m-auto flex justify-between">
+    <nav className="flex flex-col m-auto h-16 bg-neutral-900">
+      <div class="container flex justify-between m-auto">
         <h1>ResuMaker</h1>
-        <div className="flex gap-2">
-          <RouterLink to="/sign-in" className="w-fit highlight">
-            <button>Log In</button>
-          </RouterLink>
-          <RouterLink to="/sign-in" className="w-fit">
-            <button>Create Account</button>
-          </RouterLink>
-        </div>
+        <AuthControls />
       </div>
     </nav>
     <div className="container m-auto pt-[2em]">
