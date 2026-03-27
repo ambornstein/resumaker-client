@@ -7,18 +7,26 @@ const account = ref<Account | null>();
 const { user } = useAuth();
 
 export function useAccount() {
-    if (user.value) {
-        fetchAccount(user.value!.id)
-    }
-    else detachAccount()
+
+    if (account.value == null && user.value) fetchAccount(user.value!.id)
 
     async function fetchAccount(id: number) {
         const result = await api.get(`/api/accounts/${id}`);
         account.value = result.data
     }
 
-    async function detachAccount() {
-        account.value = null
+    async function createResume() {
+        const result = await api.post(`/api/accounts/${account.value!.id}/resumes`, { label: "Software Engineer Intern", skills: { skillCategories: [] } })
+
+        account.value! = result.data
+        return result;
+    }
+
+    async function deleteResume(id: number) {
+        const result = await api.delete(`/api/accounts/${account.value!.id}/resumes/` + id)
+
+        account.value! = result.data
+        return result;
     }
 
     async function updateAccount(account: Account) {
@@ -44,23 +52,30 @@ export function useAccount() {
                 break;
         }
 
-        console.log(index);
+        return updatedEntry.data
     }
 
-    async function addEntry(entryCategory: EntryCategory, entry: Entity) {
-        const createdEntry = await api.post(`/api/accounts/${account.value!.id}/${entryCategory}`, entry)
+    async function addEntry(entryCategory: EntryCategory, index: number) {
+        let createdEntry;
 
         switch (entryCategory) {
             case 'experience':
-                account.value!.workExperiences.push(createdEntry.data as WorkExperienceEntry);
+                createdEntry = await api.post(`/api/accounts/${account.value!.id}/${entryCategory}`, account.value!.workExperiences[index])
+
+                account.value!.workExperiences.splice(index, 1, createdEntry.data as WorkExperienceEntry);
                 break;
             case 'education':
-                account.value!.educationEntries.push(createdEntry.data as EducationEntry);
+                createdEntry = await api.post(`/api/accounts/${account.value!.id}/${entryCategory}`, account.value!.educationEntries[index])
+
+                account.value!.educationEntries.splice(index, 1, createdEntry.data as EducationEntry);
                 break;
             case 'projects':
-                account.value!.projects.push(createdEntry.data as ProjectEntry);
+                createdEntry = await api.post(`/api/accounts/${account.value!.id}/${entryCategory}`, account.value!.projects[index])
+
+                account.value!.projects.splice(index, 1, createdEntry.data as ProjectEntry);
                 break;
         }
+        return createdEntry.data;
     }
 
     async function deleteEntry(entryCategory: EntryCategory, id: number) {
@@ -79,5 +94,5 @@ export function useAccount() {
         }
     }
 
-    return { account, fetchAccount, detachAccount, addEntry, updateEntry, deleteEntry, updateAccount }
+    return { account, fetchAccount, createResume, deleteResume, addEntry, updateEntry, deleteEntry, updateAccount }
 }

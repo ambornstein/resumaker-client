@@ -13,7 +13,7 @@ const { showModal, closeModal } = useEntryModal()
   </Modal>
   <div className="w-full">
     <nav className="flex flex-col m-auto h-16 bg-neutral-900">
-      <div class="container flex justify-between m-auto">
+      <div class="container flex justify-between items-end m-auto">
         <h1>ResuMaker</h1>
         <AuthControls />
       </div>

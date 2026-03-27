@@ -75,8 +75,16 @@
     outline: 4px auto -webkit-focus-ring-color;
   }
 
-  input {
-    @apply border border-zinc-500 bg-zinc-800 p-2 rounded-md;
+  input, textarea {
+    @apply border border-zinc-500 bg-zinc-900/70 p-1 rounded-md;
+  }
+
+  textarea {
+    @apply min-h-10 max-h-28;
+  }
+
+  input:disabled, textarea:disabled, button:disabled {
+    @apply bg-slate-800 text-zinc-400
   }
 
   title {
@@ -118,7 +126,7 @@
   }
 
   .bullet-container {
-    @apply flex flex-col gap-4 pb-4;
+    @apply flex flex-col gap-2;
   }
 
   .entry-chip {
@@ -130,6 +138,6 @@
   }
 
   .split-column {
-    @apply grid grid-cols-[max-content_auto] gap-y-2 gap-x-4 max-w-md items-center
+    @apply grid grid-cols-[125px_auto] gap-y-2 gap-x-4 items-start auto-rows-min
   }
 }

@@ -11,10 +11,10 @@ const { isLoggedIn, user, logout } = useAuth();
         <button @click="logout">Log Out</button>
     </div>
     <div v-else className="flex gap-2">
-        <RouterLink to="/sign-in" className="w-fit highlight">
+        <RouterLink to="/sign-in">
             <button>Log In</button>
         </RouterLink>
-        <RouterLink to="/sign-in" className="w-fit">
+        <RouterLink to="/sign-in">
             <button>Create Account</button>
         </RouterLink>
     </div>

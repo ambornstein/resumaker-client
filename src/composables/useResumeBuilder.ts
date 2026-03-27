@@ -18,6 +18,8 @@ export function useResumeBuilder() {
     async function fetchResume(id: number) {
         const result = await api.get(`/api/resumes/${id}`)
         updateResume(result.data)
+
+        return result
     }
 
     async function updateResume(resumeData: Resume) {
@@ -30,6 +32,10 @@ export function useResumeBuilder() {
         await serviceMap.get(entryType)!.updateLinkedEntries(resume.value!.id, ids)
         return fetchResume(resume.value!.id)
     }
+
+    async function saveResume() {
+        return api.put(`/api/resumes/${resume.value!.id}`, resume.value)
+    }
     
-    return {resume, selectEntries, updateResume, fetchResume}
+    return {resume, selectEntries, updateResume, fetchResume, saveResume}
 }

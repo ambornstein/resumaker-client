@@ -14,7 +14,7 @@ export type Account = PersistedEntity & {
   githubLink?: string
 }
 
-export type EntryCategory = 'experience' | 'education' | 'projects';
+export type EntryCategory = 'work' | 'education' | 'projects';
 export type EntryAction = 'select' | 'create';
 
 export type Resume = PersistedEntity & {
@@ -40,6 +40,7 @@ export type Entity = {
 export type WorkExperienceEntry = Entity & {
   title: string,
   company: string,
+  location: string,
   startDate: string,
   endDate?: string,
   current: boolean,

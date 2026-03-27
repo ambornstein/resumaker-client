@@ -1,26 +1,26 @@
 <script setup lang="ts">
-import ExperienceEntry from './entry/ExperienceEntry.vue';
-import EducationEntry from './entry/EducationEntry.vue';
-import ProjectEntry from './entry/ProjectEntry.vue';
-import { useRoute } from 'vue-router';
+import ExperienceCard from './entry/ExperienceCard.vue';
+import EducationCard from './entry/EducationCard.vue';
+import ProjectCard from './entry/ProjectCard.vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useResumeBuilder } from '../composables/useResumeBuilder';
 import { useEntryModal } from '../composables/useEntryModal';
 import { useAccount } from '../composables/useAccount';
 import { usePDFBuilder } from '../composables/usePDFBuilder';
-import api from '../lib/services/api';
 import SkillBox from './SkillBox.vue';
 
 const route = useRoute();
+const router = useRouter();
 const { openCategory } = useEntryModal();
 
-const { resume, fetchResume } = useResumeBuilder();
+const { resume, fetchResume, saveResume } = useResumeBuilder();
 const { account } = useAccount();
 const { createPDF } = usePDFBuilder();
 
-fetchResume(route.params.id ?? 1)
-
-async function saveResume() {
-    await api.put('/api/resumes/1', resume.value)
+if (route.params.id == null) {
+    router.push('/dashboard')
+} else {
+    fetchResume(route.params.id!)
 }
 
 </script>
@@ -42,7 +42,7 @@ async function saveResume() {
 
         <h3>Education</h3>
         <div className="vert-list">
-            <EducationEntry v-for="value in resume?.educationHistory" :data="value" />
+            <EducationCard v-for="value in resume?.educationHistory" :data="value" />
             <button @click="openCategory('education')">Add</button>
         </div>
 
@@ -57,13 +57,13 @@ async function saveResume() {
 
         <h3>Experience</h3>
         <div className="vert-list">
-            <ExperienceEntry v-for="value in resume?.workHistory" :data="value" />
-            <button @click="openCategory('experience')">Add</button>
+            <ExperienceCard v-for="value in resume?.workHistory" :data="value" />
+            <button @click="openCategory('work')">Add</button>
         </div>
 
         <h3>Projects</h3>
         <div className="vert-list">
-            <ProjectEntry v-for="value in resume?.projects" :data="value" />
+            <ProjectCard v-for="value in resume?.projects" :data="value" />
             <button @click="openCategory('projects')">Add</button>
         </div>
         <button className="text-lg text-emerald-500 mt-4" @click="createPDF(resume!, account!)">Save As PDF</button>

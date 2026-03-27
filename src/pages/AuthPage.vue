@@ -8,11 +8,7 @@ type AuthMode = "login" | "signup"
 const authMode = ref<AuthMode>("login")
 
 const router = useRouter()
-const { login, logout, register } = useAuth();
-
-function setMode(mode: AuthMode) {
-    authMode.value = mode
-}
+const { login, register } = useAuth();
 
 const credentials = {
     email: '',
@@ -30,7 +26,7 @@ const registration = {
 async function handleLogin(event: SubmitEvent) {
     login(credentials).then(result => {
         if (result.status == 200) {
-            router.push('/')
+            router.push('/dashboard')
         }
     })
 }
@@ -38,7 +34,7 @@ async function handleLogin(event: SubmitEvent) {
 async function handleSignup(event: SubmitEvent) {
     register(registration).then(result => {
         if (result.status == 200) {
-            router.push('/')
+            authMode.value = "login"
         }
     })
 }
@@ -48,9 +44,17 @@ async function handleSignup(event: SubmitEvent) {
     <div className="max-w-lg m-auto">
         <div className="flex flex-col gap-2 p-12 border-light bg-zinc-800">
             <h2 className="text-center">Sign In To ResuMaker</h2>
-            <div className="flex w-full gap-2 mt-8">
-                <button className="flex-1" @click="setMode('login')">Log In</button>
-                <button className="flex-1" @click="setMode('signup')">Sign Up</button>
+            <div className="flex flex-row w-full gap-2 mt-8">
+                <label className="w-full text-center border-light has-checked:border-highlight has-checked:bg-highlight/40 hover:bg-highlight/80" for="login">
+                    Log In
+                    <input id="login" className="hidden" type="radio" value="login" name="authSelect"
+                        v-model="authMode" />
+                </label>
+                <label className="w-full text-center border-light has-checked:border-highlight has-checked:bg-highlight/40 hover:bg-highlight/80">
+                    Sign Up
+                    <input id="signup" className="hidden" type="radio" value="signup" name="authSelect"
+                        v-model="authMode" />
+                </label>
             </div>
 
             <form @submit.prevent="handleLogin" v-if="authMode === 'login'" className="flex flex-col gap-2">
