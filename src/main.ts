@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage.vue'
 import AuthPage from './pages/AuthPage.vue'
 import DashboardPage from './pages/DashboardPage.vue'
 import ProfilePage from './pages/ProfilePage.vue'
+import { useAccount } from './composables/useAccount'
 
 const routes = [
   { path: '/', component: HomePage },
@@ -15,6 +16,8 @@ const routes = [
   { path: '/profile', component: ProfilePage },
   { path: '/sign-in', component: AuthPage }
 ]
+
+const {account} = useAccount()
 
 const router = createRouter({
   history: createMemoryHistory(),
@@ -27,6 +30,14 @@ const router = createRouter({
     }
   },
   routes
+})
+
+router.beforeEach((to, from) => {
+  if(account.value) {
+    account.value.educationEntries = account.value.educationEntries.filter((e) => e.id)
+    account.value.workExperiences = account.value.workExperiences.filter((e) => e.id)
+    account.value.projects = account.value.projects.filter((e) => e.id)
+  }
 })
 
 const app = createApp(App)

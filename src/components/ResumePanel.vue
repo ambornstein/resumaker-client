@@ -8,12 +8,13 @@ import { useEntryModal } from '../composables/useEntryModal';
 import { useAccount } from '../composables/useAccount';
 import { usePDFBuilder } from '../composables/usePDFBuilder';
 import SkillBox from './SkillBox.vue';
+import { watch } from 'vue';
 
 const route = useRoute();
 const router = useRouter();
 const { openCategory } = useEntryModal();
 
-const { resume, fetchResume, saveResume } = useResumeBuilder();
+const { resume, fetchResume } = useResumeBuilder();
 const { account } = useAccount();
 const { createPDF } = usePDFBuilder();
 
@@ -23,13 +24,19 @@ if (route.params.id == null) {
     fetchResume(route.params.id!)
 }
 
+watch(() => resume, (oldValue, newValue) => {
+    if (newValue.value) {
+        createPDF(newValue.value, account.value!)
+    }
+})
+
 </script>
 
 <template>
     <div className="flex flex-col gap-2 min-w-75 w-[40%]">
         <h2>Profile Info</h2>
 
-        <div className="split-column">
+        <div className="grid grid-cols-[min-content_1fr] gap-x-4">
             <input type="checkbox" id="email"><label for="email">Include Email</label>
             <input type="checkbox" id="site"><label for="site">Include Website</label>
             <input type="checkbox" id="phone"><label for="phone">Include Phone Number</label>
@@ -43,7 +50,7 @@ if (route.params.id == null) {
         <h3>Education</h3>
         <div className="vert-list">
             <EducationCard v-for="value in resume?.educationHistory" :data="value" />
-            <button @click="openCategory('education')">Add</button>
+            <button @click="openCategory('education')">Select</button>
         </div>
 
         <h3>Skills</h3>
@@ -58,15 +65,14 @@ if (route.params.id == null) {
         <h3>Experience</h3>
         <div className="vert-list">
             <ExperienceCard v-for="value in resume?.workHistory" :data="value" />
-            <button @click="openCategory('work')">Add</button>
+            <button @click="openCategory('work')">Select</button>
         </div>
 
         <h3>Projects</h3>
         <div className="vert-list">
             <ProjectCard v-for="value in resume?.projects" :data="value" />
-            <button @click="openCategory('projects')">Add</button>
+            <button @click="openCategory('projects')">Select</button>
         </div>
         <button className="text-lg text-emerald-500 mt-4" @click="createPDF(resume!, account!)">Save As PDF</button>
-        <button className="text-lg text-emerald-500 mt-4" @click="saveResume">Save Resume</button>
     </div>
 </template>

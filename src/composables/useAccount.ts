@@ -38,7 +38,7 @@ export function useAccount() {
 
         let index;
         switch (entryCategory) {
-            case 'experience':
+            case 'work':
                 index = account.value!.workExperiences.findIndex((data) => entry.id == data.id)
                 account.value!.workExperiences[index] = entry as WorkExperienceEntry
                 break;
@@ -59,7 +59,7 @@ export function useAccount() {
         let createdEntry;
 
         switch (entryCategory) {
-            case 'experience':
+            case 'work':
                 createdEntry = await api.post(`/api/accounts/${account.value!.id}/${entryCategory}`, account.value!.workExperiences[index])
 
                 account.value!.workExperiences.splice(index, 1, createdEntry.data as WorkExperienceEntry);
@@ -82,7 +82,7 @@ export function useAccount() {
         await api.delete(`/api/accounts/${account.value!.id}/${entryCategory}/${id}`)
 
         switch (entryCategory) {
-            case 'experience':
+            case 'work':
                 account.value!.workExperiences = account.value!.workExperiences.filter((i) => i.id != id)
                 break;
             case 'education':

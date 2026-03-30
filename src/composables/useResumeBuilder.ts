@@ -7,12 +7,12 @@ const resume = ref<Resume>();
 
 export function useResumeBuilder() {
     const projectService = new EntryService("projects");
-    const experienceService = new EntryService("experience");
+    const experienceService = new EntryService("work");
     const educationService = new EntryService("education");
 
     let serviceMap = new Map<EntryCategory, EntryService>()
     serviceMap.set("projects", projectService)
-    serviceMap.set("experience", experienceService)
+    serviceMap.set("work", experienceService)
     serviceMap.set("education", educationService)
 
     async function fetchResume(id: number) {

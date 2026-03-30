@@ -27,34 +27,40 @@ async function handleUpdate() {
 const mutable = computed(() => !!!props.editingEducation.id || editing.value)
 </script>
 <template>
-    <form @submit.prevent="handleUpdate" className="flex items-center gap-4 p-4 bg-zinc-900">
-        <div className="grid grid-cols-6 gap-2">
-            <label className="col-span-2" for="degree">Degree
-                <input className="w-full" id="degree" type='text' v-model="editingEducation.degree" :disabled="!mutable">
+    <form @submit.prevent="handleUpdate" className="flex items-center gap-4 p-4">
+        <div className="grid grid-cols-6 gap-2 w-sm">
+            <label className="col-span-4" for="degree">Degree
+                <input className="w-full" id="degree" type='text' v-model="editingEducation.degree"
+                    :disabled="!mutable">
             </label>
-            <label className="col-span-2" for="school">School
-                <input className="w-full" id="school" type='text' v-model="editingEducation.schoolName" :disabled="!mutable">
+            <div className="col-span-2 flex w-full gap-2 place-content-end items-end">
+                <button v-if="mutable" className="size-full" type="submit">Save</button>
+                <div v-else className="contents">
+                    <input type="image" className="size-9 aspect-square p-1" src="/src/assets/edit.png"
+                        @click="editing = true" />
+                    <input type="image" className="size-9 aspect-square p-1" src="/src/assets/close.png"
+                        @click.prevent="handleDeleteEntry" />
+                </div>
+            </div>
+            <label className="col-span-3" for="school">School
+                <input className="w-full" id="school" type='text' v-model="editingEducation.schoolName"
+                    :disabled="!mutable">
             </label>
-            <label className="col-span-2" for="location">Location
-                <input className="w-full" id="location" type='text' v-model="editingEducation.location" :disabled="!mutable">
+            <label className="col-span-3" for="location">Location
+                <input className="w-full" id="location" type='text' v-model="editingEducation.location"
+                    :disabled="!mutable">
             </label>
             <label className="col-span-3" for="start">Start Date
-                <input className="w-full" id="start" type='month' v-model="editingEducation.startDate" :disabled="!mutable">
+                <input className="w-full" id="start" type='month' v-model="editingEducation.startDate"
+                    :disabled="!mutable">
             </label>
             <label className="col-span-3" for="end" v-if="!editingEducation.current">End Date
                 <input v-if="!editingEducation.current" className="w-full" id="end" type='month'
-                    v-model="editingEducation.endDate" :disabled="!mutable"/>
+                    v-model="editingEducation.endDate" :disabled="!mutable" />
             </label>
-            <label className="col-span-full flex gap-2">
-                <input type="checkbox" v-model="editingEducation.current" :disabled="!mutable">Is Current
+            <label for="current" className="col-span-full underline flex gap-2 has-disabled:cursor-not-allowed">
+                <input type="checkbox" id="current" v-model="editingEducation.current" :disabled="!mutable">Is Current
             </label>
-        </div>
-        <button v-if="mutable" type="submit">Save</button>
-        <div v-else className="flex flex-col gap-2 max-w-14">
-            <input type="image" className="aspect-square size-14 p-1" src="/src/assets/close.png"
-                @click.prevent="handleDeleteEntry" />
-            <input type="image" className="aspect-square size-14 p-1" src="/src/assets/edit.png"
-                @click="editing = true" />
         </div>
     </form>
 </template>

@@ -37,7 +37,7 @@ const defaultTemplate: ResumeStyleTemplate = {
 
 
 export function usePDFBuilder() {
-    const doc = new jsPDF({
+    let doc = new jsPDF({
         orientation: "portrait",
         unit: "mm",
         format: "a4",
@@ -55,6 +55,12 @@ export function usePDFBuilder() {
     }
 
     function createPDF(resume: Resume, account: Account) {
+        doc = new jsPDF({
+            orientation: "portrait",
+            unit: "mm",
+            format: "a4",
+        });
+
         template = defaultTemplate
         cursor = { x: template.margin.left, y: template.margin.right };
         maxTextWidth = pageWidth - leftMargin - rightMargin;
@@ -110,7 +116,7 @@ export function usePDFBuilder() {
         createText("Skills", false, template.headerStyle.indentAmount)
 
         drawHorizontalLine()
-        
+
         skills.skillCategories.forEach((value) => {
             setFontStyle(template.textStyle)
             setFontMode('bold')

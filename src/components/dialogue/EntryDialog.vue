@@ -11,10 +11,15 @@ const { modalMode, closeModal } = useEntryModal()
 const router = useRouter();
 
 function navigate() {
-    console.log(modalMode.value)
-    router.push({ path: '/profile', query: { section: String(modalMode.value) } })
+    router.push(`/profile#${String(modalMode.value)}`)
     closeModal()
 }
+
+function submit() {
+    emit('confirmSelection')
+    closeModal()
+}
+
 </script>
 
 <template>
@@ -29,7 +34,7 @@ function navigate() {
         </div>
         <div className="flex flex-row gap-4 float-right ">
             <button @click="navigate">Create New</button>
-            <button @click="emit('confirmSelection')">Submit</button>
+            <button @click="submit">Submit</button>
         </div>
     </div>
 </template>

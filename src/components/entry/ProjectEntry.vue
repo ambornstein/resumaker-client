@@ -27,36 +27,39 @@ async function handleUpdate() {
 const mutable = computed(() => !!!props.editingProject.id || editing.value)
 </script>
 <template>
-    <form @submit.prevent="handleUpdate" className=" flex items-center gap-4 p-4 bg-zinc-900">
-        <div className="w-full flex flex-col gap-2">
-            <label for="title">Title
+    <form @submit.prevent="handleUpdate" className=" flex items-center gap-4 p-4 bg-zinc-900 *:disabled:cursor-not-allowed">
+        <div className="grid grid-cols-6 gap-2 w-sm">
+            <label className="col-span-4" for="title">Title
                 <input className="w-full" id="title" type='text' v-model="editingProject.title" :disabled="!mutable">
             </label>
-            <label for="description">Description
+            <div className="col-span-2 flex w-full gap-2 place-content-end items-end">
+                <button v-if="mutable" className="w-full" type="submit">Save</button>
+                <div v-else className="contents">
+                    <input type="image" className="aspect-square size-9 p-1" src="/src/assets/edit.png"
+                        @click="editing = true" />
+                    <input type="image" className="aspect-square size-9 p-1" src="/src/assets/close.png"
+                        @click.prevent="handleDeleteEntry" />
+                </div>
+            </div>
+            <label className="col-span-full" for="description">Description
                 <textarea className="w-full" id="description" type='text' v-model="editingProject.description"
                     :disabled="!mutable"></textarea>
             </label>
-            <div className="bullet-container w-full">
-                <p className="underline font-semibold">Bullet Points</p>
+            <div className="bullet-container col-span-full mt-2">
+                <h3 className="font-semibold tracking-wider text-center">Bullet Points</h3>
                 <div className="flex flex-row gap-2 w-full items-center"
                     v-for="(value, index) in editingProject.bulletPoints">
                     <textarea rows="2" className="w-full" v-model="editingProject.bulletPoints[index]" type="text"
                         :disabled="!mutable" />
-                    <input type="image" className="aspect-square size-8 p-1" src="/src/assets/close.png"
+                    <input type="image" className="aspect-square size-8 p-1 disabled:cursor-not-allowed" src="/src/assets/close.png"
                         @click.prevent="editingProject.bulletPoints.splice(index, 1)" :disabled="!mutable" />
                 </div>
                 <button @click.prevent="editingProject.bulletPoints.push('Used x to accomplish y by doing z')"
-                    :disabled="!mutable">Add
+                    :disabled="!mutable" className="disabled:cursor-not-allowed">Add
                     Bullet</button>
             </div>
         </div>
 
-        <button v-if="mutable" type="submit">Save</button>
-        <div v-else className="flex flex-col gap-2 max-w-14">
-            <input type="image" className="aspect-square size-14 p-1" src="/src/assets/close.png"
-                @click.prevent="handleDeleteEntry" />
-            <input type="image" className="aspect-square size-14 p-1" src="/src/assets/edit.png"
-                @click="editing = true" />
-        </div>
+
     </form>
 </template>
