@@ -42,8 +42,8 @@ watch(() => modalMode.value, updateEntries)
     <Suspense>
         <EntryDialog @confirmSelection="handleSelect">
             <template #option="data" v-if="modalMode == 'projects'">
-                <div className="entry-chip">
-                    <label :for="data.title" className="entry-label">
+                <div className="entry-chip highlight-checked">
+                    <label :for="data.title" className="flex flex-row gap-4">
                         <input :id="data.title" type="checkbox" :value="data.id" v-model="selectedIds" />
                         <div className="inline-block">
                             <p>{{ data.title }}</p>
@@ -53,8 +53,8 @@ watch(() => modalMode.value, updateEntries)
             </template>
 
             <template #option="data" v-else-if="modalMode == 'education'">
-                <div className="entry-chip">
-                    <label :for="data.degree" className="entry-label">
+                <div className="entry-chip highlight-checked">
+                    <label :for="data.degree" className="flex flex-row gap-4">
                         <input :id="data.degree" type="checkbox" :value="data.id" v-model="selectedIds" />
                         <div className="inline-block">
                             <p>{{ data.degree }}</p>
@@ -65,8 +65,8 @@ watch(() => modalMode.value, updateEntries)
             </template>
 
             <template #option="data" v-else-if="modalMode == 'work'">
-                <div className="entry-chip">
-                    <label :for="data.title + data.id" className="entry-label">
+                <div className="entry-chip highlight-checked">
+                    <label :for="data.title + data.id" className="flex flex-row gap-4">
                         <input :id="data.title + data.id" type="checkbox" :value="data.id" v-model="selectedIds" />
                         <div className="inline-block">
                             <p>{{ data.title }}</p>

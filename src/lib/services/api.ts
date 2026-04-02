@@ -1,6 +1,9 @@
 import axios from "axios";
-import authHeader from "./auth-header";
+import authHeader from "./authHeader";
 
-const api = axios.create({baseURL: 'http://localhost:8080', headers: authHeader()})
+const api = axios.create({
+  baseURL: "http://localhost:8080",
+  headers: authHeader(),
+});
 
 export default api;

@@ -4,7 +4,7 @@ import type { ProjectEntry } from '../../lib/types/types';
 defineProps<{ data: ProjectEntry }>()
 </script>
 <template>
-    <div className="entry-panel">
+    <div className="panel rounded-md">
         <p>{{ data.title }}</p>
         <p>{{ data.description }}</p>
         <details name="Bullet Points">

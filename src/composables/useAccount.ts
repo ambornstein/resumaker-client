@@ -1,98 +1,159 @@
-import { ref } from "vue";
-import type { Account, EducationEntry, Entity, EntryCategory, WorkExperienceEntry, PersistedEntity, ProjectEntry } from "../lib/types/types";
-import api from "../lib/services/api";
-import { useAuth } from "./useAuth";
+import { ref } from 'vue'
+import type {
+  Account,
+  EducationEntry,
+  Entity,
+  EntryCategory,
+  WorkExperienceEntry,
+  PersistedEntity,
+  ProjectEntry,
+} from '../lib/types/types'
+import api from '../lib/services/api'
+import { useAuth } from './useAuth'
 
-const account = ref<Account | null>();
-const { user } = useAuth();
+const account = ref<Account | null>()
+const { user } = useAuth()
 
 export function useAccount() {
+  if (account.value == null && user.value) fetchAccount(user.value!.id)
 
-    if (account.value == null && user.value) fetchAccount(user.value!.id)
+  async function fetchAccount(id: number) {
+    const result = await api.get(`/api/accounts/${id}`)
+    account.value = result.data
+  }
 
-    async function fetchAccount(id: number) {
-        const result = await api.get(`/api/accounts/${id}`);
-        account.value = result.data
+  async function createResume(data: any) {
+    const result = await api.post(
+      `/api/accounts/${account.value!.id}/resumes`,
+      data
+    )
+
+    account.value! = result.data
+    return result
+  }
+
+  async function deleteResume(id: number) {
+    const result = await api.delete(
+      `/api/accounts/${account.value!.id}/resumes/` + id
+    )
+
+    account.value! = result.data
+    return result
+  }
+
+  async function updateAccount(account: Account) {
+    await api.put(`/api/accounts/${account.id}`, account)
+  }
+
+  async function updateEntry(
+    entryCategory: EntryCategory,
+    entry: PersistedEntity
+  ) {
+    const updatedEntry = await api.put(
+      `/api/${entryCategory}/${entry.id}`,
+      entry
+    )
+
+    let index
+    switch (entryCategory) {
+      case 'work':
+        index = account.value!.workExperiences.findIndex(
+          (data) => entry.id == data.id
+        )
+        account.value!.workExperiences[index] = entry as WorkExperienceEntry
+        break
+      case 'education':
+        index = account.value!.educationEntries.findIndex(
+          (data) => updatedEntry.data.id == data.id
+        )
+        account.value!.educationEntries[index] = updatedEntry.data
+        break
+      case 'projects':
+        index = account.value!.projects.findIndex(
+          (data) => updatedEntry.data.id == data.id
+        )
+        account.value!.projects[index] = updatedEntry.data
+        break
     }
 
-    async function createResume() {
-        const result = await api.post(`/api/accounts/${account.value!.id}/resumes`, { label: "Software Engineer Intern", skills: { skillCategories: [] } })
+    return updatedEntry.data
+  }
 
-        account.value! = result.data
-        return result;
+  async function addEntry(entryCategory: EntryCategory, index: number) {
+    let createdEntry
+
+    switch (entryCategory) {
+      case 'work':
+        createdEntry = await api.post(
+          `/api/accounts/${account.value!.id}/${entryCategory}`,
+          account.value!.workExperiences[index]
+        )
+
+        account.value!.workExperiences.splice(
+          index,
+          1,
+          createdEntry.data as WorkExperienceEntry
+        )
+        break
+      case 'education':
+        createdEntry = await api.post(
+          `/api/accounts/${account.value!.id}/${entryCategory}`,
+          account.value!.educationEntries[index]
+        )
+
+        account.value!.educationEntries.splice(
+          index,
+          1,
+          createdEntry.data as EducationEntry
+        )
+        break
+      case 'projects':
+        createdEntry = await api.post(
+          `/api/accounts/${account.value!.id}/${entryCategory}`,
+          account.value!.projects[index]
+        )
+
+        account.value!.projects.splice(
+          index,
+          1,
+          createdEntry.data as ProjectEntry
+        )
+        break
     }
+    return createdEntry.data
+  }
 
-    async function deleteResume(id: number) {
-        const result = await api.delete(`/api/accounts/${account.value!.id}/resumes/` + id)
+  async function deleteEntry(entryCategory: EntryCategory, id: number) {
+    await api.delete(
+      `/api/accounts/${account.value!.id}/${entryCategory}/${id}`
+    )
 
-        account.value! = result.data
-        return result;
+    switch (entryCategory) {
+      case 'work':
+        account.value!.workExperiences = account.value!.workExperiences.filter(
+          (i) => i.id != id
+        )
+        break
+      case 'education':
+        account.value!.educationEntries =
+          account.value!.educationEntries.filter((i) => i.id != id)
+        break
+      case 'projects':
+        account.value!.projects = account.value!.projects.filter(
+          (i) => i.id != id
+        )
+        break
     }
+  }
 
-    async function updateAccount(account: Account) {
-        await api.put(`/api/accounts/${account.id}`, account)
-    }
-
-    async function updateEntry(entryCategory: EntryCategory, entry: PersistedEntity) {
-        const updatedEntry = await api.put(`/api/${entryCategory}/${entry.id}`, entry)
-
-        let index;
-        switch (entryCategory) {
-            case 'work':
-                index = account.value!.workExperiences.findIndex((data) => entry.id == data.id)
-                account.value!.workExperiences[index] = entry as WorkExperienceEntry
-                break;
-            case 'education':
-                index = account.value!.educationEntries.findIndex((data) => updatedEntry.data.id == data.id)
-                account.value!.educationEntries[index] = updatedEntry.data
-                break;
-            case 'projects':
-                index = account.value!.projects.findIndex((data) => updatedEntry.data.id == data.id)
-                account.value!.projects[index] = updatedEntry.data
-                break;
-        }
-
-        return updatedEntry.data
-    }
-
-    async function addEntry(entryCategory: EntryCategory, index: number) {
-        let createdEntry;
-
-        switch (entryCategory) {
-            case 'work':
-                createdEntry = await api.post(`/api/accounts/${account.value!.id}/${entryCategory}`, account.value!.workExperiences[index])
-
-                account.value!.workExperiences.splice(index, 1, createdEntry.data as WorkExperienceEntry);
-                break;
-            case 'education':
-                createdEntry = await api.post(`/api/accounts/${account.value!.id}/${entryCategory}`, account.value!.educationEntries[index])
-
-                account.value!.educationEntries.splice(index, 1, createdEntry.data as EducationEntry);
-                break;
-            case 'projects':
-                createdEntry = await api.post(`/api/accounts/${account.value!.id}/${entryCategory}`, account.value!.projects[index])
-
-                account.value!.projects.splice(index, 1, createdEntry.data as ProjectEntry);
-                break;
-        }
-        return createdEntry.data;
-    }
-
-    async function deleteEntry(entryCategory: EntryCategory, id: number) {
-        await api.delete(`/api/accounts/${account.value!.id}/${entryCategory}/${id}`)
-
-        switch (entryCategory) {
-            case 'work':
-                account.value!.workExperiences = account.value!.workExperiences.filter((i) => i.id != id)
-                break;
-            case 'education':
-                account.value!.educationEntries = account.value!.educationEntries.filter((i) => i.id != id)
-                break;
-            case 'projects':
-                account.value!.projects = account.value!.projects.filter((i) => i.id != id)
-                break;
-        }
-    }
-
-    return { account, fetchAccount, createResume, deleteResume, addEntry, updateEntry, deleteEntry, updateAccount }
+  return {
+    account,
+    fetchAccount,
+    createResume,
+    deleteResume,
+    addEntry,
+    updateEntry,
+    deleteEntry,
+    updateAccount,
+  }
 }

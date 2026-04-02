@@ -4,7 +4,7 @@ import type { WorkExperienceEntry } from '../../lib/types/types';
 defineProps<{ data: WorkExperienceEntry }>()
 </script>
 <template>
-    <div className="entry-panel">
+    <div className="panel rounded-md">
         <p>{{ data.title }} at {{ data.company }}</p>
         <p>{{ data.startDate }} to {{ data.endDate ?? "Present" }}</p>
         <details name="Bullet Points">

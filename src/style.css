@@ -1,11 +1,33 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --color-link: #646cff;
   --color-link-hover: #535bf2;
 
   --color-highlight: var(--color-emerald-700);
-  --color-highlight-hover: var(--color-emerald-400);
+  --color-highlight-secondary: var(--color-emerald-400);
+
+  --color-error: var(--color-rose-600);
+  --color-error-secondary: var(--color-red-800);
+
+  --color-background: var(--color-neutral-950);
+  --color-foreground: var(--color-zinc-200);
+  --color-contrast: var(--color-zinc-500);
+  --color-panel: var(--color-neutral-800);
+}
+
+@layer theme {
+  @media (prefers-color-scheme: light) {
+    :root {
+      --color-background: var(--color-neutral-200);
+      --color-foreground: var(--color-slate-800);
+      --color-contrast: var(--color-slate-500);
+    }
+
+    button {
+      background-color: var(--color-neutral-100);
+    }
+  }
 }
 
 @layer base {
@@ -15,8 +37,8 @@
     font-weight: 400;
 
     color-scheme: light dark;
-    color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
+    color: var(--color-foreground);
+    background-color: var(--color-background);
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
@@ -24,34 +46,21 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  @media (prefers-color-scheme: light) {
-    :root {
-      color: #213547;
-      background-color: #ffffff;
-    }
-
-    button {
-      background-color: #f9f9f9;
-    }
+  body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0 auto;
   }
 
   a {
-    color: var(--color-link)
+    color: var(--color-link);
   }
 
   a:hover {
     color: var(--color-link-hover);
   }
 
-  body {
-    min-width: 320px;
-    min-height: 100vh;
-
-    margin: 0 auto;
-  }
-
-  button,
-  input[type=submit] {
+  button {
     border-radius: 8px;
     border: 1px solid transparent;
     padding: 0.6em 1.2em;
@@ -63,36 +72,26 @@
     transition: border-color 0.25s;
   }
 
-  button:hover,
-  input[type=submit]:hover {
+  button:hover {
     border-color: var(--link-color);
-  }
-
-  button:focus,
-  button:focus-visible,
-  input[type=submit]:focus,
-  input[type=submit]:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
-  }
-
-  input, textarea {
-    @apply border border-zinc-500 bg-zinc-900/70 p-1 rounded-md;
   }
 
   textarea {
     @apply min-h-10 max-h-28;
   }
 
-  input:disabled, textarea:disabled, button:disabled {
-    @apply bg-slate-800 text-zinc-400
+  input:disabled,
+  textarea:disabled,
+  button:disabled {
+    @apply bg-stone-900;
   }
 
   title {
-    @apply text-2xl;
+    @apply text-4xl tracking-tight;
   }
 
   h1 {
-    @apply text-3xl;
+    @apply text-3xl tracking-wider leading-8;
   }
 
   h2 {
@@ -105,39 +104,39 @@
 }
 
 @layer components {
-  .card {
-    @apply p-[2em];
-  }
-
-  .vert-list {
-    @apply flex flex-col gap-2;
+  .input-field {
+    @apply border border-contrast rounded-md p-2;
   }
 
   .border-light {
-    @apply border border-zinc-500 rounded-lg p-2;
+    @apply border-2 border-contrast rounded-lg;
+  }
+
+  .border-thick {
+    @apply border-4 border-double border-contrast rounded-lg;
   }
 
   .highlight {
     @apply hover:border hover:border-highlight transition-colors duration-300;
   }
 
-  .entry-panel {
-    @apply flex flex-col gap-1 p-2 bg-neutral-900;
-  }
-
-  .bullet-container {
-    @apply flex flex-col gap-2;
+  .panel {
+    @apply p-2 bg-panel;
   }
 
   .entry-chip {
-    @apply flex flex-row gap-4 w-full justify-between py-5 px-4 bg-neutral-800 has-checked:border-highlight;
-  }
-
-  .entry-label {
-    @apply flex flex-row gap-4
+    @apply flex flex-row gap-4 w-full justify-between px-4 py-5 bg-panel border border-contrast rounded-lg;
   }
 
   .split-column {
-    @apply grid grid-cols-[125px_auto] gap-y-2 gap-x-4 items-start auto-rows-min
+    @apply grid grid-cols-[100px_auto] gap-y-2 gap-x-4 items-center auto-rows-min;
+  }
+
+  .highlight-checked {
+    @apply has-checked:border-highlight has-checked:bg-highlight/40 hover:border-highlight-secondary hover:bg-highlight/80;
+  }
+
+  .highlight-peer {
+    @apply: peer-checked:border-highlight peer-checked:bg-highlight/40;
   }
 }

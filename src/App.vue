@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import Modal from './components/Modal.vue';
+import Modal from './components/overlay/Modal.vue';
 import EntryView from './views/EntryView.vue';
 import { useEntryModal } from './composables/useEntryModal';
-import AuthControls from './components/AuthControls.vue';
+import AuthControls from './components/sections/AuthControls.vue';
+import Snackbar from './components/overlay/Snackbar.vue';
 
 const { showModal, closeModal } = useEntryModal()
 </script>
@@ -11,8 +12,9 @@ const { showModal, closeModal } = useEntryModal()
   <Modal v-show="showModal" @close="closeModal">
     <EntryView />
   </Modal>
+  <Snackbar />
   <div className="w-full">
-    <nav className="flex flex-col m-auto h-16 bg-neutral-900">
+    <nav className="flex flex-col m-auto h-16 bg-neutral-800">
       <div class="container flex justify-between items-end m-auto">
         <h1>Résu<span className="text-rose-400">méker</span></h1>
         <AuthControls />

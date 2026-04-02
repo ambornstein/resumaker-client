@@ -27,35 +27,34 @@ async function handleUpdate() {
 const mutable = computed(() => !!!props.editingEducation.id || editing.value)
 </script>
 <template>
-    <form @submit.prevent="handleUpdate" className="flex items-center gap-4 p-4">
+    <form @submit.prevent="handleUpdate" className="flex items-center gap-4 p-4 border-light">
         <div className="grid grid-cols-6 gap-2 w-sm">
             <label className="col-span-4" for="degree">Degree
-                <input className="w-full" id="degree" type='text' v-model="editingEducation.degree"
+                <input className="w-full input-field" id="degree" type='text' v-model="editingEducation.degree"
                     :disabled="!mutable">
             </label>
             <div className="col-span-2 flex w-full gap-2 place-content-end items-end">
-                <button v-if="mutable" className="size-full" type="submit">Save</button>
+                <button v-if="mutable" className="size-full">Save</button>
                 <div v-else className="contents">
                     <input type="image" className="size-9 aspect-square p-1" src="/src/assets/edit.png"
                         @click="editing = true" />
-                    <input type="image" className="size-9 aspect-square p-1" src="/src/assets/close.png"
-                        @click.prevent="handleDeleteEntry" />
+                    <CloseIcon @click.prevent="handleDeleteEntry" />
                 </div>
             </div>
             <label className="col-span-3" for="school">School
-                <input className="w-full" id="school" type='text' v-model="editingEducation.schoolName"
+                <input className="w-full input-field" id="school" type='text' v-model="editingEducation.schoolName"
                     :disabled="!mutable">
             </label>
             <label className="col-span-3" for="location">Location
-                <input className="w-full" id="location" type='text' v-model="editingEducation.location"
+                <input className="w-full input-field" id="location" type='text' v-model="editingEducation.location"
                     :disabled="!mutable">
             </label>
             <label className="col-span-3" for="start">Start Date
-                <input className="w-full" id="start" type='month' v-model="editingEducation.startDate"
+                <input className="w-full input-field" id="start" type='month' v-model="editingEducation.startDate"
                     :disabled="!mutable">
             </label>
             <label className="col-span-3" for="end" v-if="!editingEducation.current">End Date
-                <input v-if="!editingEducation.current" className="w-full" id="end" type='month'
+                <input v-if="!editingEducation.current" className="w-full input-field" id="end" type='month'
                     v-model="editingEducation.endDate" :disabled="!mutable" />
             </label>
             <label for="current" className="col-span-full underline flex gap-2 has-disabled:cursor-not-allowed">

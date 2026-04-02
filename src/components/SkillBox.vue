@@ -17,21 +17,21 @@ function pushSkill(event: Event) {
 </script>
 
 <template>
-    <div className="space-y-2 my-2 bg-neutral-900 p-2 rounded-lg">
+    <div className="space-y-2 panel rounded-lg">
         <div className="flex justify-between">
-            <input type="text" placeholder="Category" v-model="skillCategory.categoryName" />
+            <input type="text" placeholder="Category" className="input-field" v-model="skillCategory.categoryName" />
             <input type="image" className="size-8 p-1 border-0" src="/src/assets/close.png"
                 @click="$emit('deleteSelf')" />
         </div>
         <div className="flex flex-wrap gap-2">
-            <div className="border border-zinc-600 rounded-lg px-2 py-1 flex items-center gap-2"
+            <div className="border-light border rounded-lg px-2 py-1 flex items-center gap-2"
                 v-for="(skill, index) in skillCategory.skills">
                 <p>{{ skill }}</p>
                 <input type="image" className="size-5 p-1 border-0" src="/src/assets/close.png"
                     @click="skillCategory.skills.splice(index, 1)" />
             </div>
 
-            <input className="bg-transparent" type="text" placeholder="Skill" v-model="skillValue"
+            <input className="input-field" type="text" placeholder="Skill" v-model="skillValue"
                 @keydown.enter="pushSkill" @focusout="pushSkill" />
         </div>
     </div>
