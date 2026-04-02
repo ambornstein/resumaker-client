@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useAuth } from '../composables/useAuth';
 import { useRouter } from 'vue-router';
 import { useSnackbar } from '../composables/useSnackbar';
+import authService from '../lib/services/authService';
 
 const router = useRouter()
-const { login, register } = useAuth();
 const { displayMessage } = useSnackbar();
 
 type AuthMode = "login" | "signup"
@@ -29,7 +28,7 @@ const registration = {
 }
 
 async function handleLogin(event: SubmitEvent) {
-    const result = await login(credentials)
+    const result = await authService.login(credentials)
     if (result.status == 200) {
         displayMessage("You have been logged in successfully as " + result.data.username)
         router.push('/dashboard')
@@ -44,7 +43,7 @@ async function handleSignup(event: SubmitEvent) {
     passwordsValid.value = registration.password === registration.confirmationPassword;
 
     if (!passwordsValid.value) return
-    register(registration).then(result => {
+    authService.register(registration).then(result => {
         if (result.status == 200) {
             authMode.value = "login"
         }

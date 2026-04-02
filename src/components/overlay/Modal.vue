@@ -5,9 +5,9 @@ defineEmits(['open', 'close'])
 </script>
 
 <template>
-    <div @click.self="$emit('close')" className="fixed w-full h-full flex justify-center bg-background/60">
+    <div @click.self="$emit('close')" className="fixed w-full h-full flex justify-center bg-background/60 z-10">
         <div className="m-auto max-w-220 min-h-20 bg-panel border-light p-4">
-            <CloseIcon @click="$emit('close')" class="float-right size-8" />
+            <CloseIcon @click="$emit('close')" class="float-right icon" />
             <slot>
             </slot>
         </div>

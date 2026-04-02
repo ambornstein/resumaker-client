@@ -6,6 +6,7 @@ import AuthControls from './components/sections/AuthControls.vue';
 import Snackbar from './components/overlay/Snackbar.vue';
 
 const { showModal, closeModal } = useEntryModal()
+
 </script>
 
 <template>
@@ -16,7 +17,9 @@ const { showModal, closeModal } = useEntryModal()
   <div className="w-full">
     <nav className="flex flex-col m-auto h-16 bg-neutral-800">
       <div class="container flex justify-between items-end m-auto">
-        <h1>Résu<span className="text-rose-400">méker</span></h1>
+        <RouterLink to="/">
+          <h1 className="text-foreground">Résu<span className="text-rose-400">méker</span></h1>
+        </RouterLink>
         <AuthControls />
       </div>
     </nav>

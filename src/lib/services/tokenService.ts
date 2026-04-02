@@ -1,4 +1,3 @@
-import type { User } from "../types/types";
 
 class TokenService {
   getLocalRefreshToken() {
@@ -17,12 +16,11 @@ class TokenService {
     localStorage.setItem("user", JSON.stringify(user));
   }
 
-  getUser(): User {
-    return JSON.parse(localStorage.getItem("user")!) as User;
+  getUser(): any {
+    return JSON.parse(localStorage.getItem("user")!);
   }
 
   setUser(user: any) {
-    console.log(JSON.stringify(user));
     localStorage.setItem("user", JSON.stringify(user));
   }
 
@@ -31,4 +29,4 @@ class TokenService {
   }
 }
 
-export default new TokenService();
+export default new TokenService() as TokenService;

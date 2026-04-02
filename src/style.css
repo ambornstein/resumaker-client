@@ -104,12 +104,20 @@
 }
 
 @layer components {
+  .icon {
+    @apply size-10 p-1 cursor-pointer disabled:cursor-not-allowed dark:invert;
+  }
+
   .input-field {
-    @apply border border-contrast rounded-md p-2;
+    @apply border border-contrast rounded-md px-2 py-1;
   }
 
   .border-light {
-    @apply border-2 border-contrast rounded-lg;
+    @apply border border-contrast rounded-lg;
+  }
+
+  .dropdown-item {
+    @apply cursor-pointer px-2 py-1 hover:bg-zinc-700 rounded-md text-sm
   }
 
   .border-thick {

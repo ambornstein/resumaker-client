@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useAccount } from "../composables/useAccount";
-import OptionLabel from "../components/OptionLabel.vue";
 import EducationEntry from "../components/entry/EducationEntry.vue";
 import WorkEntry from "../components/entry/WorkEntry.vue";
 import ProjectEntry from "../components/entry/ProjectEntry.vue";
@@ -24,7 +23,9 @@ if (route.query.section) {
   <div className="flex flex-col gap-12">
     <div className="flex col-span-2 justify-between">
       <h1>Your Profile</h1>
-      <RouterLink to="/dashboard">See Resumes</RouterLink>
+      <RouterLink to="/dashboard">
+        <h3>See Resumes</h3>
+      </RouterLink>
     </div>
 
     <div className="grid grid-cols-2 w-fit gap-12 panel p-4 has-[button:hover]:bg-zinc-800 transition-all duration-150">

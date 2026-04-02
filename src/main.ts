@@ -14,10 +14,10 @@ const routes = [
   { path: '/:id', component: ResumeView },
   { path: '/dashboard', component: DashboardPage },
   { path: '/profile', component: ProfilePage },
-  { path: '/sign-in', component: AuthPage }
+  { path: '/sign-in', component: AuthPage },
 ]
 
-const {account} = useAccount()
+const { account } = useAccount()
 
 const router = createRouter({
   history: createMemoryHistory(),
@@ -29,13 +29,17 @@ const router = createRouter({
       }
     }
   },
-  routes
+  routes,
 })
 
 router.beforeEach((to, from) => {
-  if(account.value) {
-    account.value.educationEntries = account.value.educationEntries.filter((e) => e.id)
-    account.value.workExperiences = account.value.workExperiences.filter((e) => e.id)
+  if (account.value) {
+    account.value.educationEntries = account.value.educationEntries.filter(
+      (e) => e.id
+    )
+    account.value.workExperiences = account.value.workExperiences.filter(
+      (e) => e.id
+    )
     account.value.projects = account.value.projects.filter((e) => e.id)
   }
 })
@@ -44,4 +48,3 @@ const app = createApp(App)
 
 app.use(router)
 app.mount('#app')
-

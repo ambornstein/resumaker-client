@@ -1,21 +1,41 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import type {
   Account,
   EducationEntry,
-  Entity,
   EntryCategory,
   WorkExperienceEntry,
   PersistedEntity,
   ProjectEntry,
 } from '../lib/types/types'
 import api from '../lib/services/api'
-import { useAuth } from './useAuth'
+import tokenService from '../lib/services/tokenService'
 
 const account = ref<Account | null>()
-const { user } = useAuth()
+const user = computed(() => tokenService.getUser())
+const isLoggedIn = ref<boolean>(false)
 
 export function useAccount() {
-  if (account.value == null && user.value) fetchAccount(user.value!.id)
+  if (tokenService.getUser()) {
+    fetchAccount(tokenService.getUser()!.id)
+    isLoggedIn.value = true
+  } else {
+    account.value = null
+    isLoggedIn.value = false
+  }
+
+  function handleUserChanged(event: StorageEvent) {
+    console.log(event)
+    if (event.key == 'user') {
+      
+      if (event.newValue) {
+        fetchAccount(tokenService.getUser()!.id)
+        isLoggedIn.value = true
+      } else {
+        account.value = null
+        isLoggedIn.value = false
+      }
+    }
+  }
 
   async function fetchAccount(id: number) {
     const result = await api.get(`/api/accounts/${id}`)
@@ -148,6 +168,8 @@ export function useAccount() {
 
   return {
     account,
+    user,
+    isLoggedIn,
     fetchAccount,
     createResume,
     deleteResume,
@@ -155,5 +177,6 @@ export function useAccount() {
     updateEntry,
     deleteEntry,
     updateAccount,
+    handleUserChanged
   }
 }
