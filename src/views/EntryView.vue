@@ -42,38 +42,32 @@ watch(() => modalMode.value, updateEntries)
     <Suspense>
         <EntryDialog @confirmSelection="handleSelect">
             <template #option="data" v-if="modalMode == 'projects'">
-                <div className="entry-chip highlight-checked">
-                    <label :for="data.title" className="flex flex-row gap-4">
-                        <input :id="data.title" type="checkbox" :value="data.id" v-model="selectedIds" />
-                        <div className="inline-block">
-                            <p>{{ data.title }}</p>
-                        </div>
-                    </label>
-                </div>
+                <label :for="data.title" className="entry-chip highlight-checked">
+                    <input :id="data.title" type="checkbox" :value="data.id" v-model="selectedIds" />
+                    <div className="inline-block">
+                        <p>{{ data.title }}</p>
+                    </div>
+                </label>
             </template>
 
             <template #option="data" v-else-if="modalMode == 'education'">
-                <div className="entry-chip highlight-checked">
-                    <label :for="data.degree" className="flex flex-row gap-4">
-                        <input :id="data.degree" type="checkbox" :value="data.id" v-model="selectedIds" />
-                        <div className="inline-block">
-                            <p>{{ data.degree }}</p>
-                            <p>{{ data.school }}</p>
-                        </div>
-                    </label>
-                </div>
+                <label :for="data.degree" className="entry-chip highlight-checked">
+                    <input :id="data.degree" type="checkbox" :value="data.id" v-model="selectedIds" />
+                    <div className="inline-block">
+                        <p>{{ data.degree }}</p>
+                        <p>{{ data.school }}</p>
+                    </div>
+                </label>
             </template>
 
             <template #option="data" v-else-if="modalMode == 'work'">
-                <div className="entry-chip highlight-checked">
-                    <label :for="data.title + data.id" className="flex flex-row gap-4">
-                        <input :id="data.title + data.id" type="checkbox" :value="data.id" v-model="selectedIds" />
-                        <div className="inline-block">
-                            <p>{{ data.title }}</p>
-                            <p>{{ data.company }}</p>
-                        </div>
-                    </label>
-                </div>
+                <label :for="data.title + data.id" className="entry-chip highlight-checked">
+                    <input :id="data.title + data.id" type="checkbox" :value="data.id" v-model="selectedIds" />
+                    <div className="inline-block">
+                        <p>{{ data.title }}</p>
+                        <p>{{ data.company }}</p>
+                    </div>
+                </label>
             </template>
         </EntryDialog>
     </Suspense>

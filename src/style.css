@@ -14,6 +14,18 @@
   --color-foreground: var(--color-zinc-200);
   --color-contrast: var(--color-zinc-500);
   --color-panel: var(--color-neutral-800);
+
+  --animate-flow: flow 2s infinite;
+
+  @keyframes flow {
+    0% {
+      background-position: left;
+    }
+
+    100% {
+      background-position: right
+    }
+  }
 }
 
 @layer theme {
@@ -105,7 +117,11 @@
 
 @layer components {
   .icon {
-    @apply size-10 p-1 cursor-pointer disabled:cursor-not-allowed dark:invert;
+    @apply size-7 p-1 cursor-pointer disabled:cursor-not-allowed dark:invert;
+  }
+
+  .skeleton-bar {
+    @apply bg-linear-to-r from-zinc-500 to-zinc-800 animate-pulse rounded-md h-2.5 w-4
   }
 
   .input-field {

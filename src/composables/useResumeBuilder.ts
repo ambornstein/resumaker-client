@@ -29,8 +29,9 @@ export function useResumeBuilder() {
     async function selectEntries(entryType: EntryCategory, ids: number[]) {
         if (!serviceMap.has(entryType)) return
 
-        await serviceMap.get(entryType)!.updateLinkedEntries(resume.value!.id, ids)
-        return fetchResume(resume.value!.id)
+        const result = await serviceMap.get(entryType)!.updateLinkedEntries(resume.value!.id, ids)
+        updateResume(result.data)
+        return result
     }
 
     async function saveResume() {

@@ -16,7 +16,7 @@ const { openCategory } = useEntryModal();
 
 const { resume, fetchResume } = useResumeBuilder();
 const { account } = useAccount();
-const { createPDF } = usePDFBuilder();
+const { createPDF, savePDF} = usePDFBuilder();
 
 if (route.params.id == null) {
     router.push('/dashboard')
@@ -24,27 +24,22 @@ if (route.params.id == null) {
     fetchResume(route.params.id!)
 }
 
-watch(() => resume, (oldValue, newValue) => {
-    if (newValue.value) {
-        createPDF(newValue.value, account.value!)
+watch(() => resume.value, (value) => {
+    if (value) {
+        renderResume()
     }
 })
+
+function renderResume() {
+    createPDF(resume.value!, account.value!)
+}
+
+const frame = document.getElementById("resume-page") as HTMLIFrameElement
 
 </script>
 
 <template>
-    <div className="flex flex-col gap-2 min-w-75 w-[40%]">
-        <h2>Profile Info</h2>
-
-        <div className="grid grid-cols-[min-content_1fr] gap-x-4">
-            <input type="checkbox" id="email"><label for="email">Include Email</label>
-            <input type="checkbox" id="site"><label for="site">Include Website</label>
-            <input type="checkbox" id="phone"><label for="phone">Include Phone Number</label>
-            <input type="checkbox" id="linkedIn"><label for="linkedIn">Include
-                LinkedIn</label>
-            <input type="checkbox" id="github"><label for="github">Include GitHub</label>
-        </div>
-
+    <div className="flex flex-col gap-2 w-full">
         <h2>Contents</h2>
 
         <h3>Education</h3>
@@ -73,6 +68,6 @@ watch(() => resume, (oldValue, newValue) => {
             <ProjectCard v-for="value in resume?.projects" :data="value" />
             <button @click="openCategory('projects')">Select</button>
         </div>
-        <button className="text-lg text-highlight mt-4" @click="createPDF(resume!, account!)">Save As PDF</button>
+        <button className="text-lg text-highlight mt-4" @click="savePDF">Download</button>
     </div>
 </template>

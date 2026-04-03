@@ -15,9 +15,9 @@ import tokenService from '../lib/services/tokenService'
 const account = ref<Account | null>()
 const user = computed(() => tokenService.getUser())
 const isLoggedIn = ref<boolean>(false)
+const loading = ref<boolean>(false)
 
 async function updateAuthStatus() {
-  console.log(tokenService.getUser())
   if (tokenService.getUser()) {
     if (!account.value) {
       await fetchAccount(tokenService.getUser()!.id)
@@ -30,9 +30,12 @@ async function updateAuthStatus() {
 }
 
 async function fetchAccount(id: number) {
+  loading.value = true
   const result = await api.get(`/api/accounts/${id}`)
+  loading.value = false
+
   account.value = result.data
-  return result;
+  return result
 }
 
 window.addEventListener('user-updated', updateAuthStatus)
@@ -169,6 +172,7 @@ export function useAccount() {
     account,
     user,
     isLoggedIn,
+    loading,
     fetchAccount,
     createResume,
     deleteResume,

@@ -9,7 +9,7 @@ export class EntryService {
     }
 
     async updateLinkedEntries(resumeId: number, ids: number[]) {
-        await api.post(`/api/resumes/${resumeId}/${this.entryCategory}`, null, { params: { ids: ids.join(",") } })
+        return api.post(`/api/resumes/${resumeId}/${this.entryCategory}`, null, { params: { ids: ids.join(",") } })
     }
 
     constructor(entryType: string) {

@@ -1,3 +1,3 @@
 <template>
-    <img src="/src/assets/close-svgrepo-com.svg" className="icon"  title="Delete/Close"/>
+    <img src="/src/assets/x-svgrepo-com.svg" className="icon"  title="Delete/Close"/>
 </template>
