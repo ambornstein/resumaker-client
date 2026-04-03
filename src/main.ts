@@ -8,6 +8,7 @@ import AuthPage from './pages/AuthPage.vue'
 import DashboardPage from './pages/DashboardPage.vue'
 import ProfilePage from './pages/ProfilePage.vue'
 import { useAccount } from './composables/useAccount'
+import { useSnackbar } from './composables/useSnackbar'
 
 const routes = [
   { path: '/', component: HomePage },

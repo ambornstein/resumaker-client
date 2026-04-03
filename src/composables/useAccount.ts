@@ -10,38 +10,37 @@ import type {
 import api from '../lib/services/api'
 import tokenService from '../lib/services/tokenService'
 
+//#region Global auth state management
+
 const account = ref<Account | null>()
 const user = computed(() => tokenService.getUser())
 const isLoggedIn = ref<boolean>(false)
 
-export function useAccount() {
+async function updateAuthStatus() {
+  console.log(tokenService.getUser())
   if (tokenService.getUser()) {
-    fetchAccount(tokenService.getUser()!.id)
+    if (!account.value) {
+      await fetchAccount(tokenService.getUser()!.id)
+    }
     isLoggedIn.value = true
   } else {
     account.value = null
     isLoggedIn.value = false
   }
+}
 
-  function handleUserChanged(event: StorageEvent) {
-    console.log(event)
-    if (event.key == 'user') {
-      
-      if (event.newValue) {
-        fetchAccount(tokenService.getUser()!.id)
-        isLoggedIn.value = true
-      } else {
-        account.value = null
-        isLoggedIn.value = false
-      }
-    }
-  }
+async function fetchAccount(id: number) {
+  const result = await api.get(`/api/accounts/${id}`)
+  account.value = result.data
+  return result;
+}
 
-  async function fetchAccount(id: number) {
-    const result = await api.get(`/api/accounts/${id}`)
-    account.value = result.data
-  }
+window.addEventListener('user-updated', updateAuthStatus)
 
+updateAuthStatus()
+//#endregion
+
+export function useAccount() {
   async function createResume(data: any) {
     const result = await api.post(
       `/api/accounts/${account.value!.id}/resumes`,
@@ -62,7 +61,7 @@ export function useAccount() {
   }
 
   async function updateAccount(account: Account) {
-    await api.put(`/api/accounts/${account.id}`, account)
+    return api.put(`/api/accounts/${account.id}`, account)
   }
 
   async function updateEntry(
@@ -177,6 +176,5 @@ export function useAccount() {
     updateEntry,
     deleteEntry,
     updateAccount,
-    handleUserChanged
   }
 }

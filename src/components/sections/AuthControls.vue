@@ -1,22 +1,25 @@
 <script setup lang="ts">
 import UserIcon from '../icons/UserIcon.vue';
-import { ref, useTemplateRef } from 'vue';
-import { onClickOutside, useEventListener } from '@vueuse/core';
+import { ref, useTemplateRef, watch } from 'vue';
+import { onClickOutside } from '@vueuse/core';
 import authService from '../../lib/services/authService';
 import { useAccount } from '../../composables/useAccount';
+import { useRoute, useRouter } from 'vue-router';
 
 const { isLoggedIn, user } = useAccount();
+const route = useRoute()
+const router = useRouter();
 
 const showDropdown = ref<boolean>(false)
 
 const dropdown = useTemplateRef('dropdown')
 onClickOutside(dropdown, () => showDropdown.value = false)
 
-function handleUserChanged(event: Event) {
-    console.log(event)
-}
-
-useEventListener('storage', handleUserChanged)
+watch(() => isLoggedIn.value, (value) => {
+    if (!value && route.path !== '/' && route.path !== '/sign-in') {
+        router.push('/sign-in')
+    }
+})
 
 </script>
 

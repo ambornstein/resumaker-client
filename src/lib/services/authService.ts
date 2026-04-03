@@ -1,5 +1,5 @@
-import api from "./api"
-import tokenService from "./tokenService"
+import api from './api'
+import tokenService from './tokenService'
 
 class AuthService {
   async login(userData: any) {
@@ -26,4 +26,4 @@ class AuthService {
   }
 }
 
-export default new AuthService();
+export default new AuthService()
