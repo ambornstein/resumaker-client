@@ -9,6 +9,7 @@ import { useAccount } from '../../composables/useAccount';
 import { usePDFBuilder } from '../../composables/usePDFBuilder';
 import SkillBox from '../SkillBox.vue';
 import { watch } from 'vue';
+import { useLoading } from '../../composables/useLoading';
 
 const route = useRoute();
 const router = useRouter();
@@ -16,13 +17,14 @@ const { openCategory } = useEntryModal();
 
 const { resume, fetchResume } = useResumeBuilder();
 const { account } = useAccount();
-const { createPDF, savePDF} = usePDFBuilder();
+const { createPDF, savePDF } = usePDFBuilder();
+const { setLoading } = useLoading();
 
-if (route.params.id == null) {
-    router.push('/dashboard')
-} else {
-    fetchResume(route.params.id!)
-}
+setLoading(true)
+await fetchResume(route.params.id!)
+setLoading(false)
+
+renderResume()
 
 watch(() => resume.value, (value) => {
     if (value) {
@@ -33,8 +35,6 @@ watch(() => resume.value, (value) => {
 function renderResume() {
     createPDF(resume.value!, account.value!)
 }
-
-const frame = document.getElementById("resume-page") as HTMLIFrameElement
 
 </script>
 

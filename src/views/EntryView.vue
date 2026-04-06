@@ -4,15 +4,20 @@ import type { Entity, EntryCategory } from '../lib/types/types';
 import EntryDialog from '../components/dialogue/EntryDialog.vue';
 import { useResumeBuilder } from '../composables/useResumeBuilder';
 import { useEntryModal } from '../composables/useEntryModal';
+import { useLoading } from '../composables/useLoading';
 
 const emit = defineEmits(['complete'])
 const { resume, selectEntries } = useResumeBuilder();
 const { modalMode } = useEntryModal();
+const { setLoading } = useLoading();
 
 const selectedIds = ref<number[]>([])
 
 async function handleSelect() {
+    setLoading(true)
     await selectEntries(modalMode.value, selectedIds.value)
+    setLoading(false)
+
     emit('complete')
     updateEntries(modalMode.value)
 }

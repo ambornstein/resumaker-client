@@ -4,12 +4,16 @@ import EntryView from './views/EntryView.vue';
 import { useEntryModal } from './composables/useEntryModal';
 import AuthControls from './components/sections/AuthControls.vue';
 import Snackbar from './components/overlay/Snackbar.vue';
+import Loading from './components/overlay/Loading.vue';
+import { useLoading } from './composables/useLoading';
 
 const { showModal, closeModal } = useEntryModal()
+const { loading } = useLoading();
 
 </script>
 
 <template>
+  <Loading v-show="loading"/>
   <Modal v-show="showModal" @close="closeModal">
     <EntryView />
   </Modal>

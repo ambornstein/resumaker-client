@@ -3,9 +3,11 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useSnackbar } from '../composables/useSnackbar';
 import authService from '../lib/services/authService';
+import { useLoading } from '../composables/useLoading';
 
 const router = useRouter()
 const { displayMessage } = useSnackbar();
+const { setLoading } = useLoading();
 
 type AuthMode = "login" | "signup"
 
@@ -28,25 +30,32 @@ const registration = {
 }
 
 async function handleLogin(event: SubmitEvent) {
+    setLoading(true)
+
     const result = await authService.login(credentials)
     if (result.status == 200) {
         displayMessage("You have been logged in successfully as " + result.data.username)
         router.push('/dashboard')
     }
-
     else {
         displayMessage("Username and password don't match.", 'error');
     }
+
+    setLoading(false)
 }
 
 async function handleSignup(event: SubmitEvent) {
+
     passwordsValid.value = registration.password === registration.confirmationPassword;
 
     if (!passwordsValid.value) return
+
+    setLoading(true)
     authService.register(registration).then(result => {
         if (result.status == 200) {
             authMode.value = "login"
         }
+        setLoading(false)
     })
 }
 

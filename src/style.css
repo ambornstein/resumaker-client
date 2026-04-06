@@ -117,7 +117,7 @@
 
 @layer components {
   .icon {
-    @apply size-7 p-1 cursor-pointer disabled:cursor-not-allowed dark:invert;
+    @apply size-7 p-1 cursor-pointer disabled:cursor-not-allowed dark:invert z-0;
   }
 
   .skeleton-bar {

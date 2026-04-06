@@ -9,6 +9,7 @@ import type {
 } from '../lib/types/types'
 import api from '../lib/services/api'
 import tokenService from '../lib/services/tokenService'
+import { useLoading } from './useLoading'
 
 //#region Global auth state management
 
@@ -44,37 +45,49 @@ updateAuthStatus()
 //#endregion
 
 export function useAccount() {
+  const { setLoading } = useLoading()
+
   async function createResume(data: any) {
+    setLoading(true)
     const result = await api.post(
       `/api/accounts/${account.value!.id}/resumes`,
       data
     )
+    setLoading(false)
 
     account.value! = result.data
     return result
   }
 
   async function deleteResume(id: number) {
+    setLoading(true)
     const result = await api.delete(
       `/api/accounts/${account.value!.id}/resumes/` + id
     )
+    setLoading(false)
 
     account.value! = result.data
     return result
   }
 
   async function updateAccount(account: Account) {
-    return api.put(`/api/accounts/${account.id}`, account)
+    setLoading(true)
+    const result = api.put(`/api/accounts/${account.id}`, account)
+    setLoading(false)
+
+    return result
   }
 
   async function updateEntry(
     entryCategory: EntryCategory,
     entry: PersistedEntity
   ) {
+    setLoading(true)
     const updatedEntry = await api.put(
       `/api/${entryCategory}/${entry.id}`,
       entry
     )
+    setLoading(false)
 
     let index
     switch (entryCategory) {
@@ -104,6 +117,7 @@ export function useAccount() {
   async function addEntry(entryCategory: EntryCategory, index: number) {
     let createdEntry
 
+    setLoading(true)
     switch (entryCategory) {
       case 'work':
         createdEntry = await api.post(
@@ -142,13 +156,16 @@ export function useAccount() {
         )
         break
     }
+    setLoading(false)
     return createdEntry.data
   }
 
   async function deleteEntry(entryCategory: EntryCategory, id: number) {
+    setLoading(true)
     await api.delete(
       `/api/accounts/${account.value!.id}/${entryCategory}/${id}`
     )
+    setLoading(false)
 
     switch (entryCategory) {
       case 'work':

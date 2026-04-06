@@ -5,10 +5,12 @@ import { onClickOutside } from '@vueuse/core';
 import authService from '../../lib/services/authService';
 import { useAccount } from '../../composables/useAccount';
 import { useRoute, useRouter } from 'vue-router';
+import { useLoading } from '../../composables/useLoading';
 
 const { isLoggedIn, user } = useAccount();
 const route = useRoute()
 const router = useRouter();
+const { setLoading } = useLoading();
 
 const showDropdown = ref<boolean>(false)
 
@@ -18,6 +20,7 @@ onClickOutside(dropdown, () => showDropdown.value = false)
 watch(() => isLoggedIn.value, (value) => {
     if (!value && route.path !== '/' && route.path !== '/sign-in') {
         router.push('/sign-in')
+        setLoading(false)
     }
 })
 

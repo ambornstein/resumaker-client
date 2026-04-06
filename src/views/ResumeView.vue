@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ResumePanel from '../components/sections/ResumePanel.vue';
 
+
 </script>
 
 <template>
@@ -15,6 +16,8 @@ import ResumePanel from '../components/sections/ResumePanel.vue';
       <input type="checkbox" id="github"><label for="github">Include GitHub</label>
     </div>
     <iframe id="resume-page" frameborder="0" className="w-full h-[876px]" />
-    <ResumePanel />
+    <Suspense>
+      <ResumePanel />
+    </Suspense>
   </div>
 </template>
