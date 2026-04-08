@@ -28,13 +28,14 @@ watch(() => isLoggedIn.value, (value) => {
 
 <template>
     <div v-if="isLoggedIn" className="flex gap-2 items-center">
-        <div ref="dropdown" @click="showDropdown = true"
-            className="flex items-center gap-4 bg-neutral-700 px-2 py-1 rounded-lg">
-            <UserIcon />
-            <span className="cursor-pointer text-lg">{{ user?.username }}</span>
+        <div ref="dropdown">
+            <div className="flex items-center gap-4 bg-button p-2 rounded-lg" @click="showDropdown = true">
+                <UserIcon />
+                <span className="cursor-pointer text-lg">{{ user?.username }}</span>
+            </div>
 
-            <ul v-show="showDropdown"
-                className="fixed w-36 space-y-0.5 top-16 m-auto bg-zinc-800 rounded-md p-2 border-light">
+            <ul v-show="showDropdown" @click.prevent="showDropdown = false"
+                className="fixed w-36 space-y-0.5 top-14 m-auto bg-panel rounded-md p-2 border-light">
                 <RouterLink to="/profile">
                     <li className="dropdown-item">Profile</li>
                 </RouterLink>
@@ -46,11 +47,11 @@ watch(() => isLoggedIn.value, (value) => {
         </div>
     </div>
     <div v-else className="flex gap-2">
-        <RouterLink to="/sign-in">
-            <button>Log In</button>
+        <RouterLink :to="{ path: '/sign-in', query: { mode: 'login' } }">
+            <span className="link">Log In</span>
         </RouterLink>
-        <RouterLink to="/sign-in">
-            <button>Create Account</button>
+        <RouterLink :to="{ path: '/sign-in', query: { mode: 'signup' } }">
+            <span className="link">Create Account</span>
         </RouterLink>
     </div>
 </template>

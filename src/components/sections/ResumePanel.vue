@@ -12,7 +12,6 @@ import { watch } from 'vue';
 import { useLoading } from '../../composables/useLoading';
 
 const route = useRoute();
-const router = useRouter();
 const { openCategory } = useEntryModal();
 
 const { resume, fetchResume } = useResumeBuilder();
@@ -68,6 +67,6 @@ function renderResume() {
             <ProjectCard v-for="value in resume?.projects" :data="value" />
             <button @click="openCategory('projects')">Select</button>
         </div>
-        <button className="text-lg text-highlight mt-4" @click="savePDF">Download</button>
+        <button className="text-lg text-highlight bg-contrast dark:bg-button mt-4" @click="savePDF">Download</button>
     </div>
 </template>

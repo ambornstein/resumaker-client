@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useSnackbar } from '../composables/useSnackbar';
 import authService from '../lib/services/authService';
 import { useLoading } from '../composables/useLoading';
 
 const router = useRouter()
+const route = useRoute();
 const { displayMessage } = useSnackbar();
 const { setLoading } = useLoading();
 
@@ -29,13 +30,23 @@ const registration = {
     roles: ['user']
 }
 
+if (route.query.mode == 'signup') {
+    authMode.value = 'signup'
+} else if (route.query.mode == 'login') {
+    authMode.value = 'login'
+}
+
 async function handleLogin(event: SubmitEvent) {
     setLoading(true)
 
     const result = await authService.login(credentials)
     if (result.status == 200) {
         displayMessage("You have been logged in successfully as " + result.data.username)
-        router.push('/dashboard')
+        if (router.options.history.state.back == "/" || router.options.history.state.back == "/sign-in") {
+            router.push("/dashboard")
+        } else {
+            router.back()
+        }
     }
     else {
         displayMessage("Username and password don't match.", 'error');
@@ -63,12 +74,12 @@ async function handleSignup(event: SubmitEvent) {
 <template>
     <div className="max-w-lg m-auto flex flex-col gap-2 p-12 border-light panel">
         <h2 className="text-center">Sign In To ResuMaker</h2>
-        <div className="flex flex-row w-full gap-2 mt-8">
-            <label className="w-full text-center border-light p-2 highlight-checked" for="login">
+        <div className="flex flex-row w-full gap-2 mt-12 mb-6">
+            <label className="w-full text-center border-thick p-2 highlight-checked" for="login">
                 Log In
                 <input id="login" className="hidden" type="radio" value="login" name="authSelect" v-model="authMode" />
             </label>
-            <label className="w-full text-center border-light p-2 highlight-checked">
+            <label className="w-full text-center border-thick p-2 highlight-checked">
                 Sign Up
                 <input id="signup" className="hidden" type="radio" value="signup" name="authSelect"
                     v-model="authMode" />
@@ -118,8 +129,12 @@ async function handleSignup(event: SubmitEvent) {
                 50 characters in length.</p>
             <button className="col-span-2">Submit</button>
         </form>
-        <hr />
-        <p>Or Authenticate With</p>
+        <div className="flex items-center h-16 gap-4">
+            <hr className="w-full" />
+            <h3 className="w-full text-center text-nowrap">Or Authenticate With</h3>
+            <hr className="w-full" />
+        </div>
+
         <button>LinkedIn</button>
         <button>Github</button>
         <button>Google</button>

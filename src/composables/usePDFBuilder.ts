@@ -10,9 +10,6 @@ import type {
   FontOptions,
 } from '../lib/types/types'
 
-const leftMargin = 10
-const rightMargin = 10
-
 const defaultTemplate: ResumeStyleTemplate = {
   margin: {
     top: 8,
@@ -44,8 +41,12 @@ const defaultTemplate: ResumeStyleTemplate = {
   dividerSymbol: '\u2022',
 }
 
-export function usePDFBuilder() {
+type Vector2 = {
+  x: number
+  y: number
+}
 
+export function usePDFBuilder() {
   let doc = new jsPDF({
     orientation: 'portrait',
     unit: 'mm',
@@ -60,7 +61,7 @@ export function usePDFBuilder() {
     doc.internal.pageSize.width || doc.internal.pageSize.getWidth()
 
   let maxTextWidth: number
-  let cursor = { x: 0, y: 0 }
+  let cursor: Vector2 = { x: 0, y: 0 }
   let template: ResumeStyleTemplate
 
   function convertDate(stringValue: string) {
@@ -81,7 +82,7 @@ export function usePDFBuilder() {
 
     template = defaultTemplate
     cursor = { x: template.margin.left, y: template.margin.right }
-    maxTextWidth = pageWidth - leftMargin - rightMargin
+    maxTextWidth = pageWidth - template.margin.left - template.margin.right
 
     const frame = document.getElementById('resume-page') as HTMLIFrameElement
 
@@ -113,6 +114,7 @@ export function usePDFBuilder() {
     contacts.push(account.location)
     contacts.push(account.email)
     contacts.push(account.phoneNumber)
+    contacts.push(account.website)
     contacts.push(account.linkedInLink?.replace('https://', ''))
     contacts.push(account.githubLink?.replace('https://', ''))
     contacts = contacts.filter((i) => i)
@@ -210,40 +212,22 @@ export function usePDFBuilder() {
     xPad = 0,
     align?: TextOptionsLight['align']
   ) {
-    let xPos
-
-    switch (align) {
-      case 'right':
-        xPos = pageWidth - rightMargin
-        xPos -= xPad
-        break
-      case 'center':
-        xPos = pageWidth / 2
-        xPos += xPad
-        break
-      case 'left':
-        xPos = leftMargin
-        xPos += xPad
-        break
-      default:
-        xPos = cursor.x
-        xPos += xPad
-    }
-
+    const xPos = calculateAlignment(align, xPad)
     doc.text(text, xPos, cursor.y, { maxWidth: maxTextWidth, align: align })
 
-    const textBlock = Array.isArray(text) ? text.join() : text
-    const strings = doc.splitTextToSize(textBlock, maxTextWidth)
-    for (let t of strings) {
-      const size = doc.getTextDimensions(t)
-
-      cursor.x += size.w
-      if (cursor.x - leftMargin > maxTextWidth) {
-        cursor.y += size.h + template.lineSpacing
-        cursor.x = leftMargin
-      }
+    cursor = calculateCursorTravel(text, cursor)
+    if (newLine) {
+      incrementLine()
     }
+  }
 
+  function createLink(text: string, linkSrc: string, newLine = true) {
+    doc.textWithLink(text, cursor.x, cursor.y, {
+      maxWidth: maxTextWidth,
+      url: linkSrc,
+    })
+
+    cursor = calculateCursorTravel(text, cursor)
     if (newLine) {
       incrementLine()
     }
@@ -251,13 +235,18 @@ export function usePDFBuilder() {
 
   function drawHorizontalLine() {
     cursor.y += template.lineSpacing
-    doc.line(leftMargin, cursor.y, pageWidth - rightMargin, cursor.y)
+    doc.line(
+      template.margin.left,
+      cursor.y,
+      pageWidth - template.margin.right,
+      cursor.y
+    )
     incrementLine()
   }
 
   function incrementLine() {
     cursor.y += doc.getTextDimensions('T').h + template.lineSpacing
-    cursor.x = leftMargin
+    cursor.x = template.margin.left
   }
 
   function setFontStyle(options: FontOptions) {
@@ -268,6 +257,58 @@ export function usePDFBuilder() {
   function setFontMode(mode: string) {
     doc.setFont(doc.getFont().fontName, mode)
   }
+
+  //#region Calculations and Util Functions
+
+  function calculateAlignment(
+    align?: TextOptionsLight['align'],
+    xPad = 0
+  ): number {
+    let xPos
+
+    switch (align) {
+      case 'right':
+        xPos = pageWidth - template.margin.right
+        xPos -= xPad
+        break
+      case 'center':
+        xPos = pageWidth / 2
+        xPos += xPad
+        break
+      case 'left':
+        xPos = template.margin.left
+        xPos += xPad
+        break
+      default:
+        xPos = cursor.x
+        xPos += xPad
+    }
+
+    return xPos
+  }
+
+  function calculateCursorTravel(
+    text: string | string[],
+    startPosition: Vector2
+  ): Vector2 {
+    let endPosition = startPosition
+
+    const textBlock = Array.isArray(text) ? text.join() : text
+    const strings = doc.splitTextToSize(textBlock, maxTextWidth)
+    for (let t of strings) {
+      const size = doc.getTextDimensions(t)
+
+      endPosition.x += size.w
+      if (endPosition.x - template.margin.left > maxTextWidth) {
+        endPosition.y += size.h + template.lineSpacing
+        endPosition.x = template.margin.left
+      }
+    }
+
+    return endPosition
+  }
+
+  //#endregion
 
   return { createPDF, savePDF }
 }

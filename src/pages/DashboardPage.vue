@@ -29,7 +29,7 @@ function handleDelete(id: number) {
                 <h2>Resumes</h2>
                 <button @click="handleCreateResume">Create New Resume</button>
             </div>
-            <RouterLink to="/profile" className="ml-auto">
+            <RouterLink to="/profile" className="ml-auto link">
                 <h3>Your Profile</h3>
             </RouterLink>
         </div>

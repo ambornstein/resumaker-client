@@ -49,9 +49,9 @@ watch(() => modalMode.value, updateEntries)
             <template #option="data" v-if="modalMode == 'projects'">
                 <label :for="data.title" className="entry-chip highlight-checked">
                     <input :id="data.title" type="checkbox" :value="data.id" v-model="selectedIds" />
-                    <div className="inline-block">
-                        <p>{{ data.title }}</p>
-                    </div>
+                    
+                        <span>{{ data.title }}</span>
+
                 </label>
             </template>
 
@@ -60,7 +60,7 @@ watch(() => modalMode.value, updateEntries)
                     <input :id="data.degree" type="checkbox" :value="data.id" v-model="selectedIds" />
                     <div className="inline-block">
                         <p>{{ data.degree }}</p>
-                        <p>{{ data.school }}</p>
+                        <p>{{ data.schoolName }}</p>
                     </div>
                 </label>
             </template>

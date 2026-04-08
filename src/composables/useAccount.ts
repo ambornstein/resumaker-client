@@ -10,6 +10,7 @@ import type {
 import api from '../lib/services/api'
 import tokenService from '../lib/services/tokenService'
 import { useLoading } from './useLoading'
+import type { AxiosResponse } from 'axios'
 
 //#region Global auth state management
 
@@ -70,9 +71,13 @@ export function useAccount() {
     return result
   }
 
-  async function updateAccount(account: Account) {
+  async function updateAccount(accountValue: Account) {
     setLoading(true)
-    const result = api.put(`/api/accounts/${account.id}`, account)
+    const result = await api.put(
+      `/api/accounts/${accountValue.id}`,
+      accountValue
+    )
+    account.value = result.data
     setLoading(false)
 
     return result

@@ -19,7 +19,7 @@ const { loading } = useLoading();
   </Modal>
   <Snackbar />
   <div className="w-full">
-    <nav className="flex flex-col m-auto h-16 bg-neutral-800">
+    <nav className="flex flex-col m-auto h-16 bg-panel">
       <div class="container flex justify-between items-end m-auto">
         <RouterLink to="/">
           <h1 className="text-foreground">Résu<span className="text-rose-400">méker</span></h1>
