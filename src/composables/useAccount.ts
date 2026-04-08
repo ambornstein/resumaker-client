@@ -10,8 +10,6 @@ import type {
 import api from '../lib/services/api'
 import tokenService from '../lib/services/tokenService'
 import { useLoading } from './useLoading'
-import type { AxiosResponse } from 'axios'
-
 //#region Global auth state management
 
 const account = ref<Account | null>()

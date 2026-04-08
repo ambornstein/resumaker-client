@@ -25,10 +25,10 @@ if (route.query.section) {
     <div className="flex flex-row gap-24 w-full">
       <ul className="flex flex-col w-fit gap-4 panel rounded-lg h-fit p-4">
         <li className="link text-2xl w-48">
-          <RouterLink to="./info"><span>Profile Information</span></RouterLink>
+          <RouterLink to="/profile/info"><span>Profile Information</span></RouterLink>
         </li>
         <li className="link text-2xl w-48">
-          <RouterLink to="./entries"><span>Resume Entries</span></RouterLink>
+          <RouterLink to="/profile/entries"><span>Resume Entries</span></RouterLink>
         </li>
       </ul>
       <RouterView />

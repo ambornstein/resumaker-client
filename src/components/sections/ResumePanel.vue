@@ -2,7 +2,7 @@
 import ExperienceCard from '../entry/ExperienceCard.vue';
 import EducationCard from '../entry/EducationCard.vue';
 import ProjectCard from '../entry/ProjectCard.vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { useResumeBuilder } from '../../composables/useResumeBuilder';
 import { useEntryModal } from '../../composables/useEntryModal';
 import { useAccount } from '../../composables/useAccount';

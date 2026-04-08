@@ -37,7 +37,7 @@ function handleDelete(id: number) {
         <div className="w-full grid grid-cols-4 gap-4">
 
             <CardSkeleton v-if="loading" v-for="v in 8" />
-            <div v-else @click="$router.push(`/${resume.id}`)" v-for="(resume, index) in account?.resumes"
+            <div v-else @click="$router.push(`/resume/${resume.id}`)" v-for="(resume, index) in account?.resumes"
                 className="flex items-center justify-between bg-panel p-4 rounded-md h-24 cursor-pointer hover-highlight">
                 <p>{{ resume.label ?? `Resume ${index}` }}</p>
                 <button @click.stop="handleDelete(resume.id)">Delete</button>

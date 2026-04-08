@@ -64,13 +64,6 @@ export function usePDFBuilder() {
   let cursor: Vector2 = { x: 0, y: 0 }
   let template: ResumeStyleTemplate
 
-  function convertDate(stringValue: string) {
-    return new Date(stringValue).toLocaleDateString('en-US', {
-      month: 'long',
-      year: 'numeric',
-    })
-  }
-
   function createPDF(resume: Resume, account: Account) {
     doc = new jsPDF({
       orientation: 'portrait',
@@ -115,12 +108,33 @@ export function usePDFBuilder() {
     contacts.push(account.email)
     contacts.push(account.phoneNumber)
     contacts.push(account.website)
-    contacts.push(account.linkedInLink?.replace('https://', ''))
-    contacts.push(account.githubLink?.replace('https://', ''))
-    contacts = contacts.filter((i) => i)
+    contacts.push(account.linkedInLink)
+    contacts.push(account.githubLink)
+    contacts = contacts.filter((i) => i != undefined)
 
-    createText(contacts.join(` ${template.dividerSymbol} `), true, 0, 'center')
-    incrementLine()
+    if (contacts.length == 0) return
+
+    const textLines = divideTextLines(contacts, ` ${template.dividerSymbol} `)
+    console.log(textLines)
+    for (let i = 0; i < textLines.length; i++) {
+      const lineWidth = calculateJoinWidth(
+        textLines[i]!.map(formatLink),
+        ` ${template.dividerSymbol} `
+      )
+      cursor.x = template.margin.left + (maxTextWidth - lineWidth) / 2
+      for (let j = 0; j < textLines[i]!.length; j++) {
+        if (textLines[i]![j]!.startsWith('http')) {
+          createLink(formatLink(textLines[i]![j]!), textLines[i]![j]!!, false)
+        } else {
+          createText(textLines[i]![j]!, false)
+        }
+
+        if (j < textLines[i]!.length - 1) {
+          createText(` ${template.dividerSymbol} `, false)
+        }
+      }
+      incrementLine()
+    }
   }
 
   function createEducationSection(education: EducationEntry[]) {
@@ -155,8 +169,8 @@ export function usePDFBuilder() {
       setFontStyle(template.textStyle)
 
       createText(value.skills.join(', '))
+      incrementLine()
     })
-    incrementLine()
   }
 
   function createExperienceSection(experience: WorkExperienceEntry[]) {
@@ -205,6 +219,8 @@ export function usePDFBuilder() {
       incrementLine()
     })
   }
+
+  //#region
 
   function createText(
     text: string | string[],
@@ -258,6 +274,48 @@ export function usePDFBuilder() {
     doc.setFont(doc.getFont().fontName, mode)
   }
 
+  //#region Formatting
+
+  function divideTextLines(strings: string[], separator = '') {
+    let lines: string[][] = []
+    let line: string[] = []
+    while (strings.length > 0) {
+      const string = strings.shift()!
+      if (doc.getTextWidth(string) > maxTextWidth) {
+        lines.push(line)
+        lines.push([string])
+        line = []
+      } else {
+        const joinWidth = calculateJoinWidth(
+          line.concat(string).map(formatLink),
+          separator
+        )
+        if (joinWidth > maxTextWidth) {
+          lines.push(line)
+          line = [string]
+        } else {
+          line.push(string)
+        }
+      }
+    }
+    lines.push(line)
+
+    return lines.filter((l) => l != null)
+  }
+
+  function formatLink(linkString: string) {
+    return linkString.replace(/https?:\/\/(www.)?/, '')
+  }
+
+  function convertDate(stringValue: string) {
+    return new Date(stringValue).toLocaleDateString('en-US', {
+      month: 'long',
+      year: 'numeric',
+    })
+  }
+
+  //#endregion
+
   //#region Calculations and Util Functions
 
   function calculateAlignment(
@@ -285,6 +343,10 @@ export function usePDFBuilder() {
     }
 
     return xPos
+  }
+
+  function calculateJoinWidth(strings: string[], separator = '') {
+    return doc.getTextWidth(strings.join(separator))
   }
 
   function calculateCursorTravel(

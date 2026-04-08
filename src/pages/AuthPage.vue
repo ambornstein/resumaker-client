@@ -56,7 +56,6 @@ async function handleLogin(event: SubmitEvent) {
 }
 
 async function handleSignup(event: SubmitEvent) {
-
     passwordsValid.value = registration.password === registration.confirmationPassword;
 
     if (!passwordsValid.value) return
@@ -79,7 +78,7 @@ async function handleSignup(event: SubmitEvent) {
                 Log In
                 <input id="login" className="hidden" type="radio" value="login" name="authSelect" v-model="authMode" />
             </label>
-            <label className="w-full text-center border-thick p-2 highlight-checked">
+            <label className="w-full text-center border-thick p-2 highlight-checked" for="signup">
                 Sign Up
                 <input id="signup" className="hidden" type="radio" value="signup" name="authSelect"
                     v-model="authMode" />
