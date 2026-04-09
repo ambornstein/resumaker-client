@@ -27,16 +27,16 @@ const defaultTemplate: ResumeStyleTemplate = {
     font: 'Times New Roman',
     fontStyle: 'bold',
     horizontalRule: {
-      width: 2,
+      width: 1,
     },
-    indentAmount: 2,
+    indentAmount: 0,
   },
   textStyle: {
     fontSize: 12,
     font: 'CM Serif Roman',
     fontStyle: 'normal',
   },
-  lineSpacing: 2,
+  lineSpacing: 1.5,
   bulletSymbol: '\u2022',
   dividerSymbol: '\u2022',
 }

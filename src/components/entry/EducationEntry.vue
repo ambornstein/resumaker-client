@@ -4,6 +4,7 @@ import type { EducationEntry, PersistedEntity } from '../../lib/types/types';
 import { useAccount } from '../../composables/useAccount';
 import CloseIcon from '../icons/CloseIcon.vue';
 import EditIcon from '../icons/EditIcon.vue';
+import DeleteIcon from '../icons/DeleteIcon.vue';
 
 const { addEntry, updateEntry, deleteEntry } = useAccount();
 
@@ -39,7 +40,7 @@ const mutable = computed(() => !!!props.editingEducation.id || editing.value)
                 <button v-if="mutable" className="size-full">Save</button>
                 <div v-else className="contents">
                     <EditIcon @click="editing = true" />
-                    <CloseIcon @click.prevent="handleDeleteEntry" />
+                    <DeleteIcon @click.prevent="handleDeleteEntry" />
                 </div>
             </div>
             <label className="col-span-3" for="school">School

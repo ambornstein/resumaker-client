@@ -4,6 +4,7 @@ import type { PersistedEntity, ProjectEntry } from '../../lib/types/types';
 import { useAccount } from '../../composables/useAccount';
 import CloseIcon from '../icons/CloseIcon.vue';
 import EditIcon from '../icons/EditIcon.vue';
+import DeleteIcon from '../icons/DeleteIcon.vue';
 
 const { addEntry, updateEntry, deleteEntry } = useAccount();
 
@@ -39,7 +40,7 @@ const mutable = computed(() => !!!props.editingProject.id || editing.value)
                 <button v-if="mutable" className="size-full">Save</button>
                 <div v-else className="contents">
                     <EditIcon @click="editing = true" />
-                    <CloseIcon @click.prevent="handleDeleteEntry" />
+                    <DeleteIcon @click.prevent="handleDeleteEntry" />
                 </div>
             </div>
             <label className="col-span-full" for="description">Description
@@ -52,7 +53,7 @@ const mutable = computed(() => !!!props.editingProject.id || editing.value)
                     v-for="(value, index) in editingProject.bulletPoints">
                     <textarea rows="2" className="w-full input-field" v-model="editingProject.bulletPoints[index]"
                         type="text" :disabled="!mutable" />
-                    <CloseIcon @click.prevent="editingProject.bulletPoints.splice(index, 1)" :disabled="!mutable" />
+                    <DeleteIcon @click.prevent="editingProject.bulletPoints.splice(index, 1)" :disabled="!mutable" />
                 </div>
                 <button @click.prevent="editingProject.bulletPoints.push('Used x to accomplish y by doing z')"
                     :disabled="!mutable" className="disabled:cursor-not-allowed">Add

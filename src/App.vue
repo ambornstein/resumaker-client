@@ -13,7 +13,7 @@ const { loading } = useLoading();
 </script>
 
 <template>
-  <Loading v-show="loading"/>
+  <Loading v-show="loading" />
   <Modal v-show="showModal" @close="closeModal">
     <EntryView />
   </Modal>

@@ -54,7 +54,7 @@ export function useAccount() {
     )
     setLoading(false)
 
-    account.value! = result.data
+    account.value = result.data
     return result
   }
 
@@ -65,7 +65,18 @@ export function useAccount() {
     )
     setLoading(false)
 
-    account.value! = result.data
+    account.value = result.data
+    return result
+  }
+
+  async function updateResumeLabel(id: number, label: string) {
+    setLoading(true)
+    const result = await api.patch(`/api/resumes/${id}/${label}`)
+    setLoading(false)
+
+    const idx = account.value?.resumes.findIndex((r) => r.id == id)
+
+    account.value?.resumes.splice(idx!, 1, result.data)
     return result
   }
 
@@ -200,5 +211,6 @@ export function useAccount() {
     updateEntry,
     deleteEntry,
     updateAccount,
+    updateResumeLabel,
   }
 }
