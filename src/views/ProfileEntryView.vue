@@ -9,7 +9,7 @@ const { account } = useAccount();
 </script>
 
 <template>
-    <div className="flex flex-col gap-4 w-full">
+    <div className="flex flex-col gap-4 w-full mb-24">
         <div className="flex flex-col gap-2" id="education">
             <div className="grid grid-cols-[14vw_auto] w-fit items-center p-2">
                 <h2>Education</h2>

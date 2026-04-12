@@ -13,16 +13,17 @@ const { loading } = useLoading();
 </script>
 
 <template>
+  <title>Resumaker</title>
   <Loading v-show="loading" />
   <Modal v-show="showModal" @close="closeModal">
     <EntryView />
   </Modal>
   <Snackbar />
   <div className="w-full">
-    <nav className="flex flex-col m-auto h-16 bg-panel">
-      <div class="container flex justify-between items-end m-auto">
+    <nav className="flex flex-col m-auto h-fit bg-panel py-4">
+      <div class="container flex justify-between items-end m-auto ">
         <RouterLink to="/">
-          <h1 className="text-foreground">Résu<span className="text-rose-400">méker</span></h1>
+          <h1 className="text-foreground">Résu<span className="text-rose-400">maker</span></h1>
         </RouterLink>
         <AuthControls />
       </div>

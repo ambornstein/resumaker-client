@@ -11,7 +11,7 @@ const { modalMode, closeModal } = useEntryModal()
 const router = useRouter();
 
 function navigate() {
-    router.push(`/profile#${String(modalMode.value)}`)
+    router.push(`/profile/entries#${String(modalMode.value)}`)
     closeModal()
 }
 

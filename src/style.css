@@ -17,15 +17,25 @@
   --color-panel: var(--color-neutral-800);
   --color-inert: var(--color-stone-900);
 
-  --animate-flow: flow 2s infinite;
+  --animate-flow: flow 4s infinite ease-in-out;
+
+  --animate-flow-reverse: flow 4s infinite reverse ease-in-out;
 
   @keyframes flow {
     0% {
-      background-position: left;
+      transform: translateX(calc(200%));
+    }
+
+    40% {
+      transform: translateX(0%);
+    }
+
+    60% {
+      transform: translateX(0%);
     }
 
     100% {
-      background-position: right;
+      transform: translateX(calc(-200%));
     }
   }
 }
@@ -36,15 +46,15 @@
       --color-link: #0584da;
       --color-link-hover: #535bf2;
 
-      --color-background: var(--color-neutral-200);
+      --color-background: var(--color-neutral-100);
       --color-foreground: var(--color-slate-900);
       --color-contrast: var(--color-slate-500);
 
       --color-button: var(--color-slate-400);
-      --color-panel: var(--color-zinc-300);
-      --color-inert: var(--color-neutral-400);
+      --color-panel: var(--color-neutral-200);
+      --color-inert: var(--color-stone-400);
 
-      --color-highlight: var(--color-emerald-400);
+      --color-highlight: var(--color-emerald-300);
       --color-highlight-secondary: var(--color-emerald-200);
     }
   }

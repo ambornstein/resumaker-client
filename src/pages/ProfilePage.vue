@@ -22,7 +22,7 @@ if (route.query.section) {
         <h3>See Resumes</h3>
       </RouterLink>
     </div>
-    <div className="flex flex-row gap-24 w-full">
+    <div className="flex flex-row gap-8 w-full">
       <ul className="flex flex-col w-fit gap-4 panel rounded-lg h-fit p-4">
         <li className="link text-2xl w-48">
           <RouterLink to="/profile/info"><span>Profile Information</span></RouterLink>

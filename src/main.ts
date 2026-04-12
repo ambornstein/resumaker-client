@@ -13,7 +13,7 @@ import ProfileEntryView from './views/ProfileEntryView.vue'
 import { useLoading } from './composables/useLoading'
 
 const routes = [
-  { path: '/', component: HomePage },
+  { path: '/', component: HomePage, meta: { title: 'Resumaker' } },
   { path: '/resume/:id', component: ResumeView },
   { path: '/dashboard', component: DashboardPage },
   {

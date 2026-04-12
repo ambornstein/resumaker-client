@@ -29,7 +29,7 @@ watch(() => isLoggedIn.value, (value) => {
 <template>
     <div v-if="isLoggedIn" className="flex gap-2 items-center">
         <div ref="dropdown">
-            <div className="flex items-center gap-4 bg-button p-2 rounded-lg" @click="showDropdown = true">
+            <div className="flex items-center gap-2 bg-button p-2 pr-4 rounded-lg" @click="showDropdown = true">
                 <UserIcon />
                 <span className="cursor-pointer text-lg">{{ user?.username }}</span>
             </div>
