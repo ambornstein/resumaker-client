@@ -1,23 +1,22 @@
-import { ref } from "vue";
-import { type EntryCategory } from "../lib/types/types";
+import { ref } from 'vue'
+import { type EntryCategory } from '../lib/types'
 
-const showModal = ref<boolean>(false);
+const showModal = ref<boolean>(false)
 const modalMode = ref<EntryCategory>('work')
 
 export function useEntryModal() {
+  function closeModal() {
+    showModal.value = false
+  }
 
-    function closeModal() {
-        showModal.value = false;
-    }
+  function openCategory(category: EntryCategory) {
+    modalMode.value = category
+    openModal()
+  }
 
-    function openCategory(category: EntryCategory) {
-        modalMode.value = category;
-        openModal()
-    }
+  function openModal() {
+    showModal.value = true
+  }
 
-    function openModal() {
-        showModal.value = true;
-    }
- 
-    return {showModal, modalMode, closeModal, openModal, openCategory }
+  return { showModal, modalMode, closeModal, openModal, openCategory }
 }

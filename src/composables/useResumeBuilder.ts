@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import type { EntryCategory, Resume } from '../lib/types/types'
+import type { EntryCategory, Resume } from '../lib/types'
 import { EntryService } from '../lib/services/entryService'
 import api from '../lib/services/api'
 import { useAccount } from './useAccount'

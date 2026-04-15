@@ -7,7 +7,7 @@ import { useAccount } from '../../composables/useAccount';
 import { useRoute, useRouter } from 'vue-router';
 import { useLoading } from '../../composables/useLoading';
 
-const { isLoggedIn, user } = useAccount();
+const { isLoggedIn, account, loading } = useAccount();
 const route = useRoute()
 const router = useRouter();
 const { setLoading } = useLoading();
@@ -27,20 +27,21 @@ watch(() => isLoggedIn.value, (value) => {
 </script>
 
 <template>
-    <div v-if="isLoggedIn" className="flex gap-2 items-center">
+    <div v-if="account" className="flex gap-2 items-center">
         <div ref="dropdown">
-            <div className="flex items-center gap-2 bg-button p-2 pr-4 rounded-lg" @click="showDropdown = true">
+            <div v-if="!loading" className="flex items-center gap-2 bg-button p-2 pr-4 rounded-lg"
+                @click="showDropdown = true">
                 <UserIcon />
-                <span className="cursor-pointer text-lg">{{ user?.username }}</span>
+                <span className="cursor-pointer text-lg">{{ account?.firstName }} {{ account?.lastName }}</span>
+            </div>
+            <div v-else className="skeleton-bar h-10 w-48 ring-2 ring-foreground ring-offset-2 ring-offset-panel ">
             </div>
 
             <ul v-show="showDropdown" @click.prevent="showDropdown = false"
-                className="fixed w-36 space-y-0.5 top-14 m-auto bg-panel rounded-md p-2 border-light">
+                className="fixed w-36 space-y-0.5 top-20 m-auto bg-panel rounded-md p-2 border-light">
                 <RouterLink to="/profile">
                     <li className="dropdown-item">Profile</li>
                 </RouterLink>
-
-                <li className="dropdown-item">Settings</li>
                 <hr className="my-2 mx-1" />
                 <li @click="authService.logout" className="dropdown-item">Log Out</li>
             </ul>

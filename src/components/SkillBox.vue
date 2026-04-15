@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import type { SkillCategory } from '../lib/types/types';
+import type { SkillCategory } from '../lib/types';
 import CloseIcon from './icons/CloseIcon.vue';
 
 const props = defineProps<{ skillCategory: SkillCategory }>()

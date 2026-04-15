@@ -6,7 +6,7 @@ import type {
   WorkExperienceEntry,
   PersistedEntity,
   ProjectEntry,
-} from '../lib/types/types'
+} from '../lib/types'
 import api from '../lib/services/api'
 import tokenService from '../lib/services/tokenService'
 import { useLoading } from './useLoading'
@@ -29,7 +29,7 @@ async function updateAuthStatus() {
 async function fetchAccount() {
   if (!user.value) return
   loading.value = true
-  const result = await api.get(`/api/accounts/${user.value.id}`)
+  const result = await api.get(`/api/accounts/${user.value.email}`)
   loading.value = false
 
   account.value = result.data
@@ -88,6 +88,17 @@ export function useAccount() {
     setLoading(false)
 
     return result
+  }
+
+  async function deleteAccount() {
+    setLoading(true)
+    if (!account.value) return
+
+    const result = await api.delete(`/api/accounts/${account.value.id}`)
+    account.value = null
+
+    setLoading(false)
+    tokenService.removeUser()
   }
 
   async function updateEntry(
@@ -203,12 +214,13 @@ export function useAccount() {
     isLoggedIn,
     loading,
     fetchAccount,
+    updateAccount,
+    deleteAccount,
     createResume,
     deleteResume,
     addEntry,
     updateEntry,
     deleteEntry,
-    updateAccount,
     updateResumeLabel,
   }
 }

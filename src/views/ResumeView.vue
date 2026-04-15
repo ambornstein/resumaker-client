@@ -15,7 +15,8 @@ const { includeFlags } = usePDFBuilder();
         Projects</label>
       <input type="checkbox" id="skills" v-model="includeFlags.skills"><label for="skills">Include
         Skills</label>
-      <div className="col-span-full"> </div>
+      <input type="checkbox" id="location" v-model="includeFlags.location"><label for="location">Include
+        Location</label>
       <input type="checkbox" id="email" v-model="includeFlags.email"><label for="email">Include Email</label>
       <input type="checkbox" id="site" v-model="includeFlags.website"><label for="site">Include Website</label>
       <input type="checkbox" id="phone" v-model="includeFlags.phone"><label for="phone">Include Phone Number</label>
@@ -23,8 +24,6 @@ const { includeFlags } = usePDFBuilder();
         LinkedIn</label>
       <input type="checkbox" id="github" v-model="includeFlags.github"><label for="github">Include GitHub</label>
 
-      <input type="checkbox" id="location" v-model="includeFlags.location"><label for="location">Include
-        Location</label>
     </div>
     <iframe id="resume-page" frameborder="0" className="w-full h-[876px]" />
     <Suspense>

@@ -10,7 +10,7 @@ import type {
   FontOptions,
   Vector2,
   ResumeInclusionFlags,
-} from '../lib/types/types'
+} from '../lib/types'
 import { reactive } from 'vue'
 
 const defaultTemplate: ResumeStyleTemplate = {

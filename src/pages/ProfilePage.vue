@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
-import type { EntryCategory } from '../lib/types/types'
+import type { EntryCategory } from '../lib/types'
 import Loading from '../components/overlay/Loading.vue'
 
 const route = useRoute()

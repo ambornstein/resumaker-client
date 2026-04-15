@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import type { PersistedEntity, WorkExperienceEntry } from '../../lib/types/types';
+import type { PersistedEntity, WorkExperienceEntry } from '../../lib/types';
 import { useAccount } from '../../composables/useAccount';
 import EditIcon from '../icons/EditIcon.vue';
 import DeleteIcon from '../icons/DeleteIcon.vue';

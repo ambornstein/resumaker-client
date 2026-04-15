@@ -3,7 +3,7 @@ import { ref, watch } from "vue";
 import CardSkeleton from "../components/skeleton/CardSkeleton.vue";
 import HeadingSkeleton from "../components/skeleton/HeadingSkeleton.vue";
 import { useAccount } from "../composables/useAccount";
-import type { Resume } from "../lib/types/types";
+import type { Resume } from "../lib/types";
 import EditIcon from "../components/icons/EditIcon.vue";
 import DeleteIcon from "../components/icons/DeleteIcon.vue";
 import CreateIcon from "../components/icons/CreateIcon.vue";

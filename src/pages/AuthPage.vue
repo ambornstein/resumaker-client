@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useSnackbar } from '../composables/useSnackbar';
 import authService from '../lib/services/authService';
 import { useLoading } from '../composables/useLoading';
+import { registrationSchema } from '../lib/validation';
 
 const router = useRouter()
 const route = useRoute();
@@ -13,8 +14,7 @@ const { setLoading } = useLoading();
 type AuthMode = "login" | "signup"
 
 const authMode = ref<AuthMode>("login")
-
-let passwordsValid = ref<boolean>(true);
+const passwordsValid = ref<boolean>(true);
 
 const credentials = {
     email: '',
@@ -26,7 +26,7 @@ const registration = {
     lastName: '',
     email: '',
     password: '',
-    confirmationPassword: '',
+    confirmPassword: '',
     roles: ['user']
 }
 
@@ -41,7 +41,7 @@ async function handleLogin(event: SubmitEvent) {
 
     const result = await authService.login(credentials)
     if (result.status == 200) {
-        displayMessage("You have been logged in successfully as " + result.data.username)
+        displayMessage("You have been logged in successfully as " + result.data.email)
         if (router.options.history.state.back == "/" || router.options.history.state.back == "/sign-in") {
             router.push("/dashboard")
         } else {
@@ -49,16 +49,18 @@ async function handleLogin(event: SubmitEvent) {
         }
     }
     else {
-        displayMessage("Username and password don't match.", 'error');
+        displayMessage("Username and password don't match any existing account.", 'error');
     }
 
     setLoading(false)
 }
 
 async function handleSignup(event: SubmitEvent) {
-    passwordsValid.value = registration.password === registration.confirmationPassword;
+    passwordsValid.value = registration.password === registration.confirmPassword;
 
-    if (!passwordsValid.value) return
+    const result = registrationSchema.safeParse(registration)
+    console.log(result)
+    if (!passwordsValid.value || !result.success) return
 
     setLoading(true)
     authService.register(registration).then(result => {
@@ -117,15 +119,15 @@ async function handleSignup(event: SubmitEvent) {
             <div className="block col-span-2">
                 <label for="password">Password</label>
                 <input type="password" v-model="registration.password" id="password" className="w-full input-field"
-                    required />
+                    min="0" max="100" required />
             </div>
             <div className="block col-span-2">
                 <label for="confirmPassword">Confirm Password</label>
-                <input type="password" v-model="registration.confirmationPassword" id="confirmPassword"
-                    className="w-full input-field" required />
+                <input type="password" v-model="registration.confirmPassword" id="confirmPassword"
+                    className="w-full input-field" min="0" max="100" required />
             </div>
             <p v-if="!passwordsValid" className="text-error col-span-full">Passwords must match and be between 8 and
-                50 characters in length.</p>
+                100 characters in length.</p>
             <button className="col-span-2">Submit</button>
         </form>
         <div className="flex items-center h-16 gap-4">

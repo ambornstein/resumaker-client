@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import type { Entity, EntryCategory } from '../lib/types/types';
+import type { Entity, EntryCategory } from '../lib/types';
 import EntryDialog from '../components/dialogue/EntryDialog.vue';
 import { useResumeBuilder } from '../composables/useResumeBuilder';
 import { useEntryModal } from '../composables/useEntryModal';
@@ -49,8 +49,8 @@ watch(() => modalMode.value, updateEntries)
             <template #option="data" v-if="modalMode == 'projects'">
                 <label :for="data.title" className="entry-chip highlight-checked">
                     <input :id="data.title" type="checkbox" :value="data.id" v-model="selectedIds" />
-                    
-                        <span>{{ data.title }}</span>
+
+                    <span>{{ data.title }}</span>
 
                 </label>
             </template>
