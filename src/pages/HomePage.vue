@@ -7,7 +7,8 @@
         <section className="m-auto h-125 flex items-center gap-20">
             <div className="flex flex-col gap-8 flex-3 max-w-175">
                 <h1 className="tracking-widest font-semibold">Rethink the Way You Build Résumés</h1>
-                <h2>Create many resumes, all tailored to show specific qualifications, from just one profile.</h2>
+                <h2>With just one profile, it's easy to create many resumes, each tailored to show specific
+                    qualifications.</h2>
             </div>
             <div className="flex-2 overflow-clip">
                 <div className="m-auto border-light h-110 aspect-[1/1.4] p-8 flex flex-col gap-1">
@@ -63,16 +64,16 @@
 
         <section className="grid md:grid-cols-3 gap-8 w-[80%] m-auto">
             <div className="border-thick p-4 bg-panel flex flex-col gap-4">
-                <span className="text-3xl px-4 py-2 bg-highlight rounded-sm m-auto h-fit">1</span>
+                <span className="text-3xl px-4 py-2 bg-highlight rounded-sm mx-auto">1</span>
                 <h2 className="text-center">Create a profile of your qualifications.</h2>
             </div>
             <div className="border-thick p-4 bg-panel flex flex-col gap-4">
-                <span className="text-3xl px-4 py-2 bg-highlight rounded-sm m-auto h-fit">2</span>
+                <span className="text-3xl px-4 py-2 bg-highlight rounded-sm mx-auto">2</span>
                 <h2 className="text-center">Pick the most relevant experience and projects.</h2>
             </div>
             <div className="border-thick p-4 bg-panel flex flex-col gap-4">
-                <span className="text-3xl px-4 py-2 bg-highlight rounded-sm m-auto h-fit">3</span>
-                <h2 className="text-center h-full">Get a new resume instantly.</h2>
+                <span className="text-3xl px-4 py-2 bg-highlight rounded-sm mx-auto">3</span>
+                <h2 className="text-center">Get a new resume instantly.</h2>
             </div>
 
         </section>

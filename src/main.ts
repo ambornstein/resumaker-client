@@ -28,7 +28,7 @@ const routes = [
   { path: '/sign-in', component: AuthPage },
 ]
 
-const { account, loading } = useAccount()
+const { account, loading, isLoggedIn } = useAccount()
 const { setLoading } = useLoading()
 
 const router = createRouter({
@@ -54,7 +54,7 @@ router.beforeEach((to, from) => {
     )
     account.value.projects = account.value.projects.filter((e) => e.id)
   } else if (
-    loading.value == false &&
+    isLoggedIn.value == false &&
     to.path != '/' &&
     to.path != '/sign-in'
   ) {

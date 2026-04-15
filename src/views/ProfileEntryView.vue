@@ -4,8 +4,9 @@ import ProjectEntry from '../components/entry/ProjectEntry.vue';
 import WorkEntry from '../components/entry/WorkEntry.vue';
 import { useAccount } from '../composables/useAccount';
 
+const { account, fetchAccount } = useAccount();
 
-const { account } = useAccount();
+if (!account.value) await fetchAccount();
 </script>
 
 <template>

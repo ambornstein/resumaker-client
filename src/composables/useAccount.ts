@@ -19,9 +19,6 @@ const loading = ref<boolean>(false)
 
 async function updateAuthStatus() {
   if (tokenService.getUser()) {
-    if (!account.value) {
-      await fetchAccount(tokenService.getUser()!.id)
-    }
     isLoggedIn.value = true
   } else {
     account.value = null
@@ -29,9 +26,10 @@ async function updateAuthStatus() {
   }
 }
 
-async function fetchAccount(id: number) {
+async function fetchAccount() {
+  if (!user.value) return
   loading.value = true
-  const result = await api.get(`/api/accounts/${id}`)
+  const result = await api.get(`/api/accounts/${user.value.id}`)
   loading.value = false
 
   account.value = result.data

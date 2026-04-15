@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import type { EntryCategory } from '../lib/types/types'
+import Loading from '../components/overlay/Loading.vue'
 
 const route = useRoute()
 
@@ -31,7 +32,12 @@ if (route.query.section) {
           <RouterLink to="/profile/entries"><span>Resume Entries</span></RouterLink>
         </li>
       </ul>
-      <RouterView />
+      <Suspense>
+        <RouterView />
+        <template #fallback>
+          <Loading />
+        </template>
+      </Suspense>
     </div>
   </div>
 </template>

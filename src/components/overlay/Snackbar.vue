@@ -7,13 +7,14 @@ const { message, style, showSnackbar, hide } = useSnackbar();
 
 <template>
     <div v-show="showSnackbar" className="w-full h-full">
-        <div className="fixed w-full bottom-20 flex justify-center">
+        <div className="fixed w-full bottom-20 flex justify-center z-10">
             <div v-show="style == 'normal'"
                 className="border-thick p-2 bg-highlight border-highlight-secondary flex justify-between gap-12 items-center min-w-md transition-all duration-200">
                 <span>{{ message }}</span>
                 <CloseIcon @click="hide" />
             </div>
-            <div v-show="style == 'error'" className="border-thick p-2 bg-error border-error-secondary flex justify-between items-center gap-12 min-w-md transition-all duration-200">
+            <div v-show="style == 'error'"
+                className="border-thick p-2 bg-error border-error-secondary flex justify-between items-center gap-12 min-w-md transition-all duration-200">
                 <span>{{ message }}</span>
                 <CloseIcon @click="hide" />
             </div>

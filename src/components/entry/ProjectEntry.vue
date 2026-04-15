@@ -2,7 +2,6 @@
 import { computed, ref } from 'vue';
 import type { PersistedEntity, ProjectEntry } from '../../lib/types/types';
 import { useAccount } from '../../composables/useAccount';
-import CloseIcon from '../icons/CloseIcon.vue';
 import EditIcon from '../icons/EditIcon.vue';
 import DeleteIcon from '../icons/DeleteIcon.vue';
 
@@ -46,6 +45,10 @@ const mutable = computed(() => !!!props.editingProject.id || editing.value)
             <label className="col-span-full" for="description">Description
                 <textarea className="w-full input-field" id="description" type='text'
                     v-model="editingProject.description" :disabled="!mutable"></textarea>
+            </label>
+            <label className="col-span-full" for="link">Link
+                <input className="w-full input-field" id="link" type='url' v-model="editingProject.link"
+                    :disabled="!mutable"></input>
             </label>
             <div className="flex flex-col gap-2 col-span-full mt-2">
                 <h3 className="font-semibold tracking-wider text-center">Bullet Points</h3>

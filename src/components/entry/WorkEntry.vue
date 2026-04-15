@@ -2,7 +2,6 @@
 import { computed, ref } from 'vue';
 import type { PersistedEntity, WorkExperienceEntry } from '../../lib/types/types';
 import { useAccount } from '../../composables/useAccount';
-import CloseIcon from '../icons/CloseIcon.vue';
 import EditIcon from '../icons/EditIcon.vue';
 import DeleteIcon from '../icons/DeleteIcon.vue';
 
@@ -56,11 +55,13 @@ const mutable = computed(() => !!!props.editingExperience.id || editing.value)
                     :disabled="!mutable">
             </label>
             <label className="col-span-3" v-if="!editingExperience.current">End Date
-                <input className="w-full input-field" v-if="!editingExperience.current" id="start" type='month'
-                    v-model="editingExperience.endDate" :disabled="!mutable" />
+                <input className="w-full input-field" id="end" type='month' v-model="editingExperience.endDate"
+                    :disabled="!mutable" />
             </label>
-            <label className="col-span-full flex items-center underline gap-2 has-disabled:cursor-not-allowed">
-                <input type="checkbox" v-model="editingExperience.current" :disabled="!mutable">Is Current
+            <label for="current"
+                className="col-span-full flex items-center underline gap-2 has-disabled:cursor-not-allowed">
+                <input type="checkbox" v-model="editingExperience.current" :disabled="!mutable" id="current">Is
+                Current
             </label>
             <div className="flex flex-col gap-2 col-span-full mt-2">
                 <h3 className="font-semibold tracking-wider text-center">Bullet Points</h3>

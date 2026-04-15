@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import Loading from '../components/overlay/Loading.vue';
 import { useAccount } from '../composables/useAccount'
 
-const { account, updateAccount, loading } = useAccount()
+const { account, updateAccount, fetchAccount } = useAccount()
 
+if (!account.value) await fetchAccount();
 </script>
 
 <template>
-    <Loading v-if="loading" />
-    <div v-else className="flex w-full gap-12 panel p-4 has-[button:hover]:bg-inert transition-all duration-150">
+    <div className="flex w-full gap-12 panel p-4 has-[button:hover]:bg-inert transition-all duration-150">
         <div className="split-column w-fit">
             <h2 className="col-span-full mb-4" id="personal-info">
                 Personal Information

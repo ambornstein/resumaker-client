@@ -8,7 +8,10 @@ import type {
   Skills,
   ResumeStyleTemplate,
   FontOptions,
+  Vector2,
+  ResumeInclusionFlags,
 } from '../lib/types/types'
+import { reactive } from 'vue'
 
 const defaultTemplate: ResumeStyleTemplate = {
   margin: {
@@ -33,18 +36,25 @@ const defaultTemplate: ResumeStyleTemplate = {
   },
   textStyle: {
     fontSize: 12,
-    font: 'CM Serif Roman',
+    font: 'Times New Roman',
     fontStyle: 'normal',
   },
-  lineSpacing: 1.5,
+  lineSpacing: 0.5,
   bulletSymbol: '\u2022',
   dividerSymbol: '\u2022',
 }
 
-type Vector2 = {
-  x: number
-  y: number
-}
+const includeFlags = reactive<ResumeInclusionFlags>({
+  experience: true,
+  projects: true,
+  skills: true,
+  email: true,
+  phone: true,
+  website: true,
+  github: true,
+  linkedIn: true,
+  location: true,
+})
 
 export function usePDFBuilder() {
   let doc = new jsPDF({
@@ -81,9 +91,9 @@ export function usePDFBuilder() {
 
     createHeader(account)
     createEducationSection(resume.educationHistory)
-    createSkillsSection(resume.skills)
-    createExperienceSection(resume.workHistory)
-    createProjectSection(resume.projects)
+    includeFlags.skills && createSkillsSection(resume.skills)
+    includeFlags.experience && createExperienceSection(resume.workHistory)
+    includeFlags.projects && createProjectSection(resume.projects)
 
     const string = doc.output('datauristring', {
       filename: docName,
@@ -104,27 +114,27 @@ export function usePDFBuilder() {
     let contacts = []
 
     contacts.push(account.USCitizen ? 'US Citizen' : null)
-    contacts.push(account.location)
-    contacts.push(account.email)
-    contacts.push(account.phoneNumber)
-    contacts.push(account.website)
-    contacts.push(account.linkedInLink)
-    contacts.push(account.githubLink)
-    contacts = contacts.filter((i) => i != undefined)
+    includeFlags.location && contacts.push(account.location)
+    includeFlags.email && contacts.push(account.email)
+    includeFlags.phone && contacts.push(account.phoneNumber)
+    includeFlags.website && contacts.push(account.website)
+    includeFlags.linkedIn && contacts.push(account.linkedInLink)
+    includeFlags.github && contacts.push(account.githubLink)
+    contacts = contacts.filter((i) => i != null)
 
     if (contacts.length == 0) return
 
     const textLines = divideTextLines(contacts, ` ${template.dividerSymbol} `)
-    console.log(textLines)
     for (let i = 0; i < textLines.length; i++) {
       const lineWidth = calculateJoinWidth(
         textLines[i]!.map(formatLink),
         ` ${template.dividerSymbol} `
       )
+
       cursor.x = template.margin.left + (maxTextWidth - lineWidth) / 2
       for (let j = 0; j < textLines[i]!.length; j++) {
         if (textLines[i]![j]!.startsWith('http')) {
-          createLink(formatLink(textLines[i]![j]!), textLines[i]![j]!!, false)
+          createLink(formatLink(textLines[i]![j]!), textLines[i]![j]!, false)
         } else {
           createText(textLines[i]![j]!, false)
         }
@@ -135,6 +145,7 @@ export function usePDFBuilder() {
       }
       incrementLine()
     }
+    incrementLine()
   }
 
   function createEducationSection(education: EducationEntry[]) {
@@ -206,7 +217,9 @@ export function usePDFBuilder() {
     drawHorizontalLine()
     setFontStyle(template.textStyle)
     projects.forEach((value) => {
-      createText(value.title)
+      createText(value.title, false)
+      if (value.link) createLink('Link', value.link, true)
+      else incrementLine()
       createText(value.description)
 
       value.bulletPoints.forEach((bullet) => {
@@ -238,12 +251,25 @@ export function usePDFBuilder() {
   }
 
   function createLink(text: string, linkSrc: string, newLine = true) {
+    doc.setTextColor('#646cff')
+    doc.setDrawColor('#646cff')
     doc.textWithLink(text, cursor.x, cursor.y, {
       maxWidth: maxTextWidth,
       url: linkSrc,
     })
 
+    var cursorOrigin = { x: cursor.x, y: cursor.y }
     cursor = calculateCursorTravel(text, cursor)
+
+    doc.line(
+      cursorOrigin.x,
+      cursorOrigin.y + template.lineSpacing,
+      cursor.x,
+      cursor.y + template.lineSpacing
+    )
+    doc.setDrawColor('#000000')
+    doc.setTextColor('#000000')
+
     if (newLine) {
       incrementLine()
     }
@@ -372,5 +398,5 @@ export function usePDFBuilder() {
 
   //#endregion
 
-  return { createPDF, savePDF }
+  return { createPDF, savePDF, includeFlags }
 }

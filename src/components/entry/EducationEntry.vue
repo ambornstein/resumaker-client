@@ -2,7 +2,6 @@
 import { computed, ref } from 'vue';
 import type { EducationEntry, PersistedEntity } from '../../lib/types/types';
 import { useAccount } from '../../composables/useAccount';
-import CloseIcon from '../icons/CloseIcon.vue';
 import EditIcon from '../icons/EditIcon.vue';
 import DeleteIcon from '../icons/DeleteIcon.vue';
 
@@ -56,11 +55,12 @@ const mutable = computed(() => !!!props.editingEducation.id || editing.value)
                     :disabled="!mutable">
             </label>
             <label className="col-span-3" for="end" v-if="!editingEducation.current">End Date
-                <input v-if="!editingEducation.current" className="w-full input-field" id="end" type='month'
-                    v-model="editingEducation.endDate" :disabled="!mutable" />
+                <input className="w-full input-field" id="end" type='month' v-model="editingEducation.endDate"
+                    :disabled="!mutable" />
             </label>
             <label for="current" className="col-span-full underline flex gap-2 has-disabled:cursor-not-allowed">
-                <input type="checkbox" id="current" v-model="editingEducation.current" :disabled="!mutable">Is Current
+                <input id="current" type="checkbox" v-model="editingEducation.current" :disabled="!mutable">Is
+                Current
             </label>
         </div>
     </form>

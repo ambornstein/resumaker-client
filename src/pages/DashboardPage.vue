@@ -9,7 +9,12 @@ import DeleteIcon from "../components/icons/DeleteIcon.vue";
 import CreateIcon from "../components/icons/CreateIcon.vue";
 import RenameIcon from "../components/icons/RenameIcon.vue";
 
-const { account, createResume, deleteResume, updateResumeLabel, loading } = useAccount();
+const { account, fetchAccount, createResume, deleteResume, updateResumeLabel, loading } = useAccount();
+
+const resumeList = ref<Resume[]>(account.value?.resumes!)
+const selectedResume = ref<Resume>()
+const sortValue = ref<string>('name')
+
 
 function handleCreateResume() {
     const label = prompt("Input a label for the resume")
@@ -33,16 +38,6 @@ async function handleUpdateLabel() {
     }
 }
 
-watch(() => account.value, (value) => {
-    if (value) resumeList.value = value.resumes
-    sortResumes();
-})
-
-
-const resumeList = ref<Resume[]>(account.value?.resumes!)
-const selectedResume = ref<Resume>()
-const sortValue = ref<string>('name')
-
 function sortResumes() {
     switch (sortValue.value) {
         case 'name':
@@ -56,6 +51,14 @@ function sortResumes() {
             break
     }
 }
+
+fetchAccount();
+
+watch(() => account.value, (value) => {
+    if (value) resumeList.value = value.resumes
+    sortResumes();
+})
+
 </script>
 
 <template>

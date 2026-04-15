@@ -55,13 +55,14 @@ export type EducationEntry = Entity & {
   schoolName: string
   location: string
   startDate: string
-  current: boolean
   endDate?: string
+  current: boolean
 }
 
 export type ProjectEntry = Entity & {
   title: string
   description: string
+  link?: string
   bulletPoints: string[]
 }
 
@@ -98,6 +99,18 @@ export type ResumeStyleTemplate = {
   dividerSymbol: string
 }
 
+export type ResumeInclusionFlags = {
+  experience: boolean
+  projects: boolean
+  skills: boolean
+  email: boolean
+  phone: boolean
+  website: boolean
+  github: boolean
+  linkedIn: boolean
+  location: boolean
+}
+
 export type FontOptions = {
   fontSize: number
   font: string
@@ -111,4 +124,9 @@ export type User = {
   username: string
   email: string
   roles: string[]
+}
+
+export type Vector2 = {
+  x: number
+  y: number
 }

@@ -8,32 +8,29 @@ import { useEntryModal } from '../../composables/useEntryModal';
 import { useAccount } from '../../composables/useAccount';
 import { usePDFBuilder } from '../../composables/usePDFBuilder';
 import SkillBox from '../SkillBox.vue';
-import { watch } from 'vue';
-import { useLoading } from '../../composables/useLoading';
+import { watch, watchEffect } from 'vue';
 
 const route = useRoute();
 const { openCategory } = useEntryModal();
 
 const { resume, fetchResume } = useResumeBuilder();
-const { account } = useAccount();
-const { createPDF, savePDF } = usePDFBuilder();
-const { setLoading } = useLoading();
+const { account, fetchAccount } = useAccount();
+const { createPDF, savePDF, includeFlags } = usePDFBuilder();
 
-setLoading(true)
+if (!account.value) await fetchAccount();
 await fetchResume(route.params.id!)
-setLoading(false)
-
-renderResume()
-
-watch(() => resume.value, (value) => {
-    if (value) {
-        renderResume()
-    }
-})
 
 function renderResume() {
     createPDF(resume.value!, account.value!)
 }
+
+renderResume()
+
+watchEffect(() => {
+    if (resume.value && includeFlags) {
+        renderResume()
+    }
+})
 
 </script>
 
