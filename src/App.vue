@@ -6,8 +6,11 @@ import AuthControls from './components/sections/AuthControls.vue';
 import Snackbar from './components/overlay/Snackbar.vue';
 import Loading from './components/overlay/Loading.vue';
 import { useLoading } from './composables/useLoading';
+import { useFormModal } from './composables/useFormModal';
+import EntryForm from './components/dialogue/EntryForm.vue';
 
 const { showModal, closeModal } = useEntryModal()
+const { showFormModal, closeFormModal } = useFormModal()
 const { loading } = useLoading();
 
 </script>
@@ -17,6 +20,9 @@ const { loading } = useLoading();
   <Loading v-show="loading" />
   <Modal v-show="showModal" @close="closeModal">
     <EntryView />
+  </Modal>
+  <Modal v-show="showFormModal" @close="closeFormModal">
+    <EntryForm />
   </Modal>
   <Snackbar />
   <div className="w-full">

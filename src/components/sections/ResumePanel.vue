@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import ExperienceCard from '../entry/ExperienceCard.vue';
-import EducationCard from '../entry/EducationCard.vue';
-import ProjectCard from '../entry/ProjectCard.vue';
+import ExperienceCard from '../entry/experience/ExperienceCard.vue';
+import EducationCard from '../entry/education/EducationCard.vue';
+import ProjectCard from '../entry/project/ProjectCard.vue';
 import { useRoute } from 'vue-router';
 import { useResumeBuilder } from '../../composables/useResumeBuilder';
 import { useEntryModal } from '../../composables/useEntryModal';

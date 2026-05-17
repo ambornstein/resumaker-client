@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
-import ResumeView from './views/ResumeView.vue'
+import ResumePage from './pages/ResumePage.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from './pages/HomePage.vue'
 import AuthPage from './pages/AuthPage.vue'
@@ -14,7 +14,7 @@ import { useLoading } from './composables/useLoading'
 
 const routes = [
   { path: '/', component: HomePage, meta: { title: 'Resumaker' } },
-  { path: '/resume/:id', component: ResumeView },
+  { path: '/resume/:id', component: ResumePage },
   { path: '/dashboard', component: DashboardPage },
   {
     path: '/profile',

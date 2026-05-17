@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import type { EntryCategory } from '../lib/types'
-import Loading from '../components/overlay/Loading.vue'
+import SectionLoading from '../components/overlay/SectionLoading.vue'
 
 const route = useRoute()
 
@@ -16,9 +16,9 @@ if (route.query.section) {
 </script>
 
 <template>
-  <div className="flex flex-col gap-8">
+  <div className="flex flex-col gap-4">
     <div className="flex col-span-2 justify-between">
-      <h1>Your Profile</h1>
+      <h1 className="align-text-bottom">Your Profile</h1>
       <RouterLink className="link" to="/dashboard">
         <h3>See Resumes</h3>
       </RouterLink>
@@ -26,7 +26,7 @@ if (route.query.section) {
     <div className="flex flex-row gap-8 w-full">
       <ul className="flex flex-col w-fit gap-4 panel rounded-lg h-fit p-4">
         <li className="link text-2xl w-48">
-          <RouterLink to="/profile/info"><span>Profile Information</span></RouterLink>
+          <RouterLink to="/profile/info"><span>Information</span></RouterLink>
         </li>
         <li className="link text-2xl w-48">
           <RouterLink to="/profile/entries"><span>Resume Entries</span></RouterLink>
@@ -35,7 +35,7 @@ if (route.query.section) {
       <Suspense>
         <RouterView />
         <template #fallback>
-          <Loading />
+          <SectionLoading />
         </template>
       </Suspense>
     </div>

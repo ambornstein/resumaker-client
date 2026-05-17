@@ -49,9 +49,7 @@ watch(() => modalMode.value, updateEntries)
             <template #option="data" v-if="modalMode == 'projects'">
                 <label :for="data.title" className="entry-chip highlight-checked">
                     <input :id="data.title" type="checkbox" :value="data.id" v-model="selectedIds" />
-
                     <span>{{ data.title }}</span>
-
                 </label>
             </template>
 

@@ -6,10 +6,12 @@ import type {
   WorkExperienceEntry,
   PersistedEntity,
   ProjectEntry,
+  Entity,
 } from '../lib/types'
 import api from '../lib/services/api'
 import tokenService from '../lib/services/tokenService'
 import { useLoading } from './useLoading'
+
 //#region Global auth state management
 
 const account = ref<Account | null>()
@@ -137,48 +139,15 @@ export function useAccount() {
     return updatedEntry.data
   }
 
-  async function addEntry(entryCategory: EntryCategory, index: number) {
+  async function addEntry(entryCategory: EntryCategory, entry: Entity) {
     let createdEntry
-
     setLoading(true)
-    switch (entryCategory) {
-      case 'work':
-        createdEntry = await api.post(
-          `/api/accounts/${account.value!.id}/${entryCategory}`,
-          account.value!.workExperiences[index]
-        )
 
-        account.value!.workExperiences.splice(
-          index,
-          1,
-          createdEntry.data as WorkExperienceEntry
-        )
-        break
-      case 'education':
-        createdEntry = await api.post(
-          `/api/accounts/${account.value!.id}/${entryCategory}`,
-          account.value!.educationEntries[index]
-        )
+    createdEntry = await api.post(
+      `/api/accounts/${account.value!.id}/${entryCategory}`,
+      entry
+    )
 
-        account.value!.educationEntries.splice(
-          index,
-          1,
-          createdEntry.data as EducationEntry
-        )
-        break
-      case 'projects':
-        createdEntry = await api.post(
-          `/api/accounts/${account.value!.id}/${entryCategory}`,
-          account.value!.projects[index]
-        )
-
-        account.value!.projects.splice(
-          index,
-          1,
-          createdEntry.data as ProjectEntry
-        )
-        break
-    }
     setLoading(false)
     return createdEntry.data
   }

@@ -119,7 +119,7 @@
   }
 
   h1 {
-    @apply text-3xl tracking-wider leading-8;
+    @apply text-3xl;
   }
 
   h2 {
