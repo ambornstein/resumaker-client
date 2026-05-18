@@ -1,15 +1,22 @@
 <script setup lang="ts">
+import { useFormModal } from '../../../composables/useFormModal';
 import type { EducationEntry } from '../../../lib/types';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
-const props = defineProps<{ entry?: EducationEntry }>();
+const { editingEntry } = useFormModal()
 
-const editingEducation = ref<EducationEntry>(props.entry ?? {
+let defaultEntry = {
     degree: '',
     schoolName: '',
     location: '',
     startDate: '',
     current: false,
+}
+
+const editingEducation = ref<EducationEntry>(editingEntry.value as EducationEntry ?? defaultEntry)
+
+watch(() => editingEntry.value, (val) => {
+    editingEducation.value = val as EducationEntry ?? defaultEntry
 })
 
 const emit = defineEmits<{

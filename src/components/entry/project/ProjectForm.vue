@@ -1,14 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import type { ProjectEntry } from '../../../lib/types';
 import DeleteIcon from '../../icons/DeleteIcon.vue';
+import { useFormModal } from '../../../composables/useFormModal';
 
-const props = defineProps<{ entry?: ProjectEntry }>();
+const { editingEntry } = useFormModal()
 
-const editingProject = ref<ProjectEntry>(props.entry ?? {
+let defaultEntry = {
     title: '',
     description: '',
     bulletPoints: [],
+}
+
+const editingProject = ref<ProjectEntry>(editingEntry.value as ProjectEntry ?? defaultEntry)
+
+watch(() => editingEntry.value, (val) => {
+    editingProject.value = val as ProjectEntry ?? defaultEntry
 })
 
 const emit = defineEmits<{

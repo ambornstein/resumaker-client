@@ -3,7 +3,7 @@ import type { EntryCategory, Entity } from '../lib/types'
 
 const showFormModal = ref<boolean>(false)
 const modalMode = ref<EntryCategory>('work')
-const editingEntry = ref<Entity | undefined>()
+const editingEntry = ref<Entity>()
 
 export function useFormModal() {
   function closeFormModal() {
@@ -12,7 +12,7 @@ export function useFormModal() {
   }
 
   function openCategory(category: EntryCategory, entry?: Entity) {
-    editingEntry.value = entry
+    editingEntry.value = entry ?? undefined
     modalMode.value = category
     openModal()
   }

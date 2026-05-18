@@ -1,18 +1,26 @@
 <script setup lang="ts">
 import type { WorkExperienceEntry } from '../../../lib/types';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import DeleteIcon from '../../icons/DeleteIcon.vue';
+import { useFormModal } from '../../../composables/useFormModal';
 
-const props = defineProps<{ entry?: WorkExperienceEntry }>();
+const { editingEntry } = useFormModal()
 
-const editingExperience = ref<WorkExperienceEntry>(props.entry ?? {
+let defaultEntry = {
     title: '',
     company: '',
     location: '',
     startDate: '',
     current: false,
     bulletPoints: [],
+}
+
+const editingExperience = ref<WorkExperienceEntry>(editingEntry.value as WorkExperienceEntry ?? defaultEntry)
+
+watch(() => editingEntry.value, (val) => {
+    editingExperience.value = val as WorkExperienceEntry ?? defaultEntry
 })
+
 
 const emit = defineEmits<{
     (e: 'save', entry: WorkExperienceEntry): void
