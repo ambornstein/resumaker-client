@@ -11,6 +11,7 @@ import { useAccount } from './composables/useAccount'
 import ProfileInfoView from './views/ProfileInfoView.vue'
 import ProfileEntryView from './views/ProfileEntryView.vue'
 import { useLoading } from './composables/useLoading'
+import OAuthTokenPage from './pages/OAuthTokenPage.vue'
 
 const routes = [
   { path: '/', component: HomePage, meta: { title: 'Resumaker' } },
@@ -26,6 +27,7 @@ const routes = [
     ],
   },
   { path: '/sign-in', component: AuthPage },
+  { path: '/oauth2/token', component: OAuthTokenPage },
 ]
 
 const { account, loading, isLoggedIn } = useAccount()
@@ -56,7 +58,8 @@ router.beforeEach((to, from) => {
   } else if (
     isLoggedIn.value == false &&
     to.path != '/' &&
-    to.path != '/sign-in'
+    to.path != '/sign-in' &&
+    to.path != '/oauth2/token'
   ) {
     setLoading(false)
     return '/sign-in'

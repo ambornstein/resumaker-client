@@ -27,7 +27,6 @@ const registration = {
     email: '',
     password: '',
     confirmPassword: '',
-    roles: ['user']
 }
 
 if (route.query.mode == 'signup') {
@@ -59,7 +58,9 @@ async function handleSignup(event: SubmitEvent) {
     passwordsValid.value = registration.password === registration.confirmPassword;
 
     const result = registrationSchema.safeParse(registration)
-    console.log(result)
+
+    console.log(result.error)
+
     if (!passwordsValid.value || !result.success) return
 
     setLoading(true)
@@ -136,8 +137,8 @@ async function handleSignup(event: SubmitEvent) {
             <hr className="w-full" />
         </div>
 
-        <button>LinkedIn</button>
-        <button>Github</button>
-        <button>Google</button>
+        <a>LinkedIn</a>
+        <a href="http://localhost:8080/oauth2/authorization/github">Github</a>
+        <a>Google</a>
     </div>
 </template>

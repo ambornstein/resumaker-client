@@ -7,7 +7,6 @@ export const registrationSchema = z
     confirmPassword: z.string().min(8).max(100),
     firstName: z.string().max(100),
     lastName: z.string().max(100),
-    roles: z.array(z.string()),
   })
   .superRefine(({ password, confirmPassword }, ctx) => {
     if (confirmPassword != password) {
