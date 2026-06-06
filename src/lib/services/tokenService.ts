@@ -21,10 +21,11 @@ class TokenService {
 
   updateLocalAccessToken(token: any) {
     let user = JSON.parse(localStorage.getItem('user')!)
+
     user.accessToken = token
     localStorage.setItem('user', JSON.stringify(user))
 
-    this.dispatchUserEvent();
+    this.dispatchUserEvent()
   }
 
   getUser(): any {
@@ -34,13 +35,13 @@ class TokenService {
   setUser(user: any) {
     localStorage.setItem('user', JSON.stringify(user))
 
-    this.dispatchUserEvent();
+    this.dispatchUserEvent()
   }
 
   removeUser() {
     localStorage.removeItem('user')
-    
-    this.dispatchUserEvent();
+
+    this.dispatchUserEvent()
   }
 }
 

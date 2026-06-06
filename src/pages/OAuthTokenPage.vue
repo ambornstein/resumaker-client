@@ -8,7 +8,6 @@ const route = useRoute()
 const router = useRouter();
 
 if (route.query.access_token) {
-    console.log(route.query.access_token)
     api.post(`/api/auth/get-user?access_token=${route.query.access_token as String}`).then(res => {
         tokenService.setUser(res.data);
         router.push("/dashboard")

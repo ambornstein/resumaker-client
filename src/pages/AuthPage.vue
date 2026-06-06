@@ -137,8 +137,20 @@ async function handleSignup(event: SubmitEvent) {
             <hr className="w-full" />
         </div>
 
-        <a>LinkedIn</a>
-        <a href="http://localhost:8080/oauth2/authorization/github">Github</a>
-        <a>Google</a>
+        <a href="http://localhost:8080/oauth2/authorization/linkedin">
+            <div className="flex p-4 bg-contrast/40 w-full rounded-md ">
+                LinkedIn
+            </div>
+        </a>
+        <a href="http://localhost:8080/oauth2/authorization/github">
+            <div className="flex p-4 bg-contrast/40 w-full rounded-md ">
+                Github
+            </div>
+        </a>
+        <a href="http://localhost:8080/oauth2/authorization/google">
+            <div className="flex p-4 bg-contrast/40 w-full rounded-md ">
+                Google
+            </div>
+        </a>
     </div>
 </template>

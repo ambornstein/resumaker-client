@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage.vue'
 import AuthPage from './pages/AuthPage.vue'
 import DashboardPage from './pages/DashboardPage.vue'
 import ProfilePage from './pages/ProfilePage.vue'
+import AuthErrorPage from './pages/AuthErrorPage.vue'
 import { useAccount } from './composables/useAccount'
 import ProfileInfoView from './views/ProfileInfoView.vue'
 import ProfileEntryView from './views/ProfileEntryView.vue'
@@ -27,6 +28,7 @@ const routes = [
     ],
   },
   { path: '/sign-in', component: AuthPage },
+  { path: '/sign-in/error', component: AuthErrorPage },
   { path: '/oauth2/token', component: OAuthTokenPage },
 ]
 
@@ -58,7 +60,7 @@ router.beforeEach((to, from) => {
   } else if (
     isLoggedIn.value == false &&
     to.path != '/' &&
-    to.path != '/sign-in' &&
+    !to.path.startsWith('/sign-in') &&
     to.path != '/oauth2/token'
   ) {
     setLoading(false)
