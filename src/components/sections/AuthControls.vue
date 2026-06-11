@@ -39,9 +39,9 @@ watch(() => isLoggedIn.value, (value) => {
 
             <ul v-show="showDropdown" @click.prevent="showDropdown = false"
                 className="fixed w-36 space-y-0.5 top-20 m-auto bg-panel rounded-md p-2 border-light">
-                <RouterLink to="/profile">
-                    <li className="dropdown-item">Profile</li>
-                </RouterLink>
+                <li className="dropdown-item">
+                    <RouterLink to="/profile">Profile</RouterLink>
+                </li>
                 <hr className="my-2 mx-1" />
                 <li @click="authService.logout" className="dropdown-item">Log Out</li>
             </ul>

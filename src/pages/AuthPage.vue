@@ -5,6 +5,8 @@ import { useSnackbar } from '../composables/useSnackbar';
 import authService from '../lib/services/authService';
 import { useLoading } from '../composables/useLoading';
 import { registrationSchema } from '../lib/validation';
+import GitHubSignIn from '../components/icons/GitHubSignIn.vue';
+import GoogleSignIn from '../components/icons/GoogleSignIn.vue';
 
 const router = useRouter()
 const route = useRoute();
@@ -133,24 +135,16 @@ async function handleSignup(event: SubmitEvent) {
         </form>
         <div className="flex items-center h-16 gap-4">
             <hr className="w-full" />
-            <h3 className="w-full text-center text-nowrap">Or Authenticate With</h3>
+            <h3 className="w-full text-center text-nowrap">Or Sign In with Socials</h3>
             <hr className="w-full" />
         </div>
 
-        <a href="http://localhost:8080/oauth2/authorization/linkedin">
+        <!-- <a href="http://localhost:8080/oauth2/authorization/linkedin">
             <div className="flex p-4 bg-contrast/40 w-full rounded-md ">
                 LinkedIn
             </div>
-        </a>
-        <a href="http://localhost:8080/oauth2/authorization/github">
-            <div className="flex p-4 bg-contrast/40 w-full rounded-md ">
-                Github
-            </div>
-        </a>
-        <a href="http://localhost:8080/oauth2/authorization/google">
-            <div className="flex p-4 bg-contrast/40 w-full rounded-md ">
-                Google
-            </div>
-        </a>
+        </a> -->
+        <GoogleSignIn />
+        <GitHubSignIn />
     </div>
 </template>

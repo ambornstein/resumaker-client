@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
 import { useSnackbar } from '../composables/useSnackbar';
+import GitHubSignIn from '../components/icons/GitHubSignIn.vue';
+import GoogleSignIn from '../components/icons/GoogleSignIn.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -41,15 +43,7 @@ function getDisplayName(providerString: string) {
                 LinkedIn
             </div>
         </a>
-        <a v-else-if="provider == 'github'" href="http://localhost:8080/oauth2/authorization/github">
-            <div className="flex p-4 bg-contrast/40 w-full rounded-md ">
-                Github
-            </div>
-        </a>
-        <a v-else-if="provider == 'google'" href="http://localhost:8080/oauth2/authorization/google">
-            <div className="flex p-4 bg-contrast/40 w-full rounded-md ">
-                Google
-            </div>
-        </a>
+        <GitHubSignIn v-else-if="provider == 'github'" />
+        <GoogleSignIn v-else-if="provider == 'google'" />
     </div>
 </template>

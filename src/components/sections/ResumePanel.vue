@@ -36,6 +36,16 @@ watchEffect(() => {
 
 <template>
     <div className="flex flex-col gap-2 w-full">
+        <h3 className="col-span-full mb-4">Include Info</h3>
+        <div className="grid grid-cols-3 grid-flow-row">
+            <label for="location"><input type="checkbox" id="location" v-model="includeFlags.location">Location</label>
+            <label for="email"><input type="checkbox" id="email" v-model="includeFlags.email">Email</label>
+            <label for="site"><input type="checkbox" id="site" v-model="includeFlags.website">Website</label>
+            <label for="phone"><input type="checkbox" id="phone" v-model="includeFlags.phone">Phone Number</label>
+            <label for="linkedIn"><input type="checkbox" id="linkedIn" v-model="includeFlags.linkedIn">LinkedIn</label>
+            <label for="github"><input type="checkbox" id="github" v-model="includeFlags.github">GitHub</label>
+
+        </div>
         <h2>Contents</h2>
 
         <h3>Education</h3>

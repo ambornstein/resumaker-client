@@ -23,14 +23,18 @@ if (route.query.section) {
         <h3>See Resumes</h3>
       </RouterLink>
     </div>
-    <div className="flex flex-row gap-8 w-full">
-      <ul className="flex flex-col w-fit gap-4 panel rounded-lg h-fit p-4">
-        <li className="link text-2xl w-48">
-          <RouterLink to="/profile/info"><span>Information</span></RouterLink>
-        </li>
-        <li className="link text-2xl w-48">
-          <RouterLink to="/profile/entries"><span>Resume Entries</span></RouterLink>
-        </li>
+    <div className="flex flex-col gap-4 w-full">
+      <ul className="grid grid-flow-col w-fit panel h-fit p-2 gap-2">
+        <RouterLink to="/profile/info">
+          <li className="text-lg p-2 bg-contrast/20 hover:bg-link-hover/20 hover:border-link border border-transparent">
+            <span>Information</span>
+          </li>
+        </RouterLink>
+        <RouterLink to="/profile/entries">
+          <li className="text-lg p-2 bg-contrast/20 hover:bg-link-hover/20 hover:border-link border border-transparent">
+            <span>Resume Entries</span>
+          </li>
+        </RouterLink>
       </ul>
       <Suspense>
         <RouterView />
