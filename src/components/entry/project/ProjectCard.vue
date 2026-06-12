@@ -1,16 +1,13 @@
 <script setup lang="ts">
+import { useResumeBuilder } from '../../../composables/useResumeBuilder';
 import type { ProjectEntry } from '../../../lib/types';
 
+const { selectedProjectIds } = useResumeBuilder();
 defineProps<{ data: ProjectEntry }>()
 </script>
 <template>
-    <div className="panel rounded-md">
-        <p>{{ data.title }}</p>
-        <p>{{ data.description }}</p>
-        <details name="Bullet Points">
-            <ul className="list-disc list-inside">
-                <li v-for="value in data.bulletPoints"> {{ value }}</li>
-            </ul>
-        </details>
-    </div>
+    <label :for="data.title" className="entry-chip highlight-checked">
+        <input :id="data.title" type="checkbox" :value="data.id" v-model="selectedProjectIds" />
+        <span>{{ data.title }}</span>
+    </label>
 </template>

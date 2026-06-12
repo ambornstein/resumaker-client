@@ -4,16 +4,16 @@ import EducationCard from '../entry/education/EducationCard.vue';
 import ProjectCard from '../entry/project/ProjectCard.vue';
 import { useRoute } from 'vue-router';
 import { useResumeBuilder } from '../../composables/useResumeBuilder';
-import { useEntryModal } from '../../composables/useEntryModal';
 import { useAccount } from '../../composables/useAccount';
 import { usePDFBuilder } from '../../composables/usePDFBuilder';
 import SkillBox from '../SkillBox.vue';
-import { watch, watchEffect } from 'vue';
+import { watchEffect } from 'vue';
+import GradCap from '../icons/GradCap.vue';
+import Foldable from '../Foldable.vue';
 
 const route = useRoute();
-const { openCategory } = useEntryModal();
 
-const { resume, fetchResume } = useResumeBuilder();
+const { resume, fetchResume, selectEntries, selectedEducationIds, selectedWorkIds, selectedProjectIds } = useResumeBuilder();
 const { account, fetchAccount } = useAccount();
 const { createPDF, savePDF, includeFlags } = usePDFBuilder();
 
@@ -35,27 +35,74 @@ watchEffect(() => {
 </script>
 
 <template>
-    <div className="flex flex-col gap-2 w-full">
-        <h3 className="col-span-full mb-4">Include Info</h3>
-        <div className="grid grid-cols-3 grid-flow-row">
+    <div className="flex flex-col gap-4 w-full">
+        <h3>Include Info</h3>
+        <div className="grid grid-cols-3 grid-flow-row mb-4">
             <label for="location"><input type="checkbox" id="location" v-model="includeFlags.location">Location</label>
             <label for="email"><input type="checkbox" id="email" v-model="includeFlags.email">Email</label>
             <label for="site"><input type="checkbox" id="site" v-model="includeFlags.website">Website</label>
             <label for="phone"><input type="checkbox" id="phone" v-model="includeFlags.phone">Phone Number</label>
             <label for="linkedIn"><input type="checkbox" id="linkedIn" v-model="includeFlags.linkedIn">LinkedIn</label>
             <label for="github"><input type="checkbox" id="github" v-model="includeFlags.github">GitHub</label>
-
         </div>
-        <h2>Contents</h2>
 
-        <h3>Education</h3>
-        <div className="flex flex-col gap-4">
-            <EducationCard v-for="value in resume?.educationHistory" :data="value" />
-            <button @click="openCategory('education')">Select</button>
-        </div>
+        <Foldable>
+            <template #header>
+                <GradCap className="size-8" />
+                <h3>Education</h3>
+            </template>
+            <template #default>
+                <div className="grid grid-cols-3 gap-2 my-4">
+                    <EducationCard v-for="value in account?.educationEntries" :data="value" />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                    <button className="w-full" @click="selectEntries('education', selectedEducationIds)">Select</button>
+                    <RouterLink to="/profile/entries#education"><button className="w-full">Add New</button></RouterLink>
+                </div>
+            </template>
+        </Foldable>
+
+        <Foldable>
+            <template #header>
+                <h3>Experience</h3>
+                <label className="ml-auto flex gap-2">
+                    Include
+                    <input type="checkbox" v-model="includeFlags.experience">
+                </label>
+            </template>
+            <template #default>
+                <div className="grid grid-cols-3 gap-2">
+                    <ExperienceCard v-for="value in account?.workExperiences" :data="value" />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                    <button @click="selectEntries('work', selectedWorkIds)">Select</button>
+                    <RouterLink to="/profile/entries#work"><button className="w-full">Add New</button></RouterLink>
+                </div>
+            </template>
+        </Foldable>
+
+        <Foldable>
+            <template #header>
+                <h3>Projects</h3>
+                <label className="ml-auto flex gap-2">
+                    Include
+                    <input type="checkbox" v-model="includeFlags.projects">
+                </label>
+            </template>
+            <template #default>
+                <div className="grid grid-cols-3 gap-2">
+                    <ProjectCard v-for="value in account?.projects" :data="value" />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                    <button @click="selectEntries('projects', selectedProjectIds)">Select</button>
+                    <RouterLink to="/profile/entries#projects"><button className="w-full">Add New</button></RouterLink>
+                </div>
+            </template>
+        </Foldable>
 
         <h3>Skills</h3>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
             <SkillBox v-for="(value, index) in resume?.skills.skillCategories" :skillCategory="value"
                 @deleteSelf="resume?.skills.skillCategories.splice(index, 1)" />
 
@@ -63,17 +110,6 @@ watchEffect(() => {
                 Category</button>
         </div>
 
-        <h3>Experience</h3>
-        <div className="flex flex-col gap-4">
-            <ExperienceCard v-for="value in resume?.workHistory" :data="value" />
-            <button @click="openCategory('work')">Select</button>
-        </div>
-
-        <h3>Projects</h3>
-        <div className="flex flex-col gap-4">
-            <ProjectCard v-for="value in resume?.projects" :data="value" />
-            <button @click="openCategory('projects')">Select</button>
-        </div>
-        <button className="text-lg text-highlight bg-contrast dark:bg-button mt-4" @click="savePDF">Download</button>
+        <button className="text-lg text-highlight bg-contrast dark:bg-button" @click="savePDF">Download</button>
     </div>
 </template>

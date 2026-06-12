@@ -9,6 +9,10 @@ const resume = ref<Resume>()
 const { account, loading } = useAccount()
 const { setLoading } = useLoading()
 
+const selectedEducationIds = ref<number[]>([]);
+const selectedWorkIds = ref<number[]>([]);
+const selectedProjectIds = ref<number[]>([]);
+
 export function useResumeBuilder() {
   const projectService = new EntryService('projects')
   const experienceService = new EntryService('work')
@@ -42,12 +46,22 @@ export function useResumeBuilder() {
       .get(entryType)!
       .updateLinkedEntries(resume.value!.id, ids)
     updateResume(result.data)
+    updateEntries();
     return result
   }
+
+  function updateEntries() {
+    selectedWorkIds.value = resume.value?.workHistory.map(w => w.id!) ?? [];
+    selectedEducationIds.value = resume.value?.educationHistory.map(w => w.id!) ?? [];
+    selectedProjectIds.value = resume.value?.projects.map(w => w.id!) ?? [];
+  }
+
 
   async function saveResume() {
     return api.put(`/api/resumes/${resume.value!.id}`, resume.value)
   }
 
-  return { resume, selectEntries, updateResume, fetchResume, saveResume }
+  updateEntries()
+
+  return { resume, selectEntries, updateResume, fetchResume, saveResume, selectedEducationIds, selectedWorkIds, selectedProjectIds }
 }

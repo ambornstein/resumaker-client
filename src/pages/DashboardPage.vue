@@ -80,7 +80,7 @@ watch(() => account.value, (value) => {
                 <select id="sort" @change="sortResumes" v-model="sortValue" className="bg-panel">
                     <option value="name">Name</option>
                     <option value="created">Created At</option>
-                    <option value="updated"> Updated At</option>
+                    <option value="updated">Updated At</option>
                 </select>
             </label>
             <div @click="handleCreateResume" @focus.prevent=""

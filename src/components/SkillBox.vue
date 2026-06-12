@@ -27,7 +27,7 @@ function pushSkill(event: Event) {
             <div className="border-light border rounded-lg px-2 py-1 flex items-center gap-2"
                 v-for="(skill, index) in skillCategory.skills">
                 <span>{{ skill }}</span>
-                <CloseIcon className="icon size-5" @click="skillCategory.skills.splice(index, 1)" />
+                <CloseIcon className="icon size-2" @click="skillCategory.skills.splice(index, 1)" />
             </div>
 
             <input className="input-field" type="text" placeholder="Skill" v-model="skillValue"

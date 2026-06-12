@@ -169,7 +169,7 @@
   }
 
   .entry-chip {
-    @apply flex flex-row gap-4 w-full justify-between px-4 py-5 bg-panel border border-contrast rounded-lg;
+    @apply flex flex-row gap-4 w-full px-4 py-3 bg-panel border border-contrast rounded-lg;
   }
 
   .split-column {

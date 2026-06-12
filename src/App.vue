@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import Modal from './components/overlay/Modal.vue';
-import EntryView from './views/EntryView.vue';
-import { useEntryModal } from './composables/useEntryModal';
 import AuthControls from './components/sections/AuthControls.vue';
 import Snackbar from './components/overlay/Snackbar.vue';
 import Loading from './components/overlay/Loading.vue';
@@ -9,7 +7,6 @@ import { useLoading } from './composables/useLoading';
 import { useFormModal } from './composables/useFormModal';
 import EntryForm from './components/dialogue/EntryForm.vue';
 
-const { showModal, closeModal } = useEntryModal()
 const { showFormModal, closeFormModal } = useFormModal()
 const { loading } = useLoading();
 
@@ -18,23 +15,20 @@ const { loading } = useLoading();
 <template>
   <title>Resumaker</title>
   <Loading v-show="loading" />
-  <Modal v-show="showModal" @close="closeModal">
-    <EntryView />
-  </Modal>
   <Modal v-show="showFormModal" @close="closeFormModal">
     <EntryForm />
   </Modal>
   <Snackbar />
   <div className="w-full">
-    <nav className="flex flex-col m-auto h-fit bg-panel py-4">
-      <div class="container flex justify-between items-end m-auto ">
+    <nav className="flex flex-col m-auto w-full h-fit bg-panel py-4">
+      <div class="container m-auto px-0 md:px-8 flex justify-between items-end">
         <RouterLink to="/">
           <h1 className="text-foreground">Résu<span className="text-rose-400">maker</span></h1>
         </RouterLink>
         <AuthControls />
       </div>
     </nav>
-    <div className="container m-auto pt-[2em]">
+    <div className="container m-auto px-0 md:px-8 py-[2em] ">
       <RouterView />
     </div>
   </div>
