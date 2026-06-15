@@ -66,46 +66,43 @@ watch(() => account.value, (value) => {
         <HeadingSkeleton v-if="loading" />
         <h2 v-else>Welcome, {{ account?.firstName }} {{ account?.lastName }}</h2>
 
-        <div className="w-full flex gap-20 items-center mt-4">
+        <div className="w-full flex gap-20 items-center">
             <CardSkeleton v-if="loading" className="skeleton-bar w-96 h-12" />
             <h2>Resumes</h2>
-
-            <RouterLink to="/profile" className="ml-auto link">
-                <h3>Your Profile</h3>
-            </RouterLink>
         </div>
-        <div className="flex gap-4 items-center h-14">
-            <label for="sort" className="mr-12 bg-panel rounded-sm p-2 ">
+        <label for="sort" className="block bg-panel rounded-sm p-2 w-48">
                 <span className="block ">Sort By</span>
-                <select id="sort" @change="sortResumes" v-model="sortValue" className="bg-panel">
+                <select id="sort" @change="sortResumes" v-model="sortValue" className="bg-panel w-full">
                     <option value="name">Name</option>
                     <option value="created">Created At</option>
                     <option value="updated">Updated At</option>
                 </select>
             </label>
+        <div className="flex flex-row flex-wrap h-full md:gap-4 gap-2 items-center">
+            
             <div @click="handleCreateResume" @focus.prevent=""
-                className="button bg-highlight rounded-sm flex items-center p-2 gap-2 pr-4 cursor-pointer">
+                className="button bg-highlight rounded-sm flex items-center p-1 gap-1 pr-2 md:p-2 md:gap-2 md:pr-4 cursor-pointer">
                 <CreateIcon />
-                <span className="text-xl">Create New Resume</span>
+                <span className="text-sm md:text-xl ">Create Resume</span>
             </div>
             <div v-show="selectedResume" @click="$router.push(`/resume/${selectedResume!.id}`)"
-                className="button bg-panel rounded-sm flex items-center p-2 gap-2 pr-4 cursor-pointer">
+                className="button bg-panel rounded-sm flex items-center p-1 gap-1 pr-2 md:p-2 md:gap-2 md:pr-4 cursor-pointer">
                 <EditIcon />
-                <span className="text-xl">Edit</span>
+                <span className="text-sm md:text-xl">Edit</span>
             </div>
             <div v-show="selectedResume" @click="handleDelete"
-                className="button bg-panel rounded-sm flex items-center p-2 gap-2 pr-4 cursor-pointer">
+                className="button bg-panel rounded-sm flex items-center p-1 gap-1 pr-2 md:p-2 md:gap-2 md:pr-4 cursor-pointer">
                 <DeleteIcon />
-                <span className="text-xl">Delete</span>
+                <span className="text-sm md:text-xl">Delete</span>
             </div>
             <div v-show="selectedResume" @click="handleUpdateLabel"
-                className="button bg-panel rounded-sm flex items-center p-2 gap-2 pr-4 cursor-pointer h-full">
+                className="button bg-panel rounded-sm flex items-center p-1 gap-1 pr-2 md:p-2 md:gap-2 md:pr-4 cursor-pointer h-full">
                 <RenameIcon />
-                <span className="text-xl">Rename</span>
+                <span className="text-sm md:text-xl">Rename</span>
             </div>
         </div>
         <hr />
-        <div className="w-full grid grid-cols-4 gap-4">
+        <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-4">
 
             <CardSkeleton v-if="loading" v-for="v in 8" />
             <button type="button" v-else @dblclick="$router.push(`/resume/${resume.id}`)"

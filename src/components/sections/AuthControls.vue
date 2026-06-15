@@ -31,7 +31,7 @@ watch(() => isLoggedIn.value, (value) => {
         <div ref="dropdown">
             <div v-if="!loading" className="flex items-center gap-2 bg-button p-2 pr-4 rounded-lg"
                 @click="showDropdown = true">
-                <UserIcon />
+                <UserIcon className="icon size-8"/>
                 <span className="cursor-pointer text-lg">{{ account?.firstName }} {{ account?.lastName }}</span>
             </div>
             <div v-else className="skeleton-bar h-10 w-48 ring-2 ring-foreground ring-offset-2 ring-offset-panel ">
@@ -49,10 +49,10 @@ watch(() => isLoggedIn.value, (value) => {
     </div>
     <div v-else className="flex gap-2">
         <RouterLink :to="{ path: '/sign-in', query: { mode: 'login' } }">
-            <span className="link">Log In</span>
+            <button className="link text-[0.8em] md:text-[1em]">Log In</button>
         </RouterLink>
         <RouterLink :to="{ path: '/sign-in', query: { mode: 'signup' } }">
-            <span className="link">Create Account</span>
+            <button className="link text-[0.8em] md:text-[1em]">Create Account</button>
         </RouterLink>
     </div>
 </template>

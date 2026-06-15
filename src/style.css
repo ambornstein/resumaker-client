@@ -48,7 +48,7 @@
 
       --color-background: var(--color-neutral-100);
       --color-foreground: var(--color-slate-900);
-      --color-contrast: var(--color-slate-500);
+      --color-contrast: var(--color-zinc-600);
 
       --color-button: var(--color-slate-400);
       --color-panel: var(--color-neutral-200);

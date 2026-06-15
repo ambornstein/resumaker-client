@@ -13,8 +13,8 @@ if (!account.value) await fetchAccount();
 </script>
 
 <template>
-    <div className="flex flex-col w-full gap-8 panel p-4 has-[button:hover]:bg-button transition-all duration-150">
-        <div className="split-column w-fit">
+    <div className="flex flex-col  gap-4 panel p-4 has-[button:hover]:bg-button transition-all duration-150">
+        <div className="split-column mb-4 max-w-sm">
             <h2 className="col-span-full mb-4" id="personal-info">
                 Personal Information
             </h2>
@@ -23,7 +23,7 @@ if (!account.value) await fetchAccount();
             <label>Location</label><input type="text" className="input-field" v-model="account!.location" />
             <label>US Citizen</label><input type="checkbox" className="input-field" v-model="account!.USCitizen" />
         </div>
-        <div className="split-column max-w-lg">
+        <div className="split-column mb-4 max-w-sm w-full">
             <h2 className="col-span-full mb-4" id="contact-info">
                 Contact Information
             </h2>

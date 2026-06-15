@@ -28,8 +28,8 @@ const emit = defineEmits<{
 
 </script>
 <template>
-    <form @submit.prevent="$emit('save', editingExperience)" className="flex flex-col items-center gap-4 p-4">
-        <div className="grid grid-cols-6 gap-2 w-sm">
+    <form @submit.prevent="$emit('save', editingExperience)" className="flex flex-col items-center gap-4">
+        <div className="grid grid-cols-6 gap-2">
             <label className="col-span-4" for="position">Position
                 <input className="w-full input-field" id="position" type='text' v-model="editingExperience.title">
             </label>

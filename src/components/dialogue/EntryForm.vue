@@ -23,7 +23,7 @@ async function handleUpdate(category: EntryCategory, entry: Entity) {
 </script>
 
 <template>
-    <div className="flex flex-col">
+    <div className="w-full">
         <EducationForm v-if="modalMode == 'education'" :entry="editingEntry as EducationEntry"
             @save="(e) => handleUpdate('education', e)" />
         <ExperienceForm v-if="modalMode == 'work'" :entry="editingEntry as WorkExperienceEntry"

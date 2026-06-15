@@ -5,8 +5,10 @@ import { useFormModal } from '../composables/useFormModal';
 import type { EntryCategory } from '../lib/types';
 import ExperienceRow from '../components/entry/experience/ExperienceRow.vue';
 import ProjectRow from '../components/entry/project/ProjectRow.vue';
-import { ref } from 'vue';
+import GradCap from '../components/icons/GradCap.vue';
+import Briefcase from '../components/icons/Briefcase.vue';
 import Foldable from '../components/Foldable.vue';
+import Folder from '../components/icons/Folder.vue';
 
 const { account, fetchAccount, deleteEntry } = useAccount();
 const { openCategory } = useFormModal()
@@ -17,10 +19,6 @@ async function handleDeleteEntry(category: EntryCategory, index: number) {
     }
 }
 
-const showEducation = ref(true)
-const showExperience = ref(true)
-const showProjects = ref(true)
-
 if (!account.value) await fetchAccount();
 
 </script>
@@ -29,7 +27,7 @@ if (!account.value) await fetchAccount();
     <div className="flex flex-col gap-4 w-full mb-24">
         <Foldable id="education">
             <template #header>
-                <img src="/src/assets/vue.svg" width="40" height="40" />
+                <GradCap className="size-8" />
                 <h2>Education</h2>
             </template>
             <template #default>
@@ -42,7 +40,7 @@ if (!account.value) await fetchAccount();
         </Foldable>
         <Foldable id="work">
             <template #header>
-                <img src="/src/assets/vue.svg" width="40" height="40" />
+                <Briefcase className="size-8"/>
                 <h2>Work Experience</h2>
             </template>
             <template #default>
@@ -55,7 +53,7 @@ if (!account.value) await fetchAccount();
         </Foldable>
         <Foldable id="projects">
             <template #header>
-                <img src="/src/assets/vue.svg" width="40" height="40" />
+                <Folder className="size-8"/>
                 <h2>Projects</h2>
             </template>
             <template #default>

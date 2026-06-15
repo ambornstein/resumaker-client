@@ -76,9 +76,9 @@ async function handleSignup(event: SubmitEvent) {
 
 </script>
 <template>
-    <div className="max-w-lg m-auto flex flex-col gap-2 p-12 border-light panel">
+    <div className="max-w-lg m-auto flex flex-col gap-2 p-6 lg:p-12 border-light panel">
         <h2 className="text-center">Sign In To ResuMaker</h2>
-        <div className="flex flex-row w-full gap-2 mt-12 mb-6">
+        <div className="flex flex-row w-full gap-2 my-6">
             <label className="w-full text-center border-thick p-2 highlight-checked" for="login">
                 Log In
                 <input id="login" className="hidden" type="radio" value="login" name="authSelect" v-model="authMode" />

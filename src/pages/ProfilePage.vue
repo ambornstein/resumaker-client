@@ -17,12 +17,7 @@ if (route.query.section) {
 
 <template>
   <div className="flex flex-col gap-4">
-    <div className="flex col-span-2 justify-between">
-      <h1 className="align-text-bottom">Your Profile</h1>
-      <RouterLink className="link" to="/dashboard">
-        <h3>See Resumes</h3>
-      </RouterLink>
-    </div>
+    <h1 className="align-text-bottom">Your Profile</h1>
     <div className="flex flex-col gap-4 w-full">
       <ul className="grid grid-flow-col w-fit panel h-fit p-2 gap-2">
         <RouterLink to="/profile/info">

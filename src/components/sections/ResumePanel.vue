@@ -10,6 +10,8 @@ import SkillBox from '../SkillBox.vue';
 import { watchEffect } from 'vue';
 import GradCap from '../icons/GradCap.vue';
 import Foldable from '../Foldable.vue';
+import Briefcase from '../icons/Briefcase.vue';
+import Folder from '../icons/Folder.vue';
 
 const route = useRoute();
 
@@ -38,12 +40,12 @@ watchEffect(() => {
     <div className="flex flex-col gap-4 w-full">
         <h3>Include Info</h3>
         <div className="grid grid-cols-3 grid-flow-row mb-4">
-            <label for="location"><input type="checkbox" id="location" v-model="includeFlags.location">Location</label>
-            <label for="email"><input type="checkbox" id="email" v-model="includeFlags.email">Email</label>
-            <label for="site"><input type="checkbox" id="site" v-model="includeFlags.website">Website</label>
-            <label for="phone"><input type="checkbox" id="phone" v-model="includeFlags.phone">Phone Number</label>
-            <label for="linkedIn"><input type="checkbox" id="linkedIn" v-model="includeFlags.linkedIn">LinkedIn</label>
-            <label for="github"><input type="checkbox" id="github" v-model="includeFlags.github">GitHub</label>
+            <label for="location"><input type="checkbox" className="mr-1" id="location" v-model="includeFlags.location">Location</label>
+            <label for="email"><input type="checkbox" className="mr-1" id="email" v-model="includeFlags.email">Email</label>
+            <label for="site"><input type="checkbox" className="mr-1" id="site" v-model="includeFlags.website">Website</label>
+            <label for="phone"><input type="checkbox" className="mr-1" id="phone" v-model="includeFlags.phone">Phone Number</label>
+            <label for="linkedIn"><input type="checkbox" className="mr-1" id="linkedIn" v-model="includeFlags.linkedIn">LinkedIn</label>
+            <label for="github"><input type="checkbox" className="mr-1" id="github" v-model="includeFlags.github">GitHub</label>
         </div>
 
         <Foldable>
@@ -52,7 +54,7 @@ watchEffect(() => {
                 <h3>Education</h3>
             </template>
             <template #default>
-                <div className="grid grid-cols-3 gap-2 my-4">
+                <div className="grid grid-cols-3 gap-2 my-2">
                     <EducationCard v-for="value in account?.educationEntries" :data="value" />
                 </div>
 
@@ -65,6 +67,7 @@ watchEffect(() => {
 
         <Foldable>
             <template #header>
+                <Briefcase className="size-8"/>
                 <h3>Experience</h3>
                 <label className="ml-auto flex gap-2">
                     Include
@@ -72,7 +75,7 @@ watchEffect(() => {
                 </label>
             </template>
             <template #default>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-3 gap-2 my-2">
                     <ExperienceCard v-for="value in account?.workExperiences" :data="value" />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -84,6 +87,7 @@ watchEffect(() => {
 
         <Foldable>
             <template #header>
+                <Folder className="size-8"/>
                 <h3>Projects</h3>
                 <label className="ml-auto flex gap-2">
                     Include
@@ -91,7 +95,7 @@ watchEffect(() => {
                 </label>
             </template>
             <template #default>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-3 gap-2 my-2">
                     <ProjectCard v-for="value in account?.projects" :data="value" />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
