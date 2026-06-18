@@ -145,7 +145,7 @@
   }
 
   .input-field {
-    @apply border border-contrast rounded-md px-2 py-1 disabled:bg-inert disabled:cursor-not-allowed;
+    @apply border border-contrast rounded-md px-2 py-1 disabled:bg-inert disabled:cursor-not-allowed w-full;
   }
 
   .border-light {

@@ -6,8 +6,9 @@ import type { EducationEntry, Entity, EntryCategory, PersistedEntity, ProjectEnt
 import EducationForm from '../entry/education/EducationForm.vue';
 import ExperienceForm from '../entry/experience/ExperienceForm.vue';
 import ProjectForm from '../entry/project/ProjectForm.vue';
+
 const { modalMode, editingEntry, closeFormModal } = useFormModal()
-const { addEntry, updateEntry } = useAccount()
+const { addEntry, updateEntry, fetchAccount } = useAccount()
 
 
 async function handleUpdate(category: EntryCategory, entry: Entity) {
@@ -18,6 +19,7 @@ async function handleUpdate(category: EntryCategory, entry: Entity) {
     }
 
     closeFormModal()
+    fetchAccount()
 }
 
 </script>
