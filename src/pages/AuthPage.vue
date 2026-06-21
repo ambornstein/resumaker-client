@@ -37,7 +37,7 @@ if (route.query.mode == 'signup') {
     authMode.value = 'login'
 }
 
-async function handleLogin(event: SubmitEvent) {
+async function handleLogin(_event: SubmitEvent) {
     setLoading(true)
 
     const result = await authService.login(credentials)
@@ -56,7 +56,7 @@ async function handleLogin(event: SubmitEvent) {
     setLoading(false)
 }
 
-async function handleSignup(event: SubmitEvent) {
+async function handleSignup(_event: SubmitEvent) {
     passwordsValid.value = registration.password === registration.confirmPassword;
 
     const result = registrationSchema.safeParse(registration)

@@ -20,7 +20,7 @@ const { account, fetchAccount } = useAccount();
 const { createPDF, savePDF, includeFlags } = usePDFBuilder();
 
 if (!account.value) await fetchAccount();
-await fetchResume(route.params.id!)
+await fetchResume(route.params.id! as string)
 
 function renderResume() {
     createPDF(resume.value!, account.value!)

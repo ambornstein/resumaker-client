@@ -104,7 +104,7 @@ watch(() => account.value, (value) => {
         <hr />
         <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-4">
 
-            <CardSkeleton v-if="loading" v-for="v in 8" />
+            <CardSkeleton v-if="loading" v-for="_v in 8" />
             <button type="button" v-else @dblclick="$router.push(`/resume/${resume.id}`)"
                 @click="selectedResume = resume" v-for="(resume, index) in resumeList"
                 className="flex items-center justify-between bg-panel p-4 rounded-md h-24 cursor-pointer hover-highlight focus:ring-4 focus:ring-highlight focus:outline-none">

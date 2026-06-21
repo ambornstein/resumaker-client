@@ -1,11 +1,9 @@
 import { computed, ref } from 'vue'
 import type {
   Account,
-  EducationEntry,
   EntryCategory,
   WorkExperienceEntry,
   PersistedEntity,
-  ProjectEntry,
   Entity,
 } from '../lib/types'
 import api from '../lib/services/api'
@@ -96,7 +94,7 @@ export function useAccount() {
     setLoading(true)
     if (!account.value) return
 
-    const result = await api.delete(`/api/accounts/${account.value.id}`)
+    await api.delete(`/api/accounts/${account.value.id}`)
     account.value = null
 
     setLoading(false)

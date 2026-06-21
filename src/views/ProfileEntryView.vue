@@ -34,7 +34,7 @@ if (!account.value) await fetchAccount();
                 <button className="w-56" @click="openCategory('education')">
                     Add Education
                 </button>
-                <EducationRow :entry v-for="(entry, index) in account!.educationEntries"
+                <EducationRow :entry v-for="(entry) in account!.educationEntries"
                     @edit="(e) => openCategory('education', e)" @delete="handleDeleteEntry('education', entry.id!)" />
             </template>
         </Foldable>
@@ -47,7 +47,7 @@ if (!account.value) await fetchAccount();
                 <button className="w-56" @click="openCategory('work')">
                     Add Work Experience
                 </button>
-                <ExperienceRow :entry v-for="(entry, index) in account!.workExperiences"
+                <ExperienceRow :entry v-for="(entry) in account!.workExperiences"
                     @edit="(e) => openCategory('work', e)" @delete="handleDeleteEntry('work', entry.id!)" />
             </template>
         </Foldable>
@@ -60,7 +60,7 @@ if (!account.value) await fetchAccount();
                 <button className="w-56" @click="openCategory('projects')">
                     Add Project
                 </button>
-                <ProjectRow :entry v-for="(entry, index) in account!.projects"
+                <ProjectRow :entry v-for="(entry) in account!.projects"
                     @edit="(e) => openCategory('projects', e)" @delete="handleDeleteEntry('projects', entry.id!)" />
             </template>
         </Foldable>

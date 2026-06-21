@@ -32,12 +32,12 @@ const routes = [
   { path: '/oauth2/token', component: OAuthTokenPage },
 ]
 
-const { account, loading, isLoggedIn } = useAccount()
+const { account, isLoggedIn } = useAccount()
 const { setLoading } = useLoading()
 
 const router = createRouter({
   history: createWebHistory(),
-  scrollBehavior(to, from, savedPosition) {
+  scrollBehavior(to, _from, _savedPosition) {
     if (to.hash) {
       return {
         el: to.hash,
@@ -48,7 +48,7 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach((to, from) => {
+router.beforeEach((to, _from) => {
   if (account.value) {
     account.value.educationEntries = account.value.educationEntries.filter(
       (e) => e.id

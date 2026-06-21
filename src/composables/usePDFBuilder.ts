@@ -65,8 +65,8 @@ export function usePDFBuilder() {
 
   let docName: string
 
-  const pageHeight =
-    doc.internal.pageSize.height || doc.internal.pageSize.getHeight()
+  // const pageHeight =
+  // doc.internal.pageSize.height || doc.internal.pageSize.getHeight()
   const pageWidth =
     doc.internal.pageSize.width || doc.internal.pageSize.getWidth()
 

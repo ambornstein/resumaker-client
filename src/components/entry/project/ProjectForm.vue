@@ -39,7 +39,7 @@ const emit = defineEmits<{
             <div className="flex flex-col gap-2 col-span-full mt-2">
                 <h3 className="font-semibold tracking-wider text-center">Bullet Points</h3>
                 <div className="flex flex-row gap-2 w-full items-center"
-                    v-for="(value, index) in editingProject.bulletPoints">
+                    v-for="(_value, index) in editingProject.bulletPoints">
                     <textarea rows="2" className="w-full input-field" v-model="editingProject.bulletPoints[index]"
                         type="text" />
                     <DeleteIcon @click.prevent="editingProject.bulletPoints.splice(index, 1)" />

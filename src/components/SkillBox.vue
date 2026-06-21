@@ -9,7 +9,7 @@ defineEmits(['deleteSelf'])
 
 const skillValue = ref<string>('')
 
-function pushSkill(event: Event) {
+function pushSkill(_event: Event) {
     if (skillValue.value) {
         props.skillCategory.skills.push(skillValue.value)
         skillValue.value = ''
